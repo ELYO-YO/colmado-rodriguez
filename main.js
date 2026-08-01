@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProductos(productos);
 });
 
+let carrito = [];
+
 function renderProductos(lista) {
     const contenedor = document.getElementById("contenedor-productos");
     contenedor.innerHTML = "";
@@ -22,22 +24,56 @@ function renderProductos(lista) {
         card.innerHTML = `
             <h3>${prod.nombre}</h3>
             <p class="precio">RD$ ${prod.precio}</p>
-            <button class="btn-agregar">
+            <button class="btn-agregar" onclick="agregarAlCarrito(${prod.id})">
                 + Agregar al Pedido
             </button>
         `;
         contenedor.appendChild(card);
     });
+}
 
-    function filtrarProductos(categoria) {
-    document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+function agregarAlCarrito(id) {
+    const producto = productos.find(p => p.id === id);
+    const existe = carrito.find(item => item.id === id);
 
-    if (categoria === 'todos') {
-        renderProductos(productos);
+    if (existe) {
+        existe.cantidad++;
     } else {
-        const filtrados = productos.filter(p => p.cat === categoria);
-        renderProductos(filtrados);
+        carrito.push({ ...producto, cantidad: 1 });
     }
+    actualizarCarritoUI();
 }
+
+function actualizarCarritoUI() {
+    const cartCount = document.getElementById("cart-count");
+    const itemsCarrito = document.getElementById("items-carrito");
+    const totalPrecio = document.getElementById("total-precio");
+
+    cartCount.innerText = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+    itemsCarrito.innerHTML = "";
+    let total = 0;
+
+    carrito.forEach(item => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+
+        const div = document.createElement("div");
+        div.className = "item-carrito";
+        div.innerHTML = `
+            <div><strong>${item.nombre}</strong> (x${item.cantidad})</div>
+            <div>RD$ ${subtotal} <button onclick="eliminarDelCarrito(${item.id})">❌</button></div>
+        `;
+        itemsCarrito.appendChild(div);
+    });
+
+    totalPrecio.innerText = `RD$ ${total}`;
 }
+
+function eliminarDelCarrito(id) {
+    carrito = carrito.filter(item => item.id !== id);
+    actualizarCarritoUI();
+}
+
+const modalCarrito = document.getElementById("modal-carrito");
+document.getElementById("btn-carrito").onclick = () => modalCarrito.style.display = "flex";
+function cerrarModalCarrito() { modalCarrito.style.display = "none"; }
