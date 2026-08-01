@@ -3,78 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colmado Rodriguez- ¡De todo y al instante!</title>
+    <title>Colmado Rodríguez - Pedidos en Línea</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <div class="logo">
-            <h1>Colmado Rodriguez</h1>
+            <h1>Colmado Rodríguez</h1>
             <p class="tagline">¡Frías como novia de muñeco!</p>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#ofertas">Ofertas</a></li>
-                <li><a href="#delivery">Delivery</a></li>
-            </ul>
+
+        <nav class="nav-menu">
+            <a href="#productos-sec">Productos</a>
         </nav>
     </header>
 
-    <main>
+   <main>
 
-        <section id="inicio" class="hero">
-            <h2>¿Se acabó la cena o la botella?</h2>
-            <p>Te llevamos el pedido volando hasta la puerta de tu casa.</p>
-            <a href="" class="btn-whatsapp" target="_blank">
-                Pedir por WhatsApp
-            </a>
+        <section class="hero">
+            <h2>¿Qué te llevamos hoy?</h2>
+            <p>Selecciona tus productos y te los mandamos por WhatsApp de una vez.</p>
         </section>
 
-        <section id="ofertas" class="productos">
-            <h2>Lo que más sale</h2>
-            <div class="grid-productos">
-                
-                <article class="card">
-                    <span class="badge">Frías</span>
-                    <h3>Cerveza Grande</h3>
-                    <p class="precio">RD$ 200</p>
-                    <p class="desc">Vestida de novia, lista para destapar.</p>
-                </article>
-
-                <article class="card">
-                    <h3>Combo Víveres</h3>
-                    <p class="precio">RD$ 350</p>
-                    <p class="desc">Plátanos verdes, salami y queso de freír.</p>
-                </article>
-
-                <article class="card">
-                    <h3>Refresco 2 Litros</h3>
-                    <p class="precio">RD$ 100</p>
-                    <p class="desc">Para acompañar el almuerzo o la cena.</p>
-                </article>
-
-                <article class="card">
-                    <h3>Aceite + Arroz (2lb)</h3>
-                    <p class="precio">RD$ 180</p>
-                    <p class="desc">El resuelve para el concón de hoy.</p>
-                </article>
-
-            </div>
+        <section id="productos-sec" class="filtros">
+            <button class="btn-filtro active" onclick="filtrarProductos('todos')">Todos</button>
+            <button class="btn-filtro" onclick="filtrarProductos('frias')">Frías</button>
+            <button class="btn-filtro" onclick="filtrarProductos('viveres')">Víveres</button>
+            <button class="btn-filtro" onclick="filtrarProductos('provisiones')">Provisiones</button>
         </section>
 
-        <section id="delivery" class="info-delivery">
-            <h2>Servicio de Delivery</h2>
-            <p> LLegamos a cualquier esquina en minutos.</p>
-            <p class="nota-fiado"> *Nota: Hoy no se fía, mañana sí.*</p>
+        <section class="productos">
+            <div class="grid-productos" id="contenedor-productos"></div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Colmado Rodriguez. Abiertos de Lunes a Domingo.</p>
-    </footer>
-
-    <script src=""></script>
+    <script src="main.js"></script>
 </body>
 </html>

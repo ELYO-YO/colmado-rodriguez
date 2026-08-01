@@ -2,37 +2,33 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #f8f9fa;
-    color: #212529;
+    background-color: #f4f6f9;
+    color: #333;
 }
 
 header {
-    background-color: #ce1126; 
+    background-color: #ce1126;
     color: white;
-    padding: 1.5rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .tagline {
-    font-style: italic;
-    font-size: 0.9rem;
     color: #ffcc00;
+    font-size: 0.85rem;
+    font-style: italic;
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 1.5rem;
-}
-
-nav a {
+.nav-menu a {
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -45,85 +41,58 @@ nav a {
     padding: 3rem 1rem;
 }
 
-.hero h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+.filtros {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 1.5rem 0;
 }
 
-.btn-whatsapp {
-    display: inline-block;
-    margin-top: 1.5rem;
-    padding: 0.8rem 1.5rem;
-    background-color: #25d366;
+.btn-filtro {
+    border: 1px solid #002d62;
+    background: white;
+    color: #002d62;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn-filtro.active {
+    background: #002d62;
     color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 25px;
-    font-size: 1.1rem;
 }
 
 .productos {
-    padding: 2rem 1rem;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
-    text-align: center;
-}
-
-.productos h2 {
-    margin-bottom: 1.5rem;
+    padding: 1rem;
 }
 
 .grid-productos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1.5rem;
 }
-
 .card {
     background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1.2rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    position: relative;
 }
 
-.badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #002d62;
-    color: white;
-    font-size: 0.7rem;
-    padding: 3px 8px;
-    border-radius: 5px;
-}
-
-.precio {
-    font-size: 1.4rem;
+.card .precio {
     color: #ce1126;
+    font-size: 1.3rem;
     font-weight: bold;
     margin: 0.5rem 0;
 }
 
-/* Info Delivery */
-.info-delivery {
-    background: #fff3cd;
-    text-align: center;
-    padding: 2rem 1rem;
-    margin-top: 2rem;
-    border-top: 2px dashed #ffebaa;
-}
-
-.nota-fiado {
-    margin-top: 0.5rem;
-    font-weight: bold;
-    color: #856404;
-}
-
-footer {
-    background: #111;
+.btn-agregar {
+    background: #28a745;
     color: white;
-    text-align: center;
-    padding: 1rem;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
 }
