@@ -17,6 +17,12 @@
         <nav class="nav-menu">
             <a href="#productos-sec">Productos</a>
         </nav>
+        
+        <div class="header-actions">
+            <button id="btn-carrito" class="btn-cart">
+                Carrito <span id="cart-count">0</span>
+            </button>
+        </div>
     </header>
 
    <main>
@@ -37,6 +43,17 @@
             <div class="grid-productos" id="contenedor-productos"></div>
         </section>
     </main>
+
+    <div id="modal-carrito" class="modal">
+        <div class="modal-content">
+            <span class="cerrar" onclick="cerrarModalCarrito()">&times;</span>
+            <h2>🛒 Tu Pedido</h2>
+            <div id="items-carrito" class="lista-items"></div>
+            <div class="total-container">
+                <h3>Total: <span id="total-precio">RD$ 0</span></h3>
+            </div>
+        </div>
+    </div>
 
     <script src="main.js"></script>
 </body>
