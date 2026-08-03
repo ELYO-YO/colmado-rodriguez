@@ -48,8 +48,25 @@
     <div id="modal-carrito" class="modal">
         <div class="modal-content">
             <span class="cerrar" onclick="cerrarModalCarrito()">&times;</span>
-            <h2>🛒 Tu Pedido</h2>
+            <h2>Tu Pedido</h2>
             <div id="items-carrito" class="lista-items"></div>
+
+            <form id="form-pedido">
+                <label for="nombre">Tu Nombre:</label>
+                <input type="text" id="nombre" placeholder="Ej: Pedro Pérez" required>
+
+                <label>Tipo de Entrega:</label>
+                <div>
+                    <label><input type="radio" name="tipo_entrega" value="Delivery" checked onclick="toggleDelivery(true)"> Delivery</label>
+                    <label><input type="radio" name="tipo_entrega" value="Retiro en Tienda" onclick="toggleDelivery(false)"> Retiro en Colmado</label>
+                </div>
+
+                <div id="sec-direccion">
+                    <label for="direccion">Dirección / Sector:</label>
+                    <input type="text" id="direccion" placeholder="Ej: C/ Central #12">
+                </div>
+            </form>
+
             <div class="total-container">
                 <h3>Total: <span id="total-precio">RD$ 0</span></h3>
             </div>

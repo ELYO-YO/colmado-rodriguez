@@ -77,3 +77,8 @@ function eliminarDelCarrito(id) {
 const modalCarrito = document.getElementById("modal-carrito");
 document.getElementById("btn-carrito").onclick = () => modalCarrito.style.display = "flex";
 function cerrarModalCarrito() { modalCarrito.style.display = "none"; }
+
+function toggleDelivery(esDelivery) {
+    const secDireccion = document.getElementById("sec-direccion");
+    secDireccion.style.display = esDelivery ? "block" : "none";
+}
