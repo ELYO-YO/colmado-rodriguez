@@ -82,3 +82,16 @@ function toggleDelivery(esDelivery) {
     const secDireccion = document.getElementById("sec-direccion");
     secDireccion.style.display = esDelivery ? "block" : "none";
 }
+
+function cambiarMetodoPago(metodo) {
+    document.getElementById("sec-efectivo").style.display = metodo === "Efectivo" ? "block" : "none";
+}
+
+function calcularDevuelta() {
+    const monto = parseFloat(document.getElementById("monto-pago").value) || 0;
+    const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    const devuelta = monto - total;
+    document.getElementById("info-devuelta").innerHTML = devuelta >= 0 
+        ? `Devuelta: <strong style="color:green">RD$ ${devuelta}</strong>`
+        : `<strong style="color:red">Faltan RD$ ${Math.abs(devuelta)}</strong>`;
+}

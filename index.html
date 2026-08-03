@@ -65,6 +65,20 @@
                     <label for="direccion">Dirección / Sector:</label>
                     <input type="text" id="direccion" placeholder="Ej: C/ Central #12">
                 </div>
+
+                <div class="cajero-box">
+                    <h4>💳 Método de Pago</h4>
+                    <div>
+                        <label><input type="radio" name="metodo_pago" value="Efectivo" checked onclick="cambiarMetodoPago('Efectivo')"> 💵 Efectivo</label>
+                        <label><input type="radio" name="metodo_pago" value="Tarjeta" onclick="cambiarMetodoPago('Tarjeta')"> 💳 Tarjeta</label>
+                    </div>
+
+                    <div id="sec-efectivo">
+                        <label for="monto-pago">¿Con cuánto vas a pagar? (RD$):</label>
+                        <input type="number" id="monto-pago" placeholder="Ej: 1000" oninput="calcularDevuelta()">
+                        <p id="info-devuelta">Devuelta: <strong>RD$ 0</strong></p>
+                    </div>
+                </div>
             </form>
 
             <div class="total-container">
