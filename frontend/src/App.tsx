@@ -1,24 +1,23 @@
-import {
-  IonApp,
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
+import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import { Redirect, Route } from 'react-router-dom';
+
+import HomePage from './pages/home/HomePage';
 
 function App() {
   return (
     <IonApp>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Colmado Rodríguez</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/home">
+            <HomePage />
+          </Route>
 
-      <IonContent className="ion-padding">
-        <h1>¡Bienvenido a Colmado Rodríguez! 🏪</h1>
-        <p>Tu colmado de siempre, ahora en tu celular.</p>
-      </IonContent>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+        </IonRouterOutlet>
+      </IonReactRouter>
     </IonApp>
   );
 }

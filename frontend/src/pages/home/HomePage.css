@@ -1,0 +1,410 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 18px 110px;
+}
+
+/* Header */
+
+.home-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+}
+
+/* Logo + información */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex: 1;
+  min-width: 0;
+}
+
+.brand-logo {
+  width: 250px;
+  height: 75px;
+  display: block;
+  object-fit: contain;
+  object-position: left center;
+  flex-shrink: 0;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+}
+
+.welcome-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.location ion-icon {
+  color: #002d62;
+  font-size: 1.05rem;
+}
+
+/* Carrito */
+.cart-button {
+  position: relative;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  border: none;
+  border-radius: 18px;
+  background: #eef3f8;
+  color: #002d62;
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+
+.cart-button span {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background: #dc3545;
+  color: white;
+  font-size: 0.68rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Search */
+
+.search-box {
+  height: 52px;
+  margin-top: 22px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f5f6f7;
+  border: 1px solid #e5e7eb;
+  border-radius: 15px;
+}
+
+.search-box ion-icon {
+  color: #6b7280;
+  font-size: 1.25rem;
+}
+
+.search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  font-size: 0.95rem;
+}
+
+/* Banner */
+
+.hero-banner {
+  position: relative;
+  overflow: hidden;
+  margin-top: 22px;
+  min-height: 205px;
+  padding: 25px;
+  border-radius: 22px;
+  background: #002d62;
+  color: white;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 75%;
+}
+
+.hero-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.hero-banner h2 {
+  margin: 7px 0;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+
+.hero-banner p {
+  margin: 0 0 18px;
+  max-width: 330px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: white;
+  color: #002d62;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.hero-emoji {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 6rem;
+  transform: rotate(-8deg);
+}
+
+/* Secciones */
+
+.section {
+  margin-top: 30px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.section-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.15rem;
+}
+
+.section-header button {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border: none;
+  background: transparent;
+  color: #002d62;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Categorías */
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.category-card {
+  min-height: 105px;
+  border: 1px solid #edf0ee;
+  border-radius: 16px;
+  background: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.category-card:active {
+  transform: scale(0.96);
+}
+
+.category-icon {
+  width: 54px;
+  height: 54px;
+  margin: 10px auto 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f1f7f3;
+  font-size: 1.65rem;
+}
+
+.category-card span {
+  color: #374151;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+/* Productos */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.product-card {
+  overflow: hidden;
+  border: 1px solid #edf0ee;
+  border-radius: 17px;
+  background: white;
+}
+
+.product-image {
+  height: 135px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f8f8;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+.product-image span {
+  font-size: 4rem;
+}
+
+.product-info {
+  padding: 12px;
+}
+
+.product-name {
+  display: block;
+  color: #111827;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.product-description {
+  display: block;
+  margin-top: 4px;
+  color: #8a9099;
+  font-size: 0.7rem;
+}
+
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  margin-top: 13px;
+}
+
+.product-footer strong {
+  color: #002d62;
+  font-size: 0.9rem;
+}
+
+.add-button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: #002d62;
+  color: white;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+/* Navegación */
+
+.bottom-navigation {
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 70px;
+  display: none;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5px 8px;
+  border-top: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(10px);
+}
+
+.bottom-navigation button {
+  width: 20%;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: none;
+  background: transparent;
+  color: #8a9099;
+  cursor: pointer;
+}
+
+.bottom-navigation button span {
+  font-size: 1.15rem;
+}
+
+.bottom-navigation button small {
+  font-size: 0.62rem;
+}
+
+.bottom-navigation button.active {
+  color: #002d62;
+  font-weight: 700;
+}
+
+/* Desktop */
+
+@media (max-width: 600px) {
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 155px;
+    height: 55px;
+  }
+
+  .brand-info {
+    gap: 3px;
+  }
+
+  .welcome-text {
+    font-size: 0.7rem;
+  }
+
+  .location {
+    font-size: 0.65rem;
+  }
+
+  .cart-button {
+  width: 55px;
+  height: 55px;
+  border-radius: 15px;
+  font-size: 1.4rem;
+}
+
+  .bottom-navigation {
+    display: flex;
+  }
+}
