@@ -1,5 +1,7 @@
 import { IonIcon } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
+import type { MouseEvent } from 'react';
+
 import './ProductCard.css';
 
 export interface Product {
@@ -13,11 +15,19 @@ export interface Product {
 interface ProductCardProps {
   product: Product;
   onAdd: (product: Product) => void;
+  onClick?: () => void;
 }
 
-function ProductCard({ product, onAdd }: ProductCardProps) {
+function ProductCard({
+  product,
+  onAdd,
+  onClick,
+}: ProductCardProps) {
   return (
-    <article className="product-card">
+    <article
+      className="product-card"
+      onClick={onClick}
+    >
       <div className="product-image">
         <img
           src={product.image}
@@ -42,8 +52,11 @@ function ProductCard({ product, onAdd }: ProductCardProps) {
 
           <button
             className="add-button"
-            onClick={() => onAdd(product)}
             aria-label={`Agregar ${product.name}`}
+            onClick={(event: MouseEvent<HTMLButtonElement>) => {
+              event.stopPropagation();
+              onAdd(product);
+            }}
           >
             <IonIcon icon={addOutline} />
           </button>

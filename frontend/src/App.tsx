@@ -3,6 +3,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 
 import HomePage from './pages/home/HomePage';
+import ProductDetailPage from './pages/product/ProductDetailPage';
 
 function App() {
   return (
@@ -12,6 +13,11 @@ function App() {
           <Route exact path="/home">
             <HomePage />
           </Route>
+
+          <Route
+           path="/producto/:id"
+              component={ProductDetailPage}
+           />
 
           <Route exact path="/">
             <Redirect to="/home" />

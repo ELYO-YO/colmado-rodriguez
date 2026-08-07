@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
   IonContent,
@@ -53,6 +54,8 @@ const categories = [
 ];
 
 function HomePage() {
+  const history = useHistory();
+
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -282,10 +285,11 @@ function HomePage() {
               {products.map((product) => (
 
                 <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAdd={addToCart}
-                />
+                key={product.id}
+                product={product}
+                onAdd={addToCart}
+                onClick={() => history.push(`/producto/${product.id}`)}
+              />
 
               ))}
 
