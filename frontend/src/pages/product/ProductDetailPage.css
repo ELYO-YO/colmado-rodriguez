@@ -1,21 +1,28 @@
 .product-detail {
   min-height: 100%;
-  padding-bottom: 130px;
-  background: white;
+  padding: 20px 18px 100px;
+  background: #ffffff;
 }
 
 /* Header */
 
-.product-detail-header {
-  height: 64px;
+.detail-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
+  gap: 15px;
+}
+
+.detail-header h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.05rem;
+  font-weight: 700;
 }
 
 .back-button,
-.detail-cart-button {
+.detail-cart {
+  position: relative;
   width: 42px;
   height: 42px;
   display: flex;
@@ -23,149 +30,96 @@
   justify-content: center;
   border: none;
   border-radius: 12px;
-  background: #f1f4f7;
+  background: #eef3f8;
   color: #002d62;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   cursor: pointer;
+}
+
+.detail-cart span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: #dc3545;
+  color: white;
+  font-size: 0.65rem;
 }
 
 /* Imagen */
 
-.product-detail-image {
+.detail-image {
   width: 100%;
-  height: 330px;
+  height: 300px;
+  margin-top: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 22px;
   background: #f7f8f8;
   overflow: hidden;
 }
 
-.product-detail-image img {
+.detail-image img {
   width: 100%;
   height: 100%;
+  padding: 25px;
   object-fit: contain;
-  padding: 30px;
 }
 
 /* Información */
 
-.product-detail-info {
-  padding: 25px 20px 0;
+.detail-info {
+  padding: 25px 5px 0;
 }
 
-.product-detail-category {
+.detail-category {
   color: #6b7280;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.product-detail-info h1 {
-  margin: 7px 0 5px;
+.detail-info h2 {
+  margin: 8px 0;
   color: #111827;
-  font-size: 1.65rem;
-  line-height: 1.2;
+  font-size: 1.7rem;
 }
 
-.product-detail-price {
+.detail-description {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.detail-price {
   display: block;
+  margin-top: 18px;
   color: #002d62;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
 }
 
-.product-detail-description {
-  margin: 18px 0 0;
-  color: #6b7280;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-/* Cantidad */
-
-.quantity-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 28px;
-}
-
-.quantity-section > span {
-  color: #111827;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.quantity-selector {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.quantity-selector button {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 10px;
-  background: #eef3f8;
-  color: #002d62;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.quantity-selector strong {
-  min-width: 20px;
-  text-align: center;
-  color: #111827;
-}
-
-/* Footer */
-
-.product-detail-footer {
-  position: fixed;
-  z-index: 50;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 15px 20px 18px;
-  border-top: 1px solid #e5e7eb;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(10px);
-}
-
-.detail-total {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.detail-total span {
-  color: #6b7280;
-  font-size: 0.8rem;
-}
-
-.detail-total strong {
-  color: #002d62;
-  font-size: 1rem;
-}
+/* Botón */
 
 .add-to-cart-detail {
   width: 100%;
-  height: 48px;
+  height: 52px;
+  margin-top: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #002d62;
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -174,15 +128,10 @@
   transform: scale(0.98);
 }
 
-/* Producto no encontrado */
+/* Producto inexistente */
 
 .product-not-found {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
+  padding: 40px 20px;
   text-align: center;
 }
 
@@ -190,16 +139,43 @@
   color: #111827;
 }
 
-.product-not-found p {
-  color: #6b7280;
-}
-
 .product-not-found button {
-  margin-top: 10px;
-  padding: 10px 18px;
+  padding: 12px 18px;
   border: none;
   border-radius: 10px;
   background: #002d62;
   color: white;
   font-weight: 700;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.quantity-selector button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #eef3f8;
+  color: #002d62;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quantity-selector span {
+  min-width: 30px;
+  text-align: center;
+  color: #111827;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.add-to-cart-detail {
+  margin-top: 18px;
 }

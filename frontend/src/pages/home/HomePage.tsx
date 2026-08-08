@@ -14,15 +14,11 @@ import {
   chevronForwardOutline,
 } from 'ionicons/icons';
 
-import ProductCard, {
-  type Product,
-} from '../../components/ProductCard/ProductCard';
-
+import ProductCard from '../../components/ProductCard/ProductCard';
 import { products } from '../../data/products';
-
 import Cart from '../../components/Cart/Cart';
 
-import type { CartItem } from '../../types/cart';
+import { useCart } from '../../context/CartContext';
 
 import './HomePage.css';
 
@@ -56,84 +52,20 @@ const categories = [
 function HomePage() {
   const history = useHistory();
 
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Agregar producto al carrito
-  const addToCart = (product: Product) => {
-    setCartItems((currentItems) => {
-      const existingItem = currentItems.find(
-        (item) => item.id === product.id
-      );
-
-      if (existingItem) {
-        return currentItems.map((item) =>
-          item.id === product.id
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            : item
-        );
-      }
-
-      return [
-        ...currentItems,
-        {
-          ...product,
-          quantity: 1,
-        },
-      ];
-    });
-  };
-
-  // Aumentar cantidad
-  const increaseQuantity = (id: number) => {
-    setCartItems((currentItems) =>
-      currentItems.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item
-      )
-    );
-  };
-
-  // Disminuir cantidad
-  const decreaseQuantity = (id: number) => {
-    setCartItems((currentItems) =>
-      currentItems
-        .map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                quantity: item.quantity - 1,
-              }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  // Eliminar producto
-  const removeFromCart = (id: number) => {
-    setCartItems((currentItems) =>
-      currentItems.filter((item) => item.id !== id)
-    );
-  };
-
-  // Cantidad total de productos
-  const cartCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const {
+    cartItems,
+    cartCount,
+    addToCart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+  } = useCart();
 
   return (
     <IonPage>
       <IonContent fullscreen>
-
         <div className="home-container">
 
           {/* Header */}
@@ -171,7 +103,9 @@ function HomePage() {
             >
               <IonIcon icon={cartOutline} />
 
-              <span>{cartCount}</span>
+              {cartCount > 0 && (
+                <span>{cartCount}</span>
+              )}
             </button>
 
           </header>
@@ -285,11 +219,13 @@ function HomePage() {
               {products.map((product) => (
 
                 <ProductCard
-                key={product.id}
-                product={product}
-                onAdd={addToCart}
-                onClick={() => history.push(`/producto/${product.id}`)}
-              />
+                  key={product.id}
+                  product={product}
+                  onAdd={addToCart}
+                  onClick={() =>
+                    history.push(`/producto/${product.id}`)
+                  }
+                />
 
               ))}
 

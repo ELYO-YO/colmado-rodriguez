@@ -1,4 +1,6 @@
 import { IonIcon } from '@ionic/react';
+import { useHistory } from 'react-router-dom';
+
 import {
   addOutline,
   removeOutline,
@@ -25,6 +27,8 @@ function Cart({
   onDecrease,
   onRemove,
 }: CartProps) {
+
+    const history = useHistory();
 
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -138,9 +142,15 @@ function Cart({
               </strong>
             </div>
 
-            <button className="checkout-button">
-              Continuar pedido
-            </button>
+            <button
+  className="checkout-button"
+  onClick={() => {
+    onClose();
+    history.push('/checkout');
+  }}
+>
+  Continuar pedido
+</button>
 
           </div>
 
