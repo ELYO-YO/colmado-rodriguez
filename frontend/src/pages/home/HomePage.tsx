@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -14,43 +14,31 @@ import {
   chevronForwardOutline,
 } from 'ionicons/icons';
 
-import ProductCard from '../../components/ProductCard/ProductCard';
-import { products } from '../../data/products';
-import Cart from '../../components/Cart/Cart';
+import {
+  getCategories,
+  type Category,
+} from '../../services/categoryService';
 
+import ProductCard, {
+  type Product,
+} from '../../components/ProductCard/ProductCard';
+
+import Cart from '../../components/Cart/Cart';
 import { useCart } from '../../context/CartContext';
+import { getProducts } from '../../services/productService';
 
 import './HomePage.css';
 
-const categories = [
-  {
-    name: 'Frías',
-    image: '/images/categories/frias.jpg',
-  },
-  {
-    name: 'Víveres',
-    image: '/images/categories/viveres.jpg',
-  },
-  {
-    name: 'Provisiones',
-    image: '/images/categories/provisiones.jpg',
-  },
-  {
-    name: 'Lácteos',
-    image: '/images/categories/lacteos.jpg',
-  },
-  {
-    name: 'Enlatados',
-    image: '/images/categories/enlatados.jpg',
-  },
-  {
-    name: 'Limpieza',
-    image: '/images/categories/limpieza.jpg',
-  },
-];
-
 function HomePage() {
   const history = useHistory();
+
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -63,15 +51,55 @@ function HomePage() {
     removeFromCart,
   } = useCart();
 
+  // Categorías
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch((error) => {
+        console.error('Error cargando categorías:', error);
+      });
+  }, []);
+
+  // Productos
+  useEffect(() => {
+    getProducts()
+      .then((data) => {
+        setProducts(data);
+      })
+      .catch((error) => {
+        console.error('Error cargando productos:', error);
+      })
+      .finally(() => {
+        setLoadingProducts(false);
+      });
+  }, []);
+
+  // Filtrar productos por categoría
+  const filteredProducts = products.filter((product) => {
+  const matchesCategory =
+    selectedCategory === null ||
+    product.category?.id === selectedCategory;
+
+  const matchesSearch =
+    product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+  return matchesCategory && matchesSearch;
+});
+
   return (
     <IonPage>
+
       <IonContent fullscreen>
+
         <div className="home-container">
 
           {/* Header */}
           <header className="home-header">
 
-            {/* Logo + información */}
             <div className="brand">
 
               <img
@@ -101,11 +129,11 @@ function HomePage() {
               aria-label="Abrir carrito"
               onClick={() => setIsCartOpen(true)}
             >
+
               <IonIcon icon={cartOutline} />
 
-              {cartCount > 0 && (
-                <span>{cartCount}</span>
-              )}
+              <span>{cartCount}</span>
+
             </button>
 
           </header>
@@ -116,9 +144,11 @@ function HomePage() {
             <IonIcon icon={searchOutline} />
 
             <input
-              type="text"
-              placeholder="¿Qué necesitas hoy?"
-            />
+  type="text"
+  placeholder="¿Qué necesitas hoy?"
+  value={searchTerm}
+  onChange={(event) => setSearchTerm(event.target.value)}
+/>
 
           </div>
 
@@ -162,7 +192,9 @@ function HomePage() {
 
               <h2>Categorías</h2>
 
-              <button>
+              <button
+                onClick={() => setSelectedCategory(null)}
+              >
                 Ver todas
                 <IonIcon icon={chevronForwardOutline} />
               </button>
@@ -171,11 +203,35 @@ function HomePage() {
 
             <div className="categories">
 
+              {/* Todos */}
+              <button
+                className={`category-card ${
+                  selectedCategory === null ? 'selected' : ''
+                }`}
+                onClick={() => setSelectedCategory(null)}
+              >
+
+                <div className="category-image">
+
+                  <span>🛒</span>
+
+                </div>
+
+                <span>Todos</span>
+
+              </button>
+
+              {/* Categorías de Django */}
               {categories.map((category) => (
 
                 <button
-                  className="category-card"
-                  key={category.name}
+                  className={`category-card ${
+                    selectedCategory === category.id
+                      ? 'selected'
+                      : ''
+                  }`}
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
                 >
 
                   <div className="category-image">
@@ -188,9 +244,7 @@ function HomePage() {
 
                   </div>
 
-                  <span>
-                    {category.name}
-                  </span>
+                  <span>{category.name}</span>
 
                 </button>
 
@@ -205,9 +259,15 @@ function HomePage() {
 
             <div className="section-header">
 
-              <h2>Populares 🔥</h2>
+              <h2>
+                {selectedCategory === null
+                  ? 'Populares 🔥'
+                  : 'Productos'}
+              </h2>
 
-              <button>
+              <button
+                onClick={() => setSelectedCategory(null)}
+              >
                 Ver todos
                 <IonIcon icon={chevronForwardOutline} />
               </button>
@@ -216,69 +276,113 @@ function HomePage() {
 
             <div className="products-grid">
 
-              {products.map((product) => (
+              {loadingProducts ? (
 
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAdd={addToCart}
-                  onClick={() =>
-                    history.push(`/producto/${product.id}`)
-                  }
-                />
+                <p>Cargando productos...</p>
 
-              ))}
+              ) : filteredProducts.length === 0 ? (
+
+                <p>
+  {searchTerm
+    ? `No encontramos productos para "${searchTerm}".`
+    : 'No hay productos disponibles en esta categoría.'}
+</p>
+
+              ) : (
+
+                filteredProducts.map((product) => (
+
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onAdd={addToCart}
+                    onClick={() =>
+                      history.push(`/producto/${product.id}`)
+                    }
+                  />
+
+                ))
+
+              )}
 
             </div>
 
           </section>
 
+          {/* Carrito */}
+          {isCartOpen && (
+
+            <Cart
+              items={cartItems}
+              onClose={() => setIsCartOpen(false)}
+              onIncrease={increaseQuantity}
+              onDecrease={decreaseQuantity}
+              onRemove={removeFromCart}
+            />
+
+          )}
+
+          {/* Navegación móvil */}
+          <nav className="bottom-navigation">
+
+            <button className="active">
+
+              <span>🏠</span>
+
+              <small>
+                Inicio
+              </small>
+
+            </button>
+
+            <button>
+
+              <span>🔎</span>
+
+              <small>
+                Buscar
+              </small>
+
+            </button>
+
+            <button
+              onClick={() => setIsCartOpen(true)}
+            >
+
+              <span>🛒</span>
+
+              <small>
+                Carrito
+              </small>
+
+            </button>
+
+            <button>
+
+              <span>📦</span>
+
+              <small>
+                Pedidos
+              </small>
+
+            </button>
+
+            <button>
+
+              <span>👤</span>
+
+              <small>
+                Perfil
+              </small>
+
+            </button>
+
+          </nav>
+
         </div>
 
-        {/* Carrito */}
-        {isCartOpen && (
-          <Cart
-            items={cartItems}
-            onClose={() => setIsCartOpen(false)}
-            onIncrease={increaseQuantity}
-            onDecrease={decreaseQuantity}
-            onRemove={removeFromCart}
-          />
-        )}
-
-        {/* Navegación móvil */}
-        <nav className="bottom-navigation">
-
-          <button className="active">
-            <span>🏠</span>
-            <small>Inicio</small>
-          </button>
-
-          <button>
-            <span>🔎</span>
-            <small>Buscar</small>
-          </button>
-
-          <button
-            onClick={() => setIsCartOpen(true)}
-          >
-            <span>🛒</span>
-            <small>Carrito</small>
-          </button>
-
-          <button>
-            <span>📦</span>
-            <small>Pedidos</small>
-          </button>
-
-          <button>
-            <span>👤</span>
-            <small>Perfil</small>
-          </button>
-
-        </nav>
-
       </IonContent>
+
     </IonPage>
   );
 }

@@ -9,6 +9,7 @@ import ProductDetailPage from './pages/product/ProductDetailPage';
 import CheckoutPage from './pages/checkout/CheckoutPage';
 import OrderSuccessPage from './pages/order-success/OrderSuccessPage';
 
+
 function App() {
   return (
     <IonApp>
@@ -34,11 +35,7 @@ function App() {
               component={ProductDetailPage}
             />
 
-            <Route
-              exact
-              path="/checkout"
-              component={CheckoutPage}
-            />
+            <Route path="/checkout" component={CheckoutPage} />
 
             <Route
              exact

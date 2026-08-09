@@ -1,4 +1,5 @@
-import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
+
 import {
   IonContent,
   IonIcon,
@@ -8,10 +9,11 @@ import {
 import {
   arrowBackOutline,
   locationOutline,
-  callOutline,
-  personOutline,
+  cardOutline,
   cashOutline,
 } from 'ionicons/icons';
+
+import { useHistory } from 'react-router-dom';
 
 import { useCart } from '../../context/CartContext';
 
@@ -26,201 +28,158 @@ function CheckoutPage() {
   clearCart,
 } = useCart();
 
+  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card'>(
+    'cash'
+  );
+
+  const deliveryFee = 100;
+  const total = cartTotal + deliveryFee;
+
   return (
     <IonPage>
+
       <IonContent fullscreen>
 
-        <div className="checkout-page">
+        <div className="checkout-container">
 
           {/* Encabezado */}
-
           <header className="checkout-header">
 
             <button
-              className="checkout-back"
+              type="button"
               onClick={() => history.goBack()}
               aria-label="Volver"
             >
               <IonIcon icon={arrowBackOutline} />
             </button>
 
-            <div>
-              <h1>Confirmar pedido</h1>
-              <span>Completa tus datos de entrega</span>
-            </div>
+            <h1>Finalizar pedido</h1>
 
           </header>
 
-          {/* Datos del cliente */}
-
+          {/* Dirección */}
           <section className="checkout-section">
 
             <div className="checkout-section-title">
-              <IonIcon icon={personOutline} />
+
+              <IonIcon icon={locationOutline} />
 
               <div>
-                <h2>Datos de entrega</h2>
-                <span>¿Dónde te llevamos tu pedido?</span>
+                <h2>Dirección de entrega</h2>
+                <p>¿Dónde entregamos tu pedido?</p>
               </div>
-            </div>
-
-            <div className="checkout-form">
-
-              <label>
-                Nombre completo
-
-                <div className="checkout-input">
-                  <IonIcon icon={personOutline} />
-
-                  <input
-                    type="text"
-                    placeholder="Ej: Pedro Pérez"
-                  />
-                </div>
-              </label>
-
-              <label>
-                Teléfono
-
-                <div className="checkout-input">
-                  <IonIcon icon={callOutline} />
-
-                  <input
-                    type="tel"
-                    placeholder="Ej: 809-555-5555"
-                  />
-                </div>
-              </label>
-
-              <label>
-                Sector
-
-                <div className="checkout-input">
-                  <IonIcon icon={locationOutline} />
-
-                  <input
-                    type="text"
-                    placeholder="Ej: Fantino"
-                  />
-                </div>
-              </label>
-
-              <label>
-                Dirección
-
-                <div className="checkout-input">
-                  <IonIcon icon={locationOutline} />
-
-                  <input
-                    type="text"
-                    placeholder="Calle, número de casa..."
-                  />
-                </div>
-              </label>
-
-              <label>
-                Referencia
-
-                <textarea
-                  placeholder="Ej: Casa blanca frente al colmado..."
-                  rows={3}
-                />
-
-              </label>
 
             </div>
+
+            <input
+              type="text"
+              placeholder="Ej. Calle Principal #10"
+            />
+
+            <input
+              type="text"
+              placeholder="Sector o barrio"
+            />
 
           </section>
 
           {/* Método de pago */}
-
           <section className="checkout-section">
 
             <div className="checkout-section-title">
-              <IonIcon icon={cashOutline} />
+
+              <IonIcon icon={cardOutline} />
 
               <div>
                 <h2>Método de pago</h2>
-                <span>Selecciona cómo vas a pagar</span>
+                <p>Selecciona cómo deseas pagar</p>
               </div>
+
             </div>
 
             <div className="payment-options">
 
-              <label className="payment-option">
-                <input
-                  type="radio"
-                  name="payment"
-                  value="efectivo"
-                  defaultChecked
-                />
+              <button
+                type="button"
+                className={`payment-option ${
+                  paymentMethod === 'cash' ? 'active' : ''
+                }`}
+                onClick={() => setPaymentMethod('cash')}
+              >
+
+                <IonIcon icon={cashOutline} />
 
                 <div>
                   <strong>Efectivo</strong>
                   <span>Pago al recibir</span>
                 </div>
-              </label>
 
-              <label className="payment-option">
-                <input
-                  type="radio"
-                  name="payment"
-                  value="transferencia"
-                />
+              </button>
+
+              <button
+                type="button"
+                className={`payment-option ${
+                  paymentMethod === 'card' ? 'active' : ''
+                }`}
+                onClick={() => setPaymentMethod('card')}
+              >
+
+                <IonIcon icon={cardOutline} />
 
                 <div>
-                  <strong>Transferencia</strong>
-                  <span>Pago mediante transferencia</span>
+                  <strong>Tarjeta</strong>
+                  <span>Pago electrónico</span>
                 </div>
-              </label>
+
+              </button>
 
             </div>
 
           </section>
 
           {/* Resumen */}
-
           <section className="checkout-section">
 
             <div className="checkout-section-title">
+
               <div>
                 <h2>Resumen del pedido</h2>
-                <span>
+                <p>
                   {cartItems.length} producto
                   {cartItems.length !== 1 ? 's' : ''}
-                </span>
+                </p>
               </div>
+
             </div>
 
-            <div className="checkout-products">
+            <div className="checkout-items">
 
               {cartItems.map((item) => (
 
                 <div
-                  className="checkout-product"
+                  className="checkout-item"
                   key={item.id}
                 >
 
-                  <div className="checkout-product-image">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                    />
-                  </div>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                  />
 
-                  <div className="checkout-product-info">
+                  <div className="checkout-item-info">
+
                     <strong>{item.name}</strong>
 
                     <span>
-                      {item.quantity} × RD${' '}
+                      {item.quantity} x RD${' '}
                       {item.price.toLocaleString('es-DO')}
                     </span>
+
                   </div>
 
                   <strong>
                     RD${' '}
-                    {(item.price * item.quantity)
-                      .toLocaleString('es-DO')}
+                    {(item.price * item.quantity).toLocaleString('es-DO')}
                   </strong>
 
                 </div>
@@ -229,39 +188,47 @@ function CheckoutPage() {
 
             </div>
 
-            <div className="checkout-total">
+          </section>
 
-              <div>
-                <span>Subtotal</span>
-                <strong>
-                  RD$ {cartTotal.toLocaleString('es-DO')}
-                </strong>
-              </div>
+          {/* Totales */}
+          <section className="checkout-total">
 
-              <div>
-                <span>Delivery</span>
-                <strong>Por calcular</strong>
-              </div>
+            <div>
+              <span>Subtotal</span>
 
-              <div className="checkout-grand-total">
-                <span>Total</span>
+              <strong>
+                RD$ {cartTotal.toLocaleString('es-DO')}
+              </strong>
+            </div>
 
-                <strong>
-                  RD$ {cartTotal.toLocaleString('es-DO')}
-                </strong>
-              </div>
+            <div>
+              <span>Delivery</span>
+
+              <strong>
+                RD$ {deliveryFee.toLocaleString('es-DO')}
+              </strong>
+            </div>
+
+            <div className="checkout-grand-total">
+
+              <span>Total</span>
+
+              <strong>
+                RD$ {total.toLocaleString('es-DO')}
+              </strong>
 
             </div>
 
           </section>
 
           {/* Confirmar */}
-
-          <button
+<button
   className="confirm-order-button"
+  type="button"
   onClick={() => {
+    alert('¡Pedido confirmado! Gracias por comprar en Colmado Rodríguez.');
     clearCart();
-    history.push('/pedido-realizado');
+    history.push('/');
   }}
 >
   Confirmar pedido
@@ -270,6 +237,7 @@ function CheckoutPage() {
         </div>
 
       </IonContent>
+
     </IonPage>
   );
 }

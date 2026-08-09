@@ -27,22 +27,27 @@ function Cart({
   onDecrease,
   onRemove,
 }: CartProps) {
-
-    const history = useHistory();
+  const history = useHistory();
 
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
+  const goToCheckout = () => {
+    onClose();
+    history.push('/checkout');
+  };
+
   return (
     <div className="cart-overlay">
-
       <aside className="cart-panel">
 
+        {/* Encabezado */}
         <div className="cart-header">
           <div>
             <h2>Tu carrito</h2>
+
             <span>
               {items.length} producto{items.length !== 1 ? 's' : ''}
             </span>
@@ -57,8 +62,8 @@ function Cart({
           </button>
         </div>
 
+        {/* Carrito vacío */}
         {items.length === 0 ? (
-
           <div className="cart-empty">
             <IonIcon icon={trashOutline} />
 
@@ -69,14 +74,15 @@ function Cart({
               para comenzar tu pedido.
             </p>
           </div>
-
         ) : (
-
+          /* Productos */
           <div className="cart-items">
 
             {items.map((item) => (
-
-              <div className="cart-item" key={item.id}>
+              <div
+                className="cart-item"
+                key={item.id}
+              >
 
                 <div className="cart-item-image">
                   <img
@@ -124,14 +130,13 @@ function Cart({
                 </button>
 
               </div>
-
             ))}
 
           </div>
         )}
 
+        {/* Total y Checkout */}
         {items.length > 0 && (
-
           <div className="cart-footer">
 
             <div className="cart-total">
@@ -143,21 +148,16 @@ function Cart({
             </div>
 
             <button
-  className="checkout-button"
-  onClick={() => {
-    onClose();
-    history.push('/checkout');
-  }}
->
-  Continuar pedido
-</button>
+              className="checkout-button"
+              onClick={goToCheckout}
+            >
+              Continuar pedido
+            </button>
 
           </div>
-
         )}
 
       </aside>
-
     </div>
   );
 }

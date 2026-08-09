@@ -10,6 +10,12 @@ export interface Product {
   description: string;
   price: number;
   image: string;
+  category?: {
+    id: number;
+    name: string;
+    image: string;
+  };
+  available: boolean;
 }
 
 interface ProductCardProps {
