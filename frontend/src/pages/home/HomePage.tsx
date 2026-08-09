@@ -12,6 +12,10 @@ import {
   locationOutline,
   searchOutline,
   chevronForwardOutline,
+  homeOutline,
+  bagHandleOutline,
+  receiptOutline,
+  personOutline,
 } from 'ionicons/icons';
 
 import {
@@ -192,13 +196,6 @@ function HomePage() {
 
               <h2>Categorías</h2>
 
-              <button
-                onClick={() => setSelectedCategory(null)}
-              >
-                Ver todas
-                <IonIcon icon={chevronForwardOutline} />
-              </button>
-
             </div>
 
             <div className="categories">
@@ -322,62 +319,45 @@ function HomePage() {
 
           )}
 
-          {/* Navegación móvil */}
-          <nav className="bottom-navigation">
+{/* Navegación móvil */}
+<nav className="bottom-navigation">
+  <button className="active">
+    <IonIcon icon={homeOutline} />
+    <small>Inicio</small>
+  </button>
 
-            <button className="active">
+  <button>
+    <IonIcon icon={searchOutline} />
+    <small>Buscar</small>
+  </button>
 
-              <span>🏠</span>
+  <button
+    className="bottom-cart-button"
+    onClick={() => setIsCartOpen(true)}
+  >
+    <div className="bottom-icon-wrapper">
+      <IonIcon icon={bagHandleOutline} />
 
-              <small>
-                Inicio
-              </small>
+      {cartCount > 0 && (
+        <span className="bottom-cart-count">
+          {cartCount}
+        </span>
+      )}
+    </div>
 
-            </button>
+    <small>Carrito</small>
+  </button>
 
-            <button>
+  <button>
+    <IonIcon icon={receiptOutline} />
+    <small>Pedidos</small>
+  </button>
 
-              <span>🔎</span>
-
-              <small>
-                Buscar
-              </small>
-
-            </button>
-
-            <button
-              onClick={() => setIsCartOpen(true)}
-            >
-
-              <span>🛒</span>
-
-              <small>
-                Carrito
-              </small>
-
-            </button>
-
-            <button>
-
-              <span>📦</span>
-
-              <small>
-                Pedidos
-              </small>
-
-            </button>
-
-            <button>
-
-              <span>👤</span>
-
-              <small>
-                Perfil
-              </small>
-
-            </button>
-
-          </nav>
+  <button>
+    <IonIcon icon={personOutline} />
+    <small>Perfil</small>
+  </button>
+</nav>
 
         </div>
 
