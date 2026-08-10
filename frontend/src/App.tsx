@@ -8,6 +8,8 @@ import HomePage from './pages/home/HomePage';
 import ProductDetailPage from './pages/product/ProductDetailPage';
 import CheckoutPage from './pages/checkout/CheckoutPage';
 import OrderSuccessPage from './pages/order-success/OrderSuccessPage';
+import LoginPage from './pages/login/LoginPage';
+import ProfilePage from './pages/profile/ProfilePage';
 
 
 function App() {
@@ -41,6 +43,18 @@ function App() {
              exact
              path="/pedido-realizado"
              component={OrderSuccessPage}
+            />
+
+            <Route
+             exact
+             path="/login"
+             component={LoginPage}
+            />
+
+            <Route
+             exact
+             path="/perfil"
+             component={ProfilePage}
             />
 
           </IonRouterOutlet>
