@@ -19,7 +19,6 @@ import {
   searchOutline,
   chevronForwardOutline,
   homeOutline,
-  bagHandleOutline,
   receiptOutline,
   personOutline,
   logoFacebook,
@@ -60,6 +59,8 @@ function HomePage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const categoriesRef = useRef<HTMLDivElement>(null);
+
+  const categoryDragMoved = useRef(false);
 
   const [isDraggingCategories, setIsDraggingCategories] =
     useState(false);
@@ -150,7 +151,7 @@ function HomePage() {
       });
   };
 
-  // Arrastrar categorías con mouse
+  // Arrastre horizontal de categorías
   const handleCategoriesMouseDown = (
     event: MouseEvent<HTMLDivElement>
   ) => {
@@ -159,6 +160,8 @@ function HomePage() {
     }
 
     setIsDraggingCategories(true);
+
+    categoryDragMoved.current = false;
 
     setDragStartX(
       event.pageX - categoriesRef.current.offsetLeft
@@ -179,14 +182,16 @@ function HomePage() {
       return;
     }
 
-    event.preventDefault();
-
     const currentX =
       event.pageX -
       categoriesRef.current.offsetLeft;
 
     const distance =
       currentX - dragStartX;
+
+    if (Math.abs(distance) > 5) {
+      categoryDragMoved.current = true;
+    }
 
     categoriesRef.current.scrollLeft =
       dragScrollLeft - distance;
@@ -198,7 +203,6 @@ function HomePage() {
 
   return (
     <IonPage>
-
       <IonContent fullscreen>
 
         <div className="home-container">
@@ -245,17 +249,13 @@ function HomePage() {
                 }
                 aria-label="Abrir carrito"
               >
-
-                <IonIcon
-                  icon={cartOutline}
-                />
+                <IonIcon icon={cartOutline} />
 
                 {cartCount > 0 && (
                   <span className="cart-count">
                     {cartCount}
                   </span>
                 )}
-
               </button>
 
               <button
@@ -263,11 +263,7 @@ function HomePage() {
                 onClick={handleProfile}
                 aria-label="Perfil"
               >
-
-                <IonIcon
-                  icon={personOutline}
-                />
-
+                <IonIcon icon={personOutline} />
               </button>
 
             </div>
@@ -316,13 +312,11 @@ function HomePage() {
                 className="hero-button"
                 onClick={goToProducts}
               >
-
                 Comprar ahora
 
                 <IonIcon
                   icon={chevronForwardOutline}
                 />
-
               </button>
 
             </div>
@@ -353,15 +347,20 @@ function HomePage() {
               onMouseLeave={stopCategoriesDrag}
             >
 
+              {/* Todos */}
               <button
                 className={`category-card ${
                   selectedCategory === null
                     ? 'selected'
                     : ''
                 }`}
-                onClick={() =>
-                  setSelectedCategory(null)
-                }
+                onClick={() => {
+                  if (categoryDragMoved.current) {
+                    return;
+                  }
+
+                  setSelectedCategory(null);
+                }}
               >
 
                 <div className="category-image">
@@ -372,21 +371,23 @@ function HomePage() {
 
               </button>
 
+              {/* Categorías Django */}
               {categories.map((category) => (
 
                 <button
                   key={category.id}
                   className={`category-card ${
-                    selectedCategory ===
-                    category.id
+                    selectedCategory === category.id
                       ? 'selected'
                       : ''
                   }`}
-                  onClick={() =>
-                    setSelectedCategory(
-                      category.id
-                    )
-                  }
+                  onClick={() => {
+                    if (categoryDragMoved.current) {
+                      return;
+                    }
+
+                    setSelectedCategory(category.id);
+                  }}
                 >
 
                   <div className="category-image">
@@ -428,13 +429,11 @@ function HomePage() {
                   setSelectedCategory(null)
                 }
               >
-
                 Ver todos
 
                 <IonIcon
                   icon={chevronForwardOutline}
                 />
-
               </button>
 
             </div>
@@ -459,22 +458,20 @@ function HomePage() {
 
               ) : (
 
-                filteredProducts.map(
-                  (product) => (
+                filteredProducts.map((product) => (
 
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      onAdd={addToCart}
-                      onClick={() =>
-                        history.push(
-                          `/producto/${product.id}`
-                        )
-                      }
-                    />
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onAdd={addToCart}
+                    onClick={() =>
+                      history.push(
+                        `/producto/${product.id}`
+                      )
+                    }
+                  />
 
-                  )
-                )
+                ))
 
               )}
 
@@ -567,52 +564,15 @@ function HomePage() {
                 history.push('/')
               }
             >
-
-              <IonIcon
-                icon={homeOutline}
-              />
-
+              <IonIcon icon={homeOutline} />
               <small>Inicio</small>
-
             </button>
 
             <button
               onClick={handleSearch}
             >
-
-              <IonIcon
-                icon={searchOutline}
-              />
-
+              <IonIcon icon={searchOutline} />
               <small>Buscar</small>
-
-            </button>
-
-            <button
-              className="bottom-cart-button"
-              onClick={() =>
-                setIsCartOpen(true)
-              }
-            >
-
-              <div className="bottom-icon-wrapper">
-
-                <IonIcon
-                  icon={bagHandleOutline}
-                />
-
-                {cartCount > 0 && (
-
-                  <span className="bottom-cart-count">
-                    {cartCount}
-                  </span>
-
-                )}
-
-              </div>
-
-              <small>Carrito</small>
-
             </button>
 
             <button
@@ -620,25 +580,15 @@ function HomePage() {
                 history.push('/pedidos')
               }
             >
-
-              <IonIcon
-                icon={receiptOutline}
-              />
-
+              <IonIcon icon={receiptOutline} />
               <small>Pedidos</small>
-
             </button>
 
             <button
               onClick={handleProfile}
             >
-
-              <IonIcon
-                icon={personOutline}
-              />
-
+              <IonIcon icon={personOutline} />
               <small>Perfil</small>
-
             </button>
 
           </nav>
@@ -646,7 +596,6 @@ function HomePage() {
         </div>
 
       </IonContent>
-
     </IonPage>
   );
 }
