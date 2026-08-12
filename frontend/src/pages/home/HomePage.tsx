@@ -24,6 +24,16 @@ import {
   logoFacebook,
   logoInstagram,
   logoWhatsapp,
+  flameOutline,
+  pricetagOutline,
+  bicycleOutline,
+  snowOutline,
+  bagHandleOutline,
+  nutritionOutline,
+  waterOutline,
+  cubeOutline,
+  sparklesOutline,
+  basketOutline,
 } from 'ionicons/icons';
 
 import {
@@ -58,6 +68,8 @@ function HomePage() {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  const [currentOffer, setCurrentOffer] = useState(0);
+
   const categoriesRef = useRef<HTMLDivElement>(null);
 
   const categoryDragMoved = useRef(false);
@@ -78,7 +90,30 @@ function HomePage() {
     removeFromCart,
   } = useCart();
 
-  // Cargar categorías
+  const offers = [
+    {
+      title: 'Oferta especial',
+      subtitle: 'Aprovecha nuestros mejores precios',
+      description:
+        'Productos seleccionados por tiempo limitado.',
+      icon: flameOutline,
+    },
+    {
+      title: 'Combos especiales',
+      subtitle: 'Lleva más y paga menos',
+      description:
+        'Descubre nuestros combos disponibles para ti.',
+      icon: pricetagOutline,
+    },
+    {
+      title: 'Delivery rápido',
+      subtitle: 'Tu compra hasta tu puerta',
+      description:
+        'Haz tu pedido y recíbelo donde estés.',
+      icon: bicycleOutline,
+    },
+  ];
+
   useEffect(() => {
     getCategories()
       .then((data) => {
@@ -92,7 +127,6 @@ function HomePage() {
       });
   }, []);
 
-  // Cargar productos
   useEffect(() => {
     getProducts()
       .then((data) => {
@@ -109,20 +143,99 @@ function HomePage() {
       });
   }, []);
 
-  // Filtrar productos
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory =
-      selectedCategory === null ||
-      product.category?.id === selectedCategory;
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setCurrentOffer((previousOffer) =>
+        previousOffer === offers.length - 1
+          ? 0
+          : previousOffer + 1
+      );
+    }, 5000);
 
-    const matchesSearch = product.name
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [offers.length]);
+
+  const normalizeText = (text: string) => {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+      .trim();
+  };
+
+  const getCategoryIcon = (categoryName: string) => {
+    const name = normalizeText(categoryName);
+
+    if (
+      name.includes('fria') ||
+      name.includes('bebida')
+    ) {
+      return snowOutline;
+    }
+
+    if (
+      name.includes('viver') ||
+      name.includes('abarrote')
+    ) {
+      return bagHandleOutline;
+    }
+
+    if (
+      name.includes('provision') ||
+      name.includes('alimento')
+    ) {
+      return nutritionOutline;
+    }
+
+    if (
+      name.includes('lacteo') ||
+      name.includes('leche')
+    ) {
+      return waterOutline;
+    }
+
+    if (
+      name.includes('enlat') ||
+      name.includes('lata')
+    ) {
+      return cubeOutline;
+    }
+
+    if (
+      name.includes('limpieza') ||
+      name.includes('higiene')
+    ) {
+      return sparklesOutline;
+    }
+
+    return basketOutline;
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const normalizedSearch = normalizeText(searchTerm);
+
+    const categoryName =
+      product.category?.name ?? '';
+
+    const productText = normalizeText(
+      `${product.name} ${product.description ?? ''} ${categoryName}`
+    );
+
+    const matchesSearch =
+      normalizedSearch === '' ||
+      productText.includes(normalizedSearch);
+
+    const matchesCategory =
+      searchTerm.trim() !== ''
+        ? true
+        : selectedCategory === null ||
+          product.category?.id === selectedCategory;
 
     return matchesCategory && matchesSearch;
   });
 
-  // Perfil
   const handleProfile = () => {
     const token = localStorage.getItem('accessToken');
 
@@ -133,16 +246,25 @@ function HomePage() {
     }
   };
 
-  // Buscador
   const handleSearch = () => {
-    document
-      .querySelector<HTMLInputElement>(
+    const input =
+      document.querySelector<HTMLInputElement>(
         '.search-box input'
-      )
-      ?.focus();
+      );
+
+    const searchBox =
+      document.querySelector('.search-box');
+
+    searchBox?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+
+    window.setTimeout(() => {
+      input?.focus();
+    }, 350);
   };
 
-  // Ir a productos
   const goToProducts = () => {
     document
       .querySelector('.products-section')
@@ -151,7 +273,6 @@ function HomePage() {
       });
   };
 
-  // Arrastre horizontal de categorías
   const handleCategoriesMouseDown = (
     event: MouseEvent<HTMLDivElement>
   ) => {
@@ -207,7 +328,6 @@ function HomePage() {
 
         <div className="home-container">
 
-          {/* Header */}
           <header className="home-header">
 
             <div className="brand">
@@ -226,9 +346,7 @@ function HomePage() {
 
                 <div className="location">
 
-                  <IonIcon
-                    icon={locationOutline}
-                  />
+                  <IonIcon icon={locationOutline} />
 
                   <span>
                     Entrega en tu ubicación
@@ -244,9 +362,7 @@ function HomePage() {
 
               <button
                 className="cart-button"
-                onClick={() =>
-                  setIsCartOpen(true)
-                }
+                onClick={() => setIsCartOpen(true)}
                 aria-label="Abrir carrito"
               >
                 <IonIcon icon={cartOutline} />
@@ -270,7 +386,6 @@ function HomePage() {
 
           </header>
 
-          {/* Buscador */}
           <div className="search-box">
 
             <IonIcon icon={searchOutline} />
@@ -280,54 +395,106 @@ function HomePage() {
               placeholder="¿Qué necesitas hoy?"
               value={searchTerm}
               onChange={(event) =>
-                setSearchTerm(
-                  event.target.value
-                )
+                setSearchTerm(event.target.value)
               }
             />
 
+            {searchTerm && (
+              <button
+                type="button"
+                className="search-clear"
+                onClick={() => setSearchTerm('')}
+                aria-label="Limpiar búsqueda"
+              >
+                ×
+              </button>
+            )}
+
           </div>
 
-          {/* Banner */}
-          <section className="hero-banner">
+          <section className="offers-section">
 
-            <div className="hero-content">
+            <div className="offers-heading">
 
-              <span className="hero-label">
-                DELIVERY LOCAL
+              <h2>Ofertas de hoy</h2>
+
+              <span>
+                Especiales para ti
               </span>
-
-              <h2>
-                Lo que necesitas,
-                <br />
-                hasta tu puerta.
-              </h2>
-
-              <p>
-                Compra fácil y recibe tu pedido
-                sin salir de casa.
-              </p>
-
-              <button
-                className="hero-button"
-                onClick={goToProducts}
-              >
-                Comprar ahora
-
-                <IonIcon
-                  icon={chevronForwardOutline}
-                />
-              </button>
 
             </div>
 
-            <div className="hero-emoji">
-              🛍️
+            <div className="offer-card">
+
+              <div className="offer-content">
+
+                <div className="offer-label">
+
+                  <IonIcon
+                    icon={offers[currentOffer].icon}
+                  />
+
+                  <span>
+                    {offers[currentOffer].title}
+                  </span>
+
+                </div>
+
+                <h2>
+                  {offers[currentOffer].subtitle}
+                </h2>
+
+                <p>
+                  {offers[currentOffer].description}
+                </p>
+
+                <button
+                  className="offer-button"
+                  onClick={goToProducts}
+                >
+                  Ver ofertas
+
+                  <IonIcon
+                    icon={chevronForwardOutline}
+                  />
+                </button>
+
+              </div>
+
+              <div className="offer-icon">
+
+                <IonIcon
+                  icon={offers[currentOffer].icon}
+                />
+
+              </div>
+
+              <div className="offer-dots">
+
+                {offers.map((_, index) => (
+
+                  <button
+                    type="button"
+                    key={index}
+                    className={
+                      index === currentOffer
+                        ? 'active'
+                        : ''
+                    }
+                    onClick={() =>
+                      setCurrentOffer(index)
+                    }
+                    aria-label={`Oferta ${index + 1}`}
+                  />
+
+                ))}
+
+              </div>
+
             </div>
 
           </section>
 
-          {/* Categorías */}
           <section className="section">
 
             <div className="section-header">
@@ -347,7 +514,6 @@ function HomePage() {
               onMouseLeave={stopCategoriesDrag}
             >
 
-              {/* Todos */}
               <button
                 className={`category-card ${
                   selectedCategory === null
@@ -363,15 +529,14 @@ function HomePage() {
                 }}
               >
 
-                <div className="category-image">
-                  <span>🛒</span>
+                <div className="category-icon">
+                  <IonIcon icon={basketOutline} />
                 </div>
 
                 <span>Todos</span>
 
               </button>
 
-              {/* Categorías Django */}
               {categories.map((category) => (
 
                 <button
@@ -390,13 +555,10 @@ function HomePage() {
                   }}
                 >
 
-                  <div className="category-image">
+                  <div className="category-icon">
 
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      loading="lazy"
-                      draggable="false"
+                    <IonIcon
+                      icon={getCategoryIcon(category.name)}
                     />
 
                   </div>
@@ -413,30 +575,45 @@ function HomePage() {
 
           </section>
 
-          {/* Productos */}
           <section className="section products-section">
 
             <div className="section-header">
 
               <h2>
-                {selectedCategory === null
-                  ? 'Populares 🔥'
-                  : 'Productos'}
+                {searchTerm
+                  ? `Resultados para "${searchTerm}"`
+                  : selectedCategory === null
+                    ? 'Populares 🔥'
+                    : 'Productos'}
               </h2>
 
-              <button
-                onClick={() =>
-                  setSelectedCategory(null)
-                }
-              >
-                Ver todos
+              {(selectedCategory !== null ||
+                searchTerm) && (
+                <button
+                  onClick={() => {
+                    setSelectedCategory(null);
+                    setSearchTerm('');
+                  }}
+                >
+                  Ver todos
 
-                <IonIcon
-                  icon={chevronForwardOutline}
-                />
-              </button>
+                  <IonIcon
+                    icon={chevronForwardOutline}
+                  />
+                </button>
+              )}
 
             </div>
+
+            {searchTerm && (
+              <p className="search-results-count">
+                {filteredProducts.length}{' '}
+                resultado
+                {filteredProducts.length !== 1
+                  ? 's'
+                  : ''}
+              </p>
+            )}
 
             <div className="products-grid">
 
@@ -449,11 +626,9 @@ function HomePage() {
               ) : filteredProducts.length === 0 ? (
 
                 <p className="products-message">
-
                   {searchTerm
                     ? `No encontramos productos para "${searchTerm}".`
                     : 'No hay productos disponibles en esta categoría.'}
-
                 </p>
 
               ) : (
@@ -479,7 +654,6 @@ function HomePage() {
 
           </section>
 
-          {/* Footer */}
           <footer className="home-footer">
 
             <div className="footer-content">
@@ -499,27 +673,21 @@ function HomePage() {
                     href="#"
                     aria-label="Facebook"
                   >
-                    <IonIcon
-                      icon={logoFacebook}
-                    />
+                    <IonIcon icon={logoFacebook} />
                   </a>
 
                   <a
                     href="#"
                     aria-label="Instagram"
                   >
-                    <IonIcon
-                      icon={logoInstagram}
-                    />
+                    <IonIcon icon={logoInstagram} />
                   </a>
 
                   <a
                     href="#"
                     aria-label="WhatsApp"
                   >
-                    <IonIcon
-                      icon={logoWhatsapp}
-                    />
+                    <IonIcon icon={logoWhatsapp} />
                   </a>
 
                 </div>
@@ -540,7 +708,6 @@ function HomePage() {
 
           </footer>
 
-          {/* Carrito */}
           {isCartOpen && (
 
             <Cart
@@ -555,14 +722,11 @@ function HomePage() {
 
           )}
 
-          {/* Navegación móvil */}
           <nav className="bottom-navigation">
 
             <button
               className="active"
-              onClick={() =>
-                history.push('/')
-              }
+              onClick={() => history.push('/')}
             >
               <IonIcon icon={homeOutline} />
               <small>Inicio</small>

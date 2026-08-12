@@ -235,6 +235,10 @@
 
   border: 1px solid #e5e7eb;
   border-radius: 15px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .search-box:focus-within {
@@ -263,95 +267,277 @@
   font-size: 0.95rem;
 }
 
+.search-clear {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #e8edf3;
+
+  color: #6b7280;
+
+  font-size: 1.2rem;
+
+  cursor: pointer;
+}
+
+.search-clear:hover {
+  background: #dde5ed;
+
+  color: #002d62;
+}
+
+.search-results-count {
+  margin: -5px 0 14px;
+
+  color: #8a9099;
+
+  font-size: 0.74rem;
+}
+
 
 /* =========================================
-   BANNER
+   OFERTAS
 ========================================= */
 
-.hero-banner {
+.offers-section {
+  margin-top: 28px;
+}
+
+.offers-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+}
+
+.offers-heading h2 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 1.2rem;
+}
+
+.offers-heading span {
+  color: #8a9099;
+
+  font-size: 0.75rem;
+}
+
+
+/* =========================================
+   TARJETA DE OFERTA
+========================================= */
+
+.offer-card {
   position: relative;
+
+  min-height: 230px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 30px;
 
   overflow: hidden;
 
-  margin-top: 22px;
+  border-radius: 24px;
 
-  min-height: 205px;
-
-  padding: 25px;
-
-  border-radius: 22px;
-
-  background: #002d62;
+  background:
+    linear-gradient(
+      135deg,
+      #002d62 0%,
+      #004a8f 100%
+    );
 
   color: white;
 }
 
-.hero-content {
+
+/* =========================================
+   CONTENIDO DE OFERTA
+========================================= */
+
+.offer-content {
   position: relative;
 
   z-index: 2;
 
-  max-width: 75%;
+  max-width: 65%;
 }
 
-.hero-label {
-  font-size: 0.68rem;
-  font-weight: 800;
+.offer-label {
+  display: inline-flex;
+  align-items: center;
 
-  letter-spacing: 1px;
+  gap: 7px;
 
-  opacity: 0.8;
+  margin-bottom: 12px;
+
+  padding: 7px 11px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  font-size: 0.69rem;
+  font-weight: 700;
+
+  letter-spacing: 0.6px;
+
+  text-transform: uppercase;
 }
 
-.hero-banner h2 {
-  margin: 7px 0;
+.offer-label ion-icon {
+  font-size: 1rem;
+}
 
-  font-size: 1.55rem;
+.offer-content h2 {
+  margin: 0;
+
+  max-width: 470px;
+
+  font-size: 1.7rem;
 
   line-height: 1.2;
 }
 
-.hero-banner p {
-  max-width: 330px;
+.offer-content p {
+  max-width: 390px;
 
-  margin: 0 0 18px;
+  margin: 10px 0 18px;
 
-  font-size: 0.82rem;
+  color:
+    rgba(255, 255, 255, 0.82);
 
-  line-height: 1.45;
+  font-size: 0.85rem;
 
-  opacity: 0.9;
+  line-height: 1.5;
 }
 
-.hero-button {
+
+/* =========================================
+   BOTÓN OFERTA
+========================================= */
+
+.offer-button {
   display: inline-flex;
   align-items: center;
 
-  gap: 5px;
+  gap: 6px;
 
-  padding: 10px 14px;
+  padding: 11px 15px;
 
   border: none;
-  border-radius: 10px;
+  border-radius: 11px;
 
   background: white;
 
   color: #002d62;
 
+  font-size: 0.8rem;
   font-weight: 700;
 
   cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
-.hero-emoji {
+.offer-button:hover {
+  background: #f3f5f7;
+}
+
+.offer-button:active {
+  transform: scale(0.97);
+}
+
+
+/* =========================================
+   ICONO GRANDE DE OFERTA
+========================================= */
+
+.offer-icon {
   position: absolute;
 
-  right: 10px;
-  bottom: 8px;
+  right: 70px;
 
-  font-size: 6rem;
+  width: 125px;
+  height: 125px;
 
-  transform: rotate(-8deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 30px;
+
+  background:
+    rgba(255, 255, 255, 0.1);
+
+  color:
+    rgba(255, 255, 255, 0.9);
+
+  transform: rotate(-6deg);
+}
+
+.offer-icon ion-icon {
+  font-size: 4.1rem;
+}
+
+
+/* =========================================
+   PUNTOS CARRUSEL
+========================================= */
+
+.offer-dots {
+  position: absolute;
+
+  right: 24px;
+  bottom: 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+}
+
+.offer-dots button {
+  width: 8px;
+  height: 8px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.35);
+
+  cursor: pointer;
+
+  transition:
+    width 0.2s ease,
+    background 0.2s ease;
+}
+
+.offer-dots button.active {
+  width: 22px;
+
+  border-radius: 20px;
+
+  background: white;
 }
 
 
@@ -535,10 +721,7 @@
   display: grid;
 
   grid-template-columns:
-    repeat(
-      2,
-      minmax(0, 1fr)
-    );
+    repeat(2, minmax(0, 1fr));
 
   gap: 13px;
 }
@@ -630,6 +813,12 @@
   font-size: 1.15rem;
 
   cursor: pointer;
+}
+
+.products-message {
+  color: #6b7280;
+
+  font-size: 0.85rem;
 }
 
 
@@ -890,7 +1079,6 @@
 
   .brand-logo {
     width: 155px;
-
     height: 55px;
   }
 
@@ -912,7 +1100,6 @@
 
   .cart-button {
     width: 55px;
-
     height: 55px;
 
     border-radius: 15px;
@@ -924,62 +1111,129 @@
     margin-top: 16px;
   }
 
-  .hero-banner {
-    min-height: 190px;
+  /* Ofertas */
 
-    padding: 22px;
+  .offers-section {
+    margin-top: 22px;
   }
 
-  .hero-content {
+  .offers-heading h2 {
+    font-size: 1.05rem;
+  }
+
+  .offers-heading span {
+    font-size: 0.68rem;
+  }
+
+  .offer-card {
+    min-height: 205px;
+
+    padding: 22px;
+
+    border-radius: 20px;
+  }
+
+  .offer-content {
     max-width: 78%;
   }
 
-  .hero-banner h2 {
-    font-size: 1.4rem;
+  .offer-content h2 {
+    font-size: 1.35rem;
   }
 
-  .hero-emoji {
-    font-size: 4.8rem;
+  .offer-content p {
+    font-size: 0.76rem;
   }
 
-  /* Categorías */
+  .offer-icon {
+    right: -15px;
 
-  .categories {
-    gap: 10px;
+    width: 100px;
+    height: 100px;
 
-    padding:
-      5px 2px 14px;
-
-    overflow-x: auto;
-
-    scrollbar-width: none;
-
-    touch-action: pan-x;
-
-    cursor: default;
+    opacity: 0.35;
   }
 
-  .categories::-webkit-scrollbar {
-    display: none;
+  .offer-icon ion-icon {
+    font-size: 3.2rem;
   }
 
-  .category-card {
-    flex: 0 0 125px;
-
-    min-width: 125px;
-
-    min-height: 135px;
-
-    padding: 10px;
+  .offer-dots {
+    right: 18px;
+    bottom: 15px;
   }
 
-  .category-image {
-    height: 82px;
-  }
+/* Categorías */
 
-  .category-card > span {
-    font-size: 0.78rem;
-  }
+.categories {
+  gap: 10px;
+
+  padding:
+    5px 2px 14px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+
+  touch-action: pan-x;
+
+  cursor: default;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.category-card {
+  flex: 0 0 125px;
+
+  min-width: 125px;
+
+  min-height: 135px;
+
+  padding: 10px;
+}
+
+.category-card > span {
+  font-size: 0.78rem;
+}
+
+.category-icon {
+  width: 100%;
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 8px;
+
+  border-radius: 14px;
+
+  background: #f6f8fa;
+
+  color: #002d62;
+}
+
+.category-icon ion-icon {
+  font-size: 2.5rem;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.category-card:hover .category-icon ion-icon {
+  transform: scale(1.08);
+}
+
+.category-card.selected .category-icon {
+  background: #eaf1f8;
+}
+
+.category-card.selected .category-icon ion-icon {
+  color: #002d62;
+}
 
   /* Footer */
 
