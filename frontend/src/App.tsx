@@ -10,7 +10,8 @@ import CheckoutPage from './pages/checkout/CheckoutPage';
 import OrderSuccessPage from './pages/order-success/OrderSuccessPage';
 import LoginPage from './pages/login/LoginPage';
 import ProfilePage from './pages/profile/ProfilePage';
-
+import OrdersPage from './pages/orders/OrdersPage';
+import OrderDetailPage from './pages/orders/OrderDetailPage';
 
 function App() {
   return (
@@ -37,24 +38,40 @@ function App() {
               component={ProductDetailPage}
             />
 
-            <Route path="/checkout" component={CheckoutPage} />
-
             <Route
-             exact
-             path="/pedido-realizado"
-             component={OrderSuccessPage}
+              exact
+              path="/checkout"
+              component={CheckoutPage}
             />
 
             <Route
-             exact
-             path="/login"
-             component={LoginPage}
+              exact
+              path="/pedido-realizado/:id"
+              component={OrderSuccessPage}
             />
 
             <Route
-             exact
-             path="/perfil"
-             component={ProfilePage}
+              exact
+              path="/login"
+              component={LoginPage}
+            />
+
+            <Route
+              exact
+              path="/perfil"
+              component={ProfilePage}
+            />
+
+            <Route
+              exact
+              path="/pedidos"
+              component={OrdersPage}
+            />
+
+            <Route
+              exact
+              path="/pedidos/:id"
+              component={OrderDetailPage}
             />
 
           </IonRouterOutlet>

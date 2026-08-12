@@ -67,23 +67,23 @@ function CheckoutPage() {
       setIsSubmitting(true);
 
       const createdOrder = await createOrder({
-        customer_name: customerName.trim(),
-        phone: phone.trim(),
-        sector: sector.trim(),
-        address: address.trim(),
-        reference: reference.trim(),
-        payment_method: paymentMethod,
-        items: cartItems.map((item) => ({
-          product_id: item.id,
-          quantity: item.quantity,
-        })),
-      });
+  customer_name: customerName.trim(),
+  phone: phone.trim(),
+  sector: sector.trim(),
+  address: address.trim(),
+  reference: reference.trim(),
+  payment_method: paymentMethod,
+  items: cartItems.map((item) => ({
+    product_id: item.id,
+    quantity: item.quantity,
+  })),
+});
 
-      clearCart();
+clearCart();
 
-      history.push(
-        `/pedido-realizado?order=${createdOrder.id}`
-      );
+history.push(
+  `/pedido-realizado/${createdOrder.id}`
+);
     } catch (error) {
       console.error(error);
 

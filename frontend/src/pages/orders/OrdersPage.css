@@ -1,0 +1,358 @@
+.orders-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 22px 18px 45px;
+}
+
+.orders-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 26px;
+}
+
+.orders-header h1 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 1.45rem;
+}
+
+.orders-header span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #8a9099;
+
+  font-size: 0.78rem;
+}
+
+.orders-back {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #eef3f8;
+
+  color: #002d62;
+
+  font-size: 1.3rem;
+
+  cursor: pointer;
+}
+
+
+/* Lista */
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+
+/* Pedido */
+
+.order-card {
+  overflow: hidden;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.04);
+}
+
+.order-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 17px 18px;
+
+  border-bottom: 1px solid #edf0f2;
+}
+
+.order-card-header > div:first-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.order-number {
+  color: #111827;
+
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.order-date {
+  color: #8a9099;
+
+  font-size: 0.7rem;
+}
+
+
+/* Estado */
+
+.order-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 7px 10px;
+
+  border-radius: 20px;
+
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.order-status ion-icon {
+  font-size: 1rem;
+}
+
+.status-pending {
+  background: #fff7e6;
+  color: #b66b00;
+}
+
+.status-confirmed {
+  background: #eef3f8;
+  color: #002d62;
+}
+
+.status-preparing {
+  background: #eef3f8;
+  color: #002d62;
+}
+
+.status-on_the_way {
+  background: #edf6ff;
+  color: #0066a1;
+}
+
+.status-delivered {
+  background: #edf9f0;
+  color: #198754;
+}
+
+.status-cancelled {
+  background: #fff0f0;
+  color: #dc3545;
+}
+
+
+/* Productos del pedido */
+
+.order-products {
+  display: flex;
+  flex-direction: column;
+
+  padding: 5px 18px;
+}
+
+.order-product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 13px 0;
+
+  border-bottom: 1px solid #f0f1f3;
+}
+
+.order-product:last-child {
+  border-bottom: none;
+}
+
+.order-product div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.order-product strong {
+  color: #111827;
+
+  font-size: 0.82rem;
+}
+
+.order-product span {
+  color: #8a9099;
+
+  font-size: 0.7rem;
+}
+
+
+/* Total */
+
+.order-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 18px;
+
+  background: #f8fafc;
+}
+
+.order-card-footer span {
+  color: #6b7280;
+
+  font-size: 0.82rem;
+}
+
+.order-card-footer strong {
+  color: #002d62;
+
+  font-size: 1rem;
+}
+
+
+/* Vacío */
+
+.orders-empty {
+  padding: 55px 25px;
+
+  text-align: center;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+
+  background: #ffffff;
+}
+
+.orders-empty-icon {
+  width: 72px;
+  height: 72px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: #eef3f8;
+
+  color: #002d62;
+}
+
+.orders-empty-icon ion-icon {
+  font-size: 2.3rem;
+}
+
+.orders-empty h2 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 1.05rem;
+}
+
+.orders-empty p {
+  margin: 7px 0 20px;
+
+  color: #8a9099;
+
+  font-size: 0.78rem;
+}
+
+.orders-empty button {
+  padding: 11px 17px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #002d62;
+
+  color: #ffffff;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* Mensajes */
+
+.orders-message {
+  padding: 35px;
+
+  text-align: center;
+
+  color: #6b7280;
+}
+
+.orders-message.error {
+  color: #dc3545;
+}
+
+.order-detail-button {
+  width: calc(100% - 36px);
+
+  margin: 0 18px 16px;
+  padding: 11px;
+
+  border: 1px solid #002d62;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #002d62;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.order-detail-button:hover {
+  background: #eef3f8;
+}
+
+/* Móvil */
+
+@media (max-width: 600px) {
+
+  .orders-page {
+    padding:
+      18px 15px 95px;
+  }
+
+  .orders-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .order-card-header {
+    align-items: flex-start;
+  }
+
+  .order-status {
+    flex-shrink: 0;
+  }
+
+}

@@ -14,6 +14,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderItem
+
         fields = [
             "id",
             "product",
@@ -25,11 +26,13 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    # Se usa para recibir los productos al crear el pedido
     items = OrderItemCreateSerializer(
         many=True,
         write_only=True,
     )
 
+    # Se usa internamente para devolver los productos
     order_items = OrderItemSerializer(
         source="items",
         many=True,
@@ -82,7 +85,10 @@ class OrderSerializer(serializers.ModelSerializer):
             )
 
             quantity = item_data["quantity"]
-            item_subtotal = product.price * quantity
+
+            item_subtotal = (
+                product.price * quantity
+            )
 
             subtotal += item_subtotal
 
@@ -95,7 +101,22 @@ class OrderSerializer(serializers.ModelSerializer):
             )
 
         order.subtotal = subtotal
-        order.total = subtotal + order.delivery_fee
+
+        order.total = (
+            subtotal + order.delivery_fee
+        )
+
         order.save()
 
         return order
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        # React espera que los productos se llamen "items"
+        data["items"] = data.pop(
+            "order_items",
+            []
+        )
+
+        return data
