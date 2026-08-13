@@ -15,7 +15,6 @@ import {
 
 import {
   cartOutline,
-  locationOutline,
   searchOutline,
   chevronForwardOutline,
   homeOutline,
