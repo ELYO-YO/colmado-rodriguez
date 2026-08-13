@@ -17,43 +17,34 @@
   position: sticky;
   top: 0;
   z-index: 200;
-
   display: flex;
   align-items: center;
-
   width: calc(100% + 36px);
-
-  gap: 24px;
-
   margin: 0 -18px;
-  padding: 10px 18px;
-
+  padding: 6px 18px;
+  gap: 18px;
+  min-height: 88px;
   background: rgba(255, 255, 255, 0.97);
-
   border-bottom: 1px solid #edf0f2;
-
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 
 /* =========================================
-   LOGO
+   MARCA
 ========================================= */
 
 .brand {
+  flex: 1;
   display: flex;
   align-items: center;
-
-  gap: 22px;
-
-  flex: 1;
-
+  gap: 45px;
   min-width: 0;
 }
 
 .brand-logo {
-  width: 250px;
+  width: 280px;
   height: 75px;
 
   display: block;
@@ -64,43 +55,60 @@
   flex-shrink: 0;
 }
 
+
 .brand-info {
   display: flex;
   flex-direction: column;
-
-  align-items: flex-start;
   justify-content: center;
+  align-items: flex-start;
 
-  gap: 5px;
+  gap: 6px;
+
+  min-width: 220px;
 }
+
 
 .welcome-text {
-  color: #6b7280;
+  display: block;
 
-  font-size: 0.9rem;
+  color: #4b5563;
+
+  font-size: 1rem;
   font-weight: 700;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
 }
+
 
 .location {
   display: flex;
   align-items: center;
 
-  gap: 6px;
+  gap: 7px;
 
   color: #6b7280;
 
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
 }
 
+
 .location ion-icon {
+  flex-shrink: 0;
+
   color: #002d62;
 
-  font-size: 1.05rem;
+  font-size: 1.15rem;
 }
 
 
 /* =========================================
-   HEADER ACTIONS
+   ACCIONES HEADER
 ========================================= */
 
 .header-actions {
@@ -108,33 +116,28 @@
   align-items: center;
 
   gap: 10px;
-
-  flex-shrink: 0;
 }
 
 
-/* =========================================
-   CARRITO
-========================================= */
-
-.cart-button {
+.cart-button,
+.profile-icon-button {
   position: relative;
 
-  width: 70px;
-  height: 70px;
+  width: 58px;
+  height: 58px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   border: none;
-  border-radius: 18px;
+  border-radius: 16px;
 
   background: #eef3f8;
 
   color: #002d62;
 
-  font-size: 1.7rem;
+  font-size: 1.45rem;
 
   cursor: pointer;
 
@@ -143,11 +146,15 @@
     transform 0.2s ease;
 }
 
-.cart-button:hover {
+
+.cart-button:hover,
+.profile-icon-button:hover {
   background: #e0e9f2;
 }
 
-.cart-button:active {
+
+.cart-button:active,
+.profile-icon-button:active {
   transform: scale(0.96);
 }
 
@@ -166,52 +173,15 @@
   align-items: center;
   justify-content: center;
 
-  border: 2px solid white;
+  border: 2px solid #ffffff;
   border-radius: 20px;
 
   background: #e31b23;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 0.65rem;
   font-weight: 700;
-}
-
-
-/* =========================================
-   PERFIL
-========================================= */
-
-.profile-icon-button {
-  width: 70px;
-  height: 70px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 18px;
-
-  background: #eef3f8;
-
-  color: #002d62;
-
-  font-size: 1.7rem;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.profile-icon-button:hover {
-  background: #e0e9f2;
-}
-
-.profile-icon-button:active {
-  transform: scale(0.96);
 }
 
 
@@ -223,7 +193,6 @@
   height: 52px;
 
   margin-top: 22px;
-
   padding: 0 16px;
 
   display: flex;
@@ -231,10 +200,12 @@
 
   gap: 10px;
 
-  background: #f5f6f7;
+  border:
+    1px solid #e5e7eb;
 
-  border: 1px solid #e5e7eb;
   border-radius: 15px;
+
+  background: #f5f6f7;
 
   transition:
     border-color 0.2s ease,
@@ -245,7 +216,8 @@
   border-color: #002d62;
 
   box-shadow:
-    0 0 0 3px rgba(0, 45, 98, 0.06);
+    0 0 0 3px
+    rgba(0, 45, 98, 0.06);
 }
 
 .search-box ion-icon {
@@ -271,11 +243,11 @@
   width: 32px;
   height: 32px;
 
-  flex-shrink: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
+
+  flex-shrink: 0;
 
   border: none;
   border-radius: 50%;
@@ -289,101 +261,260 @@
   cursor: pointer;
 }
 
-.search-clear:hover {
-  background: #dde5ed;
-
-  color: #002d62;
-}
-
-.search-results-count {
-  margin: -5px 0 14px;
-
-  color: #8a9099;
-
-  font-size: 0.74rem;
-}
-
 
 /* =========================================
-   OFERTAS
+   RESULTADOS SEARCH
 ========================================= */
 
-.offers-section {
-  margin-top: 28px;
+.search-dropdown {
+  margin-top: 8px;
+
+  overflow: hidden;
+
+  border:
+    1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.08);
 }
 
-.offers-heading {
+.search-dropdown-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  margin-bottom: 14px;
+  padding: 12px 14px;
+
+  border-bottom:
+    1px solid #edf0f2;
 }
 
-.offers-heading h2 {
-  margin: 0;
-
+.search-dropdown-header span {
   color: #111827;
 
-  font-size: 1.2rem;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
-.offers-heading span {
-  color: #8a9099;
+.search-dropdown-header small {
+  min-width: 24px;
+  height: 24px;
 
-  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: #eef3f8;
+
+  color: #002d62;
+
+  font-size: 0.68rem;
+  font-weight: 700;
 }
 
+.search-dropdown-list {
+  display: flex;
+  flex-direction: column;
+}
 
-/* =========================================
-   TARJETA DE OFERTA
-========================================= */
-
-.offer-card {
-  position: relative;
-
-  min-height: 230px;
+.search-product-item {
+  width: 100%;
 
   display: flex;
   align-items: center;
 
-  padding: 30px;
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border: none;
+
+  border-bottom:
+    1px solid #f0f1f3;
+
+  background: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.search-product-item:last-child {
+  border-bottom: none;
+}
+
+.search-product-item:hover {
+  background: #f8fafc;
+}
+
+.search-product-image {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   overflow: hidden;
 
-  border-radius: 24px;
+  border-radius: 11px;
+
+  background: #f6f8fa;
+}
+
+.search-product-image img {
+  width: 100%;
+  height: 100%;
+
+  padding: 5px;
+
+  object-fit: contain;
+}
+
+.search-product-info {
+  flex: 1;
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.search-product-info strong {
+  overflow: hidden;
+
+  color: #111827;
+
+  font-size: 0.8rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-product-info span {
+  overflow: hidden;
+
+  color: #8a9099;
+
+  font-size: 0.68rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-product-info b {
+  color: #002d62;
+
+  font-size: 0.76rem;
+}
+
+.search-dropdown-empty {
+  padding: 20px;
+
+  color: #8a9099;
+
+  font-size: 0.75rem;
+
+  text-align: center;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero-section {
+  margin-top: 28px;
+}
+
+.hero-card {
+  position: relative;
+
+  min-height: 300px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 38px;
+
+  overflow: hidden;
+
+  border-radius: 26px;
+
+  color: #ffffff;
 
   background:
     linear-gradient(
       135deg,
       #002d62 0%,
-      #004a8f 100%
+      #004b8d 100%
     );
 
-  color: white;
+  box-shadow:
+    0 12px 30px
+    rgba(0, 45, 98, 0.12);
 }
 
 
-/* =========================================
-   CONTENIDO DE OFERTA
-========================================= */
+/* Rojo del logo como detalle */
 
-.offer-content {
+.hero-card::before {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 7px;
+  height: 100%;
+
+  background: #e31b23;
+
+  content: '';
+}
+
+
+/* Detalle decorativo */
+
+.hero-card::after {
+  position: absolute;
+
+  right: -80px;
+  bottom: -120px;
+
+  width: 330px;
+  height: 330px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  content: '';
+}
+
+.hero-content {
   position: relative;
 
-  z-index: 2;
+  z-index: 3;
 
-  max-width: 65%;
+  max-width: 590px;
 }
 
-.offer-label {
+.hero-label {
   display: inline-flex;
-  align-items: center;
 
-  gap: 7px;
-
-  margin-bottom: 12px;
-
+  margin-bottom: 13px;
   padding: 7px 11px;
 
   border-radius: 20px;
@@ -391,63 +522,56 @@
   background:
     rgba(255, 255, 255, 0.12);
 
-  font-size: 0.69rem;
-  font-weight: 700;
+  color: #ffffff;
 
-  letter-spacing: 0.6px;
+  font-size: 0.7rem;
+  font-weight: 800;
 
-  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.offer-label ion-icon {
-  font-size: 1rem;
-}
+.hero-content h1 {
+  max-width: 560px;
 
-.offer-content h2 {
   margin: 0;
 
-  max-width: 470px;
+  color: #ffffff;
 
-  font-size: 1.7rem;
+  font-size: 2.2rem;
 
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-.offer-content p {
-  max-width: 390px;
+.hero-content p {
+  max-width: 500px;
 
-  margin: 10px 0 18px;
+  margin: 14px 0 22px;
 
   color:
-    rgba(255, 255, 255, 0.82);
+    rgba(255, 255, 255, 0.8);
 
-  font-size: 0.85rem;
+  font-size: 0.92rem;
 
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
-
-/* =========================================
-   BOTÓN OFERTA
-========================================= */
-
-.offer-button {
+.hero-button {
   display: inline-flex;
   align-items: center;
 
-  gap: 6px;
+  gap: 7px;
 
-  padding: 11px 15px;
+  padding: 12px 17px;
 
   border: none;
-  border-radius: 11px;
+  border-radius: 12px;
 
-  background: white;
+  background: #ffffff;
 
   color: #002d62;
 
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 800;
 
   cursor: pointer;
 
@@ -456,56 +580,66 @@
     background 0.2s ease;
 }
 
-.offer-button:hover {
-  background: #f3f5f7;
+.hero-button:hover {
+  background: #f3f4f6;
+
+  transform:
+    translateY(-2px);
 }
 
-.offer-button:active {
+.hero-button:active {
   transform: scale(0.97);
 }
 
 
 /* =========================================
-   ICONO GRANDE DE OFERTA
+   ICONO DEL HERO
 ========================================= */
 
-.offer-icon {
+.hero-icon {
   position: absolute;
 
-  right: 70px;
+  z-index: 2;
 
-  width: 125px;
-  height: 125px;
+  right: 80px;
+
+  width: 175px;
+  height: 175px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 30px;
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.13);
+
+  border-radius: 40px;
 
   background:
-    rgba(255, 255, 255, 0.1);
+    rgba(255, 255, 255, 0.09);
 
-  color:
-    rgba(255, 255, 255, 0.9);
+  color: #ffffff;
 
-  transform: rotate(-6deg);
+  transform: rotate(-5deg);
 }
 
-.offer-icon ion-icon {
-  font-size: 4.1rem;
+.hero-icon ion-icon {
+  font-size: 5.5rem;
 }
 
 
 /* =========================================
-   PUNTOS CARRUSEL
+   PUNTOS DEL HERO
 ========================================= */
 
-.offer-dots {
+.hero-dots {
   position: absolute;
 
-  right: 24px;
-  bottom: 20px;
+  z-index: 5;
+
+  right: 30px;
+  bottom: 24px;
 
   display: flex;
   align-items: center;
@@ -513,31 +647,29 @@
   gap: 7px;
 }
 
-.offer-dots button {
+.hero-dots button {
   width: 8px;
   height: 8px;
 
   padding: 0;
 
   border: none;
-  border-radius: 50%;
+  border-radius: 20px;
 
   background:
-    rgba(255, 255, 255, 0.35);
+    rgba(255, 255, 255, 0.4);
 
   cursor: pointer;
 
   transition:
-    width 0.2s ease,
-    background 0.2s ease;
+    width 0.25s ease,
+    background 0.25s ease;
 }
 
-.offer-dots button.active {
-  width: 22px;
+.hero-dots button.active {
+  width: 25px;
 
-  border-radius: 20px;
-
-  background: white;
+  background: #ffffff;
 }
 
 
@@ -545,8 +677,9 @@
    SECCIONES
 ========================================= */
 
-.section {
-  margin-top: 30px;
+.section,
+.offers-section {
+  margin-top: 32px;
 }
 
 .section-header {
@@ -583,9 +716,167 @@
   cursor: pointer;
 }
 
+.section-subtitle {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #8a9099;
+
+  font-size: 0.72rem;
+}
+
 
 /* =========================================
-   CATEGORÍAS ARRASTRABLES
+   OFERTAS
+========================================= */
+
+.offers-products {
+  display: flex;
+
+  gap: 14px;
+
+  padding: 4px 2px 15px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+
+  -webkit-overflow-scrolling:
+    touch;
+}
+
+.offers-products::-webkit-scrollbar {
+  display: none;
+}
+
+.offer-product-card {
+  flex: 0 0 220px;
+
+  min-width: 220px;
+
+  overflow: hidden;
+
+  border:
+    1px solid #e5e7eb;
+
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.offer-product-card:hover {
+  transform:
+    translateY(-3px);
+
+  border-color: #cbd5e1;
+
+  box-shadow:
+    0 8px 22px
+    rgba(0, 45, 98, 0.08);
+}
+
+.offer-product-picture {
+  position: relative;
+
+  height: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f7f8fa;
+}
+
+.offer-product-picture img {
+  width: 100%;
+  height: 100%;
+
+  padding: 15px;
+
+  object-fit: contain;
+}
+
+.offer-discount {
+  position: absolute;
+
+  z-index: 2;
+
+  top: 10px;
+  left: 10px;
+
+  padding: 6px 8px;
+
+  border-radius: 20px;
+
+  background: #e31b23;
+
+  color: #ffffff;
+
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.offer-product-data {
+  padding: 14px;
+}
+
+.offer-product-name {
+  display: block;
+
+  color: #111827;
+
+  font-size: 0.86rem;
+}
+
+.offer-product-description {
+  display: block;
+
+  margin-top: 4px;
+
+  overflow: hidden;
+
+  color: #8a9099;
+
+  font-size: 0.7rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.offer-product-prices {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+.offer-product-prices > span {
+  color: #9ca3af;
+
+  font-size: 0.7rem;
+
+  text-decoration: line-through;
+}
+
+.offer-product-prices strong {
+  color: #002d62;
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================================
+   CATEGORÍAS
 ========================================= */
 
 .categories {
@@ -604,9 +895,11 @@
   scroll-behavior: smooth;
 
   scrollbar-width: none;
+
   -ms-overflow-style: none;
 
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling:
+    touch;
 
   cursor: grab;
 
@@ -617,9 +910,6 @@
 
 .categories::-webkit-scrollbar {
   display: none;
-
-  width: 0;
-  height: 0;
 }
 
 .categories.dragging {
@@ -627,11 +917,6 @@
 
   scroll-behavior: auto;
 }
-
-
-/* =========================================
-   CATEGORY CARD
-========================================= */
 
 .category-card {
   flex: 0 0 180px;
@@ -641,7 +926,9 @@
 
   padding: 14px;
 
-  border: 1px solid #e5e7eb;
+  border:
+    1px solid #e5e7eb;
+
   border-radius: 18px;
 
   background: #ffffff;
@@ -655,21 +942,24 @@
 }
 
 .category-card:hover {
-  transform: translateY(-3px);
+  transform:
+    translateY(-3px);
 
   border-color: #c9d5e2;
 
   box-shadow:
-    0 8px 22px rgba(0, 45, 98, 0.08);
+    0 8px 22px
+    rgba(0, 45, 98, 0.08);
 }
 
 .category-card.selected {
-  border: 2px solid #002d62;
+  border:
+    2px solid #002d62;
 
   background: #f5f9fd;
 }
 
-.category-image {
+.category-icon {
   width: 100%;
   height: 105px;
 
@@ -683,22 +973,24 @@
 
   background: #f6f8fa;
 
-  overflow: hidden;
+  color: #002d62;
 }
 
-.category-image img {
-  width: 100%;
-  height: 100%;
+.category-icon ion-icon {
+  font-size: 3rem;
 
-  padding: 8px;
-
-  object-fit: contain;
-
-  pointer-events: none;
+  transition:
+    transform 0.2s ease;
 }
 
-.category-image span {
-  font-size: 2.2rem;
+.category-card:hover
+.category-icon ion-icon {
+  transform: scale(1.08);
+}
+
+.category-card.selected
+.category-icon {
+  background: #eaf1f8;
 }
 
 .category-card > span {
@@ -721,98 +1013,12 @@
   display: grid;
 
   grid-template-columns:
-    repeat(2, minmax(0, 1fr));
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
 
   gap: 13px;
-}
-
-.product-card {
-  overflow: hidden;
-
-  border: 1px solid #edf0ee;
-  border-radius: 17px;
-
-  background: white;
-}
-
-.product-image {
-  height: 135px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #f7f8f8;
-
-  overflow: hidden;
-}
-
-.product-image img {
-  width: 100%;
-  height: 100%;
-
-  padding: 12px;
-
-  object-fit: contain;
-}
-
-.product-info {
-  padding: 12px;
-}
-
-.product-name {
-  display: block;
-
-  color: #111827;
-
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.product-description {
-  display: block;
-
-  margin-top: 4px;
-
-  color: #8a9099;
-
-  font-size: 0.7rem;
-}
-
-.product-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 5px;
-
-  margin-top: 13px;
-}
-
-.product-footer strong {
-  color: #002d62;
-
-  font-size: 0.9rem;
-}
-
-.add-button {
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 10px;
-
-  background: #002d62;
-
-  color: white;
-
-  font-size: 1.15rem;
-
-  cursor: pointer;
 }
 
 .products-message {
@@ -827,23 +1033,25 @@
 ========================================= */
 
 .home-footer {
-  width: calc(100% + 36px);
+  width:
+    calc(100% + 36px);
 
-  margin: 60px -18px -110px;
+  margin:
+    60px -18px -110px;
 
   background: #002d62;
 
-  color: white;
+  color: #ffffff;
 }
 
 .footer-content {
   position: relative;
 
+  min-height: 190px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-
-  min-height: 190px;
 
   padding: 32px 25px;
 
@@ -867,6 +1075,7 @@
 .footer-social {
   display: flex;
   flex-direction: column;
+
   align-items: center;
 }
 
@@ -902,31 +1111,19 @@
   justify-content: center;
 
   border:
-    1px solid rgba(255, 255, 255, 0.25);
+    1px solid
+    rgba(255, 255, 255, 0.25);
 
   border-radius: 8px;
 
   background:
     rgba(255, 255, 255, 0.08);
 
-  color: white;
+  color: #ffffff;
 
   font-size: 1.25rem;
 
   text-decoration: none;
-
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.social-links a:hover {
-  transform: translateY(-3px);
-
-  background: white;
-
-  color: #002d62;
 }
 
 .footer-bottom {
@@ -963,7 +1160,8 @@
 
   content: '';
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 }
 
 
@@ -989,20 +1187,22 @@
 
   padding: 6px 8px;
 
-  border-top: 1px solid #e5e7eb;
+  border-top:
+    1px solid #e5e7eb;
 
   background:
     rgba(255, 255, 255, 0.96);
 
   box-shadow:
-    0 -6px 20px rgba(0, 0, 0, 0.06);
+    0 -6px 20px
+    rgba(0, 0, 0, 0.06);
 
-  backdrop-filter: blur(14px);
+  backdrop-filter:
+    blur(14px);
 }
 
 .bottom-navigation button {
   width: 25%;
-
   height: 60px;
 
   display: flex;
@@ -1021,31 +1221,25 @@
   color: #8a9099;
 
   cursor: pointer;
-
-  transition:
-    color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
 }
 
-.bottom-navigation button > ion-icon {
+.bottom-navigation
+button > ion-icon {
   font-size: 1.45rem;
 }
 
-.bottom-navigation button small {
+.bottom-navigation
+button small {
   font-size: 0.64rem;
 
   font-weight: 600;
 }
 
-.bottom-navigation button.active {
+.bottom-navigation
+button.active {
   background: #eef3f8;
 
   color: #002d62;
-}
-
-.bottom-navigation button:active {
-  transform: scale(0.94);
 }
 
 
@@ -1060,182 +1254,206 @@
       15px 15px 100px;
   }
 
-  .home-header {
-    width:
-      calc(100% + 30px);
+.home-header {
+  width: calc(100% + 30px);
+  margin: 0 -15px;
+  padding: 5px 12px;
+  min-height: 68px;
+  gap: 7px;
+}
 
-    margin:
-      0 -15px;
+.brand {
+  gap: 10px;
+}
 
-    padding:
-      7px 15px;
+.brand-logo {
+  width: 145px;
+  height: 58px;
+}
 
-    gap: 8px;
-  }
 
-  .brand {
-    gap: 8px;
-  }
+.brand-info {
+  flex: 1;
+  min-width: 0;
+  gap: 3px;
+}
 
-  .brand-logo {
-    width: 155px;
-    height: 55px;
-  }
+.welcome-text {
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
 
-  .brand-info {
-    gap: 3px;
-  }
+.location {
+  gap: 4px;
+  font-size: 0.62rem;
+  white-space: nowrap;
+}
 
-  .welcome-text {
-    font-size: 0.7rem;
-  }
+.location ion-icon {
+  font-size: 0.85rem;
+}
 
-  .location {
-    font-size: 0.65rem;
-  }
+.profile-icon-button {
+  display: none;
+}
 
-  .profile-icon-button {
-    display: none;
-  }
+.cart-button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  font-size: 1.3rem;
+}
 
-  .cart-button {
-    width: 55px;
-    height: 55px;
-
-    border-radius: 15px;
-
-    font-size: 1.4rem;
-  }
+  /* SEARCH */
 
   .search-box {
     margin-top: 16px;
   }
 
-  /* Ofertas */
+  .search-product-image {
+    width: 52px;
+    height: 52px;
+  }
 
-  .offers-section {
+
+  /* HERO */
+
+  .hero-section {
     margin-top: 22px;
   }
 
-  .offers-heading h2 {
-    font-size: 1.05rem;
-  }
+  .hero-card {
+    min-height: 245px;
 
-  .offers-heading span {
-    font-size: 0.68rem;
-  }
-
-  .offer-card {
-    min-height: 205px;
-
-    padding: 22px;
+    padding:
+      26px 22px;
 
     border-radius: 20px;
   }
 
-  .offer-content {
-    max-width: 78%;
+  .hero-content {
+    max-width: 72%;
   }
 
-  .offer-content h2 {
-    font-size: 1.35rem;
+  .hero-label {
+    padding: 6px 9px;
+
+    font-size: 0.58rem;
   }
 
-  .offer-content p {
-    font-size: 0.76rem;
+  .hero-content h1 {
+    font-size: 1.45rem;
+
+    line-height: 1.2;
   }
 
-  .offer-icon {
-    right: -15px;
+  .hero-content p {
+    margin:
+      10px 0 17px;
 
-    width: 100px;
-    height: 100px;
+    font-size: 0.73rem;
+
+    line-height: 1.45;
+  }
+
+  .hero-button {
+    padding: 10px 13px;
+
+    font-size: 0.72rem;
+  }
+
+  .hero-icon {
+    right: -20px;
+
+    width: 125px;
+    height: 125px;
+
+    border-radius: 30px;
 
     opacity: 0.35;
   }
 
-  .offer-icon ion-icon {
-    font-size: 3.2rem;
+  .hero-icon ion-icon {
+    font-size: 4rem;
   }
 
-  .offer-dots {
+  .hero-dots {
     right: 18px;
     bottom: 15px;
   }
 
-/* Categorías */
 
-.categories {
-  gap: 10px;
+  /* OFERTAS */
 
-  padding:
-    5px 2px 14px;
+  .section,
+  .offers-section {
+    margin-top: 26px;
+  }
 
-  overflow-x: auto;
+  .offer-product-card {
+    flex: 0 0 175px;
 
-  scrollbar-width: none;
+    min-width: 175px;
+  }
 
-  touch-action: pan-x;
+  .offer-product-picture {
+    height: 125px;
+  }
 
-  cursor: default;
-}
+  .offer-product-data {
+    padding: 12px;
+  }
 
-.categories::-webkit-scrollbar {
-  display: none;
-}
+  .offer-product-name {
+    font-size: 0.78rem;
+  }
 
-.category-card {
-  flex: 0 0 125px;
+  .offer-product-description {
+    font-size: 0.64rem;
+  }
 
-  min-width: 125px;
+  .offer-product-prices {
+    flex-wrap: wrap;
 
-  min-height: 135px;
+    gap: 5px;
+  }
 
-  padding: 10px;
-}
 
-.category-card > span {
-  font-size: 0.78rem;
-}
+  /* CATEGORÍAS */
 
-.category-icon {
-  width: 100%;
-  height: 82px;
+  .categories {
+    gap: 10px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    padding:
+      5px 2px 14px;
 
-  margin-bottom: 8px;
+    cursor: default;
+  }
 
-  border-radius: 14px;
+  .category-card {
+    flex: 0 0 125px;
 
-  background: #f6f8fa;
+    min-width: 125px;
+    min-height: 135px;
 
-  color: #002d62;
-}
+    padding: 10px;
+  }
 
-.category-icon ion-icon {
-  font-size: 2.5rem;
+  .category-icon {
+    height: 82px;
+  }
 
-  transition:
-    transform 0.2s ease,
-    color 0.2s ease;
-}
+  .category-icon ion-icon {
+    font-size: 2.5rem;
+  }
 
-.category-card:hover .category-icon ion-icon {
-  transform: scale(1.08);
-}
+  .category-card > span {
+    font-size: 0.78rem;
+  }
 
-.category-card.selected .category-icon {
-  background: #eaf1f8;
-}
 
-.category-card.selected .category-icon ion-icon {
-  color: #002d62;
-}
-
-  /* Footer */
+  /* FOOTER */
 
   .home-footer {
     width:
@@ -1257,7 +1475,8 @@
       15px 20px 85px;
   }
 
-  /* Barra inferior */
+
+  /* NAV */
 
   .bottom-navigation {
     display: flex;

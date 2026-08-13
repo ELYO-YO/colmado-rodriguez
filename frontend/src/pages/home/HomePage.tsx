@@ -24,9 +24,6 @@ import {
   logoFacebook,
   logoInstagram,
   logoWhatsapp,
-  flameOutline,
-  pricetagOutline,
-  bicycleOutline,
   snowOutline,
   bagHandleOutline,
   nutritionOutline,
@@ -34,6 +31,9 @@ import {
   cubeOutline,
   sparklesOutline,
   basketOutline,
+  storefrontOutline,
+  bicycleOutline,
+  cartSharp,
 } from 'ionicons/icons';
 
 import {
@@ -49,9 +49,49 @@ import Cart from '../../components/Cart/Cart';
 
 import { useCart } from '../../context/CartContext';
 
-import { getProducts } from '../../services/productService';
+import {
+  getProducts,
+} from '../../services/productService';
 
 import './HomePage.css';
+
+
+/* =========================================
+   SLIDES DEL BANNER
+========================================= */
+
+const heroSlides = [
+  {
+    id: 1,
+    label: 'COLMADO RODRÍGUEZ',
+    title: 'Todo lo que necesitas, más cerca de ti.',
+    description:
+      'Encuentra tus productos favoritos de forma rápida y sencilla.',
+    button: 'Comprar ahora',
+    icon: cartSharp,
+  },
+
+  {
+    id: 2,
+    label: 'DELIVERY',
+    title: 'Tu pedido directo hasta tu puerta.',
+    description:
+      'Haz tu compra desde casa y nosotros nos encargamos del resto.',
+    button: 'Hacer pedido',
+    icon: bicycleOutline,
+  },
+
+  {
+    id: 3,
+    label: 'TU COLMADO',
+    title: 'Siempre cerca de ti.',
+    description:
+      'Compra fácil, rápido y con la confianza de Colmado Rodríguez.',
+    button: 'Ver productos',
+    icon: storefrontOutline,
+  },
+];
+
 
 function HomePage() {
   const history = useHistory();
@@ -59,27 +99,38 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] =
     useState<number | null>(null);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] =
+    useState('');
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [products, setProducts] =
+    useState<Product[]>([]);
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [loadingProducts, setLoadingProducts] =
+    useState(true);
 
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [categories, setCategories] =
+    useState<Category[]>([]);
 
-  const [currentOffer, setCurrentOffer] = useState(0);
+  const [isCartOpen, setIsCartOpen] =
+    useState(false);
 
-  const categoriesRef = useRef<HTMLDivElement>(null);
+  const [currentHero, setCurrentHero] =
+    useState(0);
 
-  const categoryDragMoved = useRef(false);
+  const categoriesRef =
+    useRef<HTMLDivElement>(null);
+
+  const categoryDragMoved =
+    useRef(false);
 
   const [isDraggingCategories, setIsDraggingCategories] =
     useState(false);
 
-  const [dragStartX, setDragStartX] = useState(0);
+  const [dragStartX, setDragStartX] =
+    useState(0);
 
-  const [dragScrollLeft, setDragScrollLeft] = useState(0);
+  const [dragScrollLeft, setDragScrollLeft] =
+    useState(0);
 
   const {
     cartItems,
@@ -90,29 +141,10 @@ function HomePage() {
     removeFromCart,
   } = useCart();
 
-  const offers = [
-    {
-      title: 'Oferta especial',
-      subtitle: 'Aprovecha nuestros mejores precios',
-      description:
-        'Productos seleccionados por tiempo limitado.',
-      icon: flameOutline,
-    },
-    {
-      title: 'Combos especiales',
-      subtitle: 'Lleva más y paga menos',
-      description:
-        'Descubre nuestros combos disponibles para ti.',
-      icon: pricetagOutline,
-    },
-    {
-      title: 'Delivery rápido',
-      subtitle: 'Tu compra hasta tu puerta',
-      description:
-        'Haz tu pedido y recíbelo donde estés.',
-      icon: bicycleOutline,
-    },
-  ];
+
+  /* =========================================
+     CARGAR CATEGORÍAS
+  ========================================= */
 
   useEffect(() => {
     getCategories()
@@ -126,6 +158,11 @@ function HomePage() {
         );
       });
   }, []);
+
+
+  /* =========================================
+     CARGAR PRODUCTOS
+  ========================================= */
 
   useEffect(() => {
     getProducts()
@@ -143,34 +180,76 @@ function HomePage() {
       });
   }, []);
 
+
+  /* =========================================
+     CARRUSEL DEL BANNER
+  ========================================= */
+
   useEffect(() => {
-    const interval = window.setInterval(() => {
-      setCurrentOffer((previousOffer) =>
-        previousOffer === offers.length - 1
-          ? 0
-          : previousOffer + 1
-      );
-    }, 5000);
+    const interval =
+      window.setInterval(() => {
+
+        setCurrentHero(
+          (current) =>
+            current ===
+            heroSlides.length - 1
+              ? 0
+              : current + 1
+        );
+
+      }, 5000);
 
     return () => {
       window.clearInterval(interval);
     };
-  }, [offers.length]);
+  }, []);
 
-  const normalizeText = (text: string) => {
+
+  /* =========================================
+     OFERTAS DE DJANGO
+  ========================================= */
+
+  const offerProducts =
+    products.filter(
+      (product) =>
+        product.is_offer
+    );
+
+
+  /* =========================================
+     NORMALIZAR TEXTO
+  ========================================= */
+
+  const normalizeText = (
+    text: string
+  ) => {
     return text
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+      .replace(
+        /[\u0300-\u036f]/g,
+        ''
+      )
       .toLowerCase()
       .trim();
   };
 
-  const getCategoryIcon = (categoryName: string) => {
-    const name = normalizeText(categoryName);
+
+  /* =========================================
+     ICONOS CATEGORÍAS
+  ========================================= */
+
+  const getCategoryIcon = (
+    categoryName: string
+  ) => {
+    const name =
+      normalizeText(
+        categoryName
+      );
 
     if (
       name.includes('fria') ||
-      name.includes('bebida')
+      name.includes('bebida') ||
+      name.includes('refresco')
     ) {
       return snowOutline;
     }
@@ -213,31 +292,95 @@ function HomePage() {
     return basketOutline;
   };
 
-  const filteredProducts = products.filter((product) => {
-    const normalizedSearch = normalizeText(searchTerm);
 
-    const categoryName =
-      product.category?.name ?? '';
+  /* =========================================
+     BUSCADOR
+  ========================================= */
 
-    const productText = normalizeText(
-      `${product.name} ${product.description ?? ''} ${categoryName}`
+  const normalizedSearch =
+    normalizeText(
+      searchTerm
     );
 
-    const matchesSearch =
-      normalizedSearch === '' ||
-      productText.includes(normalizedSearch);
+  const filteredProducts =
+    products.filter(
+      (product) => {
 
-    const matchesCategory =
-      searchTerm.trim() !== ''
-        ? true
-        : selectedCategory === null ||
-          product.category?.id === selectedCategory;
+        const productName =
+          normalizeText(
+            product.name ?? ''
+          );
 
-    return matchesCategory && matchesSearch;
-  });
+        const description =
+          normalizeText(
+            product.description ?? ''
+          );
+
+        const categoryName =
+          normalizeText(
+            product.category?.name ?? ''
+          );
+
+        return (
+          normalizedSearch === '' ||
+          productName.includes(
+            normalizedSearch
+          ) ||
+          description.includes(
+            normalizedSearch
+          ) ||
+          categoryName.includes(
+            normalizedSearch
+          )
+        );
+      }
+    );
+
+
+  const handleSearchChange = (
+    value: string
+  ) => {
+    setSearchTerm(value);
+
+    if (
+      value.trim() !== ''
+    ) {
+      setSelectedCategory(null);
+    }
+  };
+
+
+  /* =========================================
+     FILTRO CATEGORÍA
+  ========================================= */
+
+  const categoryProducts =
+    products.filter(
+      (product) => {
+
+        if (
+          selectedCategory === null
+        ) {
+          return true;
+        }
+
+        return (
+          product.category?.id ===
+          selectedCategory
+        );
+      }
+    );
+
+
+  /* =========================================
+     PERFIL
+  ========================================= */
 
   const handleProfile = () => {
-    const token = localStorage.getItem('accessToken');
+    const token =
+      localStorage.getItem(
+        'accessToken'
+      );
 
     if (token) {
       history.push('/perfil');
@@ -246,6 +389,11 @@ function HomePage() {
     }
   };
 
+
+  /* =========================================
+     SEARCH MOBILE
+  ========================================= */
+
   const handleSearch = () => {
     const input =
       document.querySelector<HTMLInputElement>(
@@ -253,7 +401,9 @@ function HomePage() {
       );
 
     const searchBox =
-      document.querySelector('.search-box');
+      document.querySelector(
+        '.search-box'
+      );
 
     searchBox?.scrollIntoView({
       behavior: 'smooth',
@@ -265,27 +415,53 @@ function HomePage() {
     }, 350);
   };
 
-  const goToProducts = () => {
-    document
-      .querySelector('.products-section')
-      ?.scrollIntoView({
-        behavior: 'smooth',
-      });
+
+  /* =========================================
+     CATEGORÍA
+  ========================================= */
+
+  const handleCategorySelect = (
+    categoryId: number | null
+  ) => {
+
+    if (
+      categoryDragMoved.current
+    ) {
+      return;
+    }
+
+    setSelectedCategory(
+      categoryId
+    );
+
+    setSearchTerm('');
   };
+
+
+  /* =========================================
+     DRAG DE CATEGORÍAS
+  ========================================= */
 
   const handleCategoriesMouseDown = (
     event: MouseEvent<HTMLDivElement>
   ) => {
-    if (!categoriesRef.current) {
+
+    if (
+      !categoriesRef.current
+    ) {
       return;
     }
 
-    setIsDraggingCategories(true);
+    setIsDraggingCategories(
+      true
+    );
 
-    categoryDragMoved.current = false;
+    categoryDragMoved.current =
+      false;
 
     setDragStartX(
-      event.pageX - categoriesRef.current.offsetLeft
+      event.pageX -
+      categoriesRef.current.offsetLeft
     );
 
     setDragScrollLeft(
@@ -293,9 +469,11 @@ function HomePage() {
     );
   };
 
+
   const handleCategoriesMouseMove = (
     event: MouseEvent<HTMLDivElement>
   ) => {
+
     if (
       !isDraggingCategories ||
       !categoriesRef.current
@@ -303,30 +481,58 @@ function HomePage() {
       return;
     }
 
+    event.preventDefault();
+
     const currentX =
       event.pageX -
       categoriesRef.current.offsetLeft;
 
     const distance =
-      currentX - dragStartX;
+      currentX -
+      dragStartX;
 
-    if (Math.abs(distance) > 5) {
-      categoryDragMoved.current = true;
+    if (
+      Math.abs(distance) > 5
+    ) {
+      categoryDragMoved.current =
+        true;
     }
 
     categoriesRef.current.scrollLeft =
-      dragScrollLeft - distance;
+      dragScrollLeft -
+      distance;
   };
 
-  const stopCategoriesDrag = () => {
-    setIsDraggingCategories(false);
-  };
+
+  const stopCategoriesDrag =
+    () => {
+
+      setIsDraggingCategories(
+        false
+      );
+
+      window.setTimeout(() => {
+        categoryDragMoved.current =
+          false;
+      }, 50);
+    };
+
+
+  const hero =
+    heroSlides[currentHero];
+
 
   return (
     <IonPage>
+
       <IonContent fullscreen>
 
         <div className="home-container">
+
+
+          {/* =================================
+              HEADER
+          ================================= */}
 
           <header className="home-header">
 
@@ -341,279 +547,563 @@ function HomePage() {
               <div className="brand-info">
 
                 <span className="welcome-text">
-                  ¡Qué lo qué! 👋
-                </span>
+  ¿Qué necesitas hoy?
+</span>
 
-                <div className="location">
+<div className="location">
+  <IonIcon icon={basketOutline} />
 
-                  <IonIcon icon={locationOutline} />
-
-                  <span>
-                    Entrega en tu ubicación
-                  </span>
-
-                </div>
+  <span>
+    Encuentra de todo para tu hogar
+  </span>
+</div>
 
               </div>
 
             </div>
 
+
             <div className="header-actions">
 
               <button
+                type="button"
                 className="cart-button"
-                onClick={() => setIsCartOpen(true)}
+                onClick={() =>
+                  setIsCartOpen(true)
+                }
                 aria-label="Abrir carrito"
               >
-                <IonIcon icon={cartOutline} />
+
+                <IonIcon
+                  icon={cartOutline}
+                />
 
                 {cartCount > 0 && (
+
                   <span className="cart-count">
                     {cartCount}
                   </span>
+
                 )}
+
               </button>
 
+
               <button
+                type="button"
                 className="profile-icon-button"
                 onClick={handleProfile}
                 aria-label="Perfil"
               >
-                <IonIcon icon={personOutline} />
+
+                <IonIcon
+                  icon={personOutline}
+                />
+
               </button>
 
             </div>
 
           </header>
 
+
+          {/* =================================
+              SEARCH
+          ================================= */}
+
           <div className="search-box">
 
-            <IonIcon icon={searchOutline} />
+            <IonIcon
+              icon={searchOutline}
+            />
 
             <input
-              type="text"
-              placeholder="¿Qué necesitas hoy?"
+              type="search"
+              placeholder="Buscar arroz, leche, refrescos..."
               value={searchTerm}
               onChange={(event) =>
-                setSearchTerm(event.target.value)
+                handleSearchChange(
+                  event.target.value
+                )
               }
+              autoComplete="off"
             />
 
             {searchTerm && (
+
               <button
                 type="button"
                 className="search-clear"
-                onClick={() => setSearchTerm('')}
+                onClick={() =>
+                  setSearchTerm('')
+                }
                 aria-label="Limpiar búsqueda"
               >
                 ×
               </button>
+
             )}
 
           </div>
 
-          <section className="offers-section">
 
-            <div className="offers-heading">
+          {/* =================================
+              RESULTADOS DEL SEARCH
+          ================================= */}
 
-              <h2>Ofertas de hoy</h2>
+          {searchTerm.trim() !== '' && (
 
-              <span>
-                Especiales para ti
-              </span>
+            <div className="search-dropdown">
 
-            </div>
+              <div className="search-dropdown-header">
 
-            <div className="offer-card">
+                <span>
+                  Resultados
+                </span>
 
-              <div className="offer-content">
+                <small>
+                  {filteredProducts.length}
+                </small>
 
-                <div className="offer-label">
+              </div>
 
-                  <IonIcon
-                    icon={offers[currentOffer].icon}
-                  />
 
-                  <span>
-                    {offers[currentOffer].title}
-                  </span>
+              {filteredProducts.length === 0 ? (
+
+                <div className="search-dropdown-empty">
+
+                  No encontramos productos para
+                  {' "'}
+                  {searchTerm}
+                  {'"'}
 
                 </div>
 
-                <h2>
-                  {offers[currentOffer].subtitle}
-                </h2>
+              ) : (
 
-                <p>
-                  {offers[currentOffer].description}
-                </p>
+                <div className="search-dropdown-list">
 
-                <button
-                  className="offer-button"
-                  onClick={goToProducts}
-                >
-                  Ver ofertas
+                  {filteredProducts
+                    .slice(0, 6)
+                    .map((product) => (
 
-                  <IonIcon
-                    icon={chevronForwardOutline}
-                  />
-                </button>
+                      <button
+                        type="button"
+                        className="search-product-item"
+                        key={product.id}
+                        onClick={() =>
+                          history.push(
+                            `/producto/${product.id}`
+                          )
+                        }
+                      >
 
-              </div>
+                        <div className="search-product-image">
 
-              <div className="offer-icon">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                          />
 
-                <IonIcon
-                  icon={offers[currentOffer].icon}
-                />
+                        </div>
 
-              </div>
+                        <div className="search-product-info">
 
-              <div className="offer-dots">
+                          <strong>
+                            {product.name}
+                          </strong>
 
-                {offers.map((_, index) => (
+                          <span>
+                            {product.description}
+                          </span>
 
-                  <button
-                    type="button"
-                    key={index}
-                    className={
-                      index === currentOffer
-                        ? 'active'
-                        : ''
-                    }
-                    onClick={() =>
-                      setCurrentOffer(index)
-                    }
-                    aria-label={`Oferta ${index + 1}`}
-                  />
+                          <b>
+                            RD${' '}
+                            {Number(
+                              product.price
+                            ).toLocaleString(
+                              'es-DO'
+                            )}
+                          </b>
 
-                ))}
+                        </div>
 
-              </div>
+                      </button>
 
-            </div>
+                    ))}
 
-          </section>
-
-          <section className="section">
-
-            <div className="section-header">
-              <h2>Categorías</h2>
-            </div>
-
-            <div
-              ref={categoriesRef}
-              className={`categories ${
-                isDraggingCategories
-                  ? 'dragging'
-                  : ''
-              }`}
-              onMouseDown={handleCategoriesMouseDown}
-              onMouseMove={handleCategoriesMouseMove}
-              onMouseUp={stopCategoriesDrag}
-              onMouseLeave={stopCategoriesDrag}
-            >
-
-              <button
-                className={`category-card ${
-                  selectedCategory === null
-                    ? 'selected'
-                    : ''
-                }`}
-                onClick={() => {
-                  if (categoryDragMoved.current) {
-                    return;
-                  }
-
-                  setSelectedCategory(null);
-                }}
-              >
-
-                <div className="category-icon">
-                  <IonIcon icon={basketOutline} />
                 </div>
 
-                <span>Todos</span>
-
-              </button>
-
-              {categories.map((category) => (
-
-                <button
-                  key={category.id}
-                  className={`category-card ${
-                    selectedCategory === category.id
-                      ? 'selected'
-                      : ''
-                  }`}
-                  onClick={() => {
-                    if (categoryDragMoved.current) {
-                      return;
-                    }
-
-                    setSelectedCategory(category.id);
-                  }}
-                >
-
-                  <div className="category-icon">
-
-                    <IonIcon
-                      icon={getCategoryIcon(category.name)}
-                    />
-
-                  </div>
-
-                  <span>
-                    {category.name}
-                  </span>
-
-                </button>
-
-              ))}
-
-            </div>
-
-          </section>
-
-          <section className="section products-section">
-
-            <div className="section-header">
-
-              <h2>
-                {searchTerm
-                  ? `Resultados para "${searchTerm}"`
-                  : selectedCategory === null
-                    ? 'Populares 🔥'
-                    : 'Productos'}
-              </h2>
-
-              {(selectedCategory !== null ||
-                searchTerm) && (
-                <button
-                  onClick={() => {
-                    setSelectedCategory(null);
-                    setSearchTerm('');
-                  }}
-                >
-                  Ver todos
-
-                  <IonIcon
-                    icon={chevronForwardOutline}
-                  />
-                </button>
               )}
 
             </div>
 
-            {searchTerm && (
-              <p className="search-results-count">
-                {filteredProducts.length}{' '}
-                resultado
-                {filteredProducts.length !== 1
-                  ? 's'
-                  : ''}
-              </p>
-            )}
+          )}
+
+
+          {/* =================================
+              HERO / BANNER
+          ================================= */}
+
+          <section className="hero-section">
+
+            <div
+              className={
+                `hero-card hero-slide-${hero.id}`
+              }
+            >
+
+              <div className="hero-content">
+
+                <span className="hero-label">
+                  {hero.label}
+                </span>
+
+                <h1>
+                  {hero.title}
+                </h1>
+
+                <p>
+                  {hero.description}
+                </p>
+
+                <button
+                  type="button"
+                  className="hero-button"
+                  onClick={() => {
+
+                    document
+                      .querySelector(
+                        '.products-section'
+                      )
+                      ?.scrollIntoView({
+                        behavior: 'smooth',
+                      });
+
+                  }}
+                >
+
+                  {hero.button}
+
+                  <IonIcon
+                    icon={
+                      chevronForwardOutline
+                    }
+                  />
+
+                </button>
+
+              </div>
+
+
+              <div className="hero-icon">
+
+                <IonIcon
+                  icon={hero.icon}
+                />
+
+              </div>
+
+
+              <div className="hero-dots">
+
+                {heroSlides.map(
+                  (slide, index) => (
+
+                    <button
+                      type="button"
+                      key={slide.id}
+                      className={
+                        currentHero === index
+                          ? 'active'
+                          : ''
+                      }
+                      onClick={() =>
+                        setCurrentHero(index)
+                      }
+                      aria-label={
+                        `Banner ${index + 1}`
+                      }
+                    />
+
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          {/* =================================
+              OFERTAS
+          ================================= */}
+
+          {offerProducts.length > 0 && (
+
+            <section className="offers-section">
+
+              <div className="section-header">
+
+                <div>
+
+                  <h2>
+                    Ofertas de hoy 🔥
+                  </h2>
+
+                  <span className="section-subtitle">
+                    Aprovecha antes de que se acaben
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div className="offers-products">
+
+                {offerProducts.map(
+                  (product) => (
+
+                    <article
+                      className="offer-product-card"
+                      key={product.id}
+                      onClick={() =>
+                        history.push(
+                          `/producto/${product.id}`
+                        )
+                      }
+                    >
+
+                      <div className="offer-product-picture">
+
+  {(product.discount_percentage ?? 0) > 0 && (
+    <span className="offer-discount">
+      -{product.discount_percentage ?? 0}%
+    </span>
+  )}
+
+  <img
+    src={product.image}
+    alt={product.name}
+  />
+
+</div>
+
+
+                      <div className="offer-product-data">
+
+                        <strong className="offer-product-name">
+                          {product.name}
+                        </strong>
+
+                        <span className="offer-product-description">
+                          {product.description}
+                        </span>
+
+
+                        <div className="offer-product-prices">
+
+                          {product.old_price && (
+
+                            <span>
+                              RD${' '}
+                              {Number(
+                                product.old_price
+                              ).toLocaleString(
+                                'es-DO'
+                              )}
+                            </span>
+
+                          )}
+
+                          <strong>
+                            RD${' '}
+                            {Number(
+                              product.price
+                            ).toLocaleString(
+                              'es-DO'
+                            )}
+                          </strong>
+
+                        </div>
+
+                      </div>
+
+                    </article>
+
+                  )
+                )}
+
+              </div>
+
+            </section>
+
+          )}
+
+
+          {/* =================================
+              CATEGORÍAS
+          ================================= */}
+
+          <section className="section">
+
+            <div className="section-header">
+
+              <h2>
+                Categorías
+              </h2>
+
+            </div>
+
+
+            <div
+              ref={categoriesRef}
+              className={
+                `categories ${
+                  isDraggingCategories
+                    ? 'dragging'
+                    : ''
+                }`
+              }
+              onMouseDown={
+                handleCategoriesMouseDown
+              }
+              onMouseMove={
+                handleCategoriesMouseMove
+              }
+              onMouseUp={
+                stopCategoriesDrag
+              }
+              onMouseLeave={
+                stopCategoriesDrag
+              }
+            >
+
+              <button
+                type="button"
+                className={
+                  `category-card ${
+                    selectedCategory === null
+                      ? 'selected'
+                      : ''
+                  }`
+                }
+                onClick={() =>
+                  handleCategorySelect(null)
+                }
+              >
+
+                <div className="category-icon">
+
+                  <IonIcon
+                    icon={basketOutline}
+                  />
+
+                </div>
+
+                <span>
+                  Todos
+                </span>
+
+              </button>
+
+
+              {categories.map(
+                (category) => (
+
+                  <button
+                    type="button"
+                    key={category.id}
+                    className={
+                      `category-card ${
+                        selectedCategory ===
+                        category.id
+                          ? 'selected'
+                          : ''
+                      }`
+                    }
+                    onClick={() =>
+                      handleCategorySelect(
+                        category.id
+                      )
+                    }
+                  >
+
+                    <div className="category-icon">
+
+                      <IonIcon
+                        icon={
+                          getCategoryIcon(
+                            category.name
+                          )
+                        }
+                      />
+
+                    </div>
+
+                    <span>
+                      {category.name}
+                    </span>
+
+                  </button>
+
+                )
+              )}
+
+            </div>
+
+          </section>
+
+
+          {/* =================================
+              PRODUCTOS
+          ================================= */}
+
+          <section
+            className="section products-section"
+          >
+
+            <div className="section-header">
+
+              <h2>
+
+                {selectedCategory === null
+                  ? 'Productos'
+                  : categories.find(
+                      (category) =>
+                        category.id ===
+                        selectedCategory
+                    )?.name ??
+                    'Productos'}
+
+              </h2>
+
+
+              {selectedCategory !== null && (
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSelectedCategory(null)
+                  }
+                >
+
+                  Ver todos
+
+                  <IonIcon
+                    icon={
+                      chevronForwardOutline
+                    }
+                  />
+
+                </button>
+
+              )}
+
+            </div>
+
 
             <div className="products-grid">
 
@@ -623,30 +1113,31 @@ function HomePage() {
                   Cargando productos...
                 </p>
 
-              ) : filteredProducts.length === 0 ? (
+              ) : categoryProducts.length ===
+                0 ? (
 
                 <p className="products-message">
-                  {searchTerm
-                    ? `No encontramos productos para "${searchTerm}".`
-                    : 'No hay productos disponibles en esta categoría.'}
+                  No hay productos disponibles.
                 </p>
 
               ) : (
 
-                filteredProducts.map((product) => (
+                categoryProducts.map(
+                  (product) => (
 
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onAdd={addToCart}
-                    onClick={() =>
-                      history.push(
-                        `/producto/${product.id}`
-                      )
-                    }
-                  />
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      onAdd={addToCart}
+                      onClick={() =>
+                        history.push(
+                          `/producto/${product.id}`
+                        )
+                      }
+                    />
 
-                ))
+                  )
+                )
 
               )}
 
@@ -654,13 +1145,20 @@ function HomePage() {
 
           </section>
 
+
+          {/* =================================
+              FOOTER
+          ================================= */}
+
           <footer className="home-footer">
 
             <div className="footer-content">
 
               <div className="footer-social">
 
-                <h3>Síguenos</h3>
+                <h3>
+                  Síguenos
+                </h3>
 
                 <p>
                   Mantente conectado con
@@ -673,21 +1171,27 @@ function HomePage() {
                     href="#"
                     aria-label="Facebook"
                   >
-                    <IonIcon icon={logoFacebook} />
+                    <IonIcon
+                      icon={logoFacebook}
+                    />
                   </a>
 
                   <a
                     href="#"
                     aria-label="Instagram"
                   >
-                    <IonIcon icon={logoInstagram} />
+                    <IonIcon
+                      icon={logoInstagram}
+                    />
                   </a>
 
                   <a
                     href="#"
                     aria-label="WhatsApp"
                   >
-                    <IonIcon icon={logoWhatsapp} />
+                    <IonIcon
+                      icon={logoWhatsapp}
+                    />
                   </a>
 
                 </div>
@@ -696,17 +1200,24 @@ function HomePage() {
 
             </div>
 
+
             <div className="footer-bottom">
 
               <span>
-                © {new Date().getFullYear()}{' '}
-                Colmado Rodríguez. Todos los
-                derechos reservados.
+                ©{' '}
+                {new Date().getFullYear()}{' '}
+                Colmado Rodríguez.
+                Todos los derechos reservados.
               </span>
 
             </div>
 
           </footer>
+
+
+          {/* =================================
+              CARRITO
+          ================================= */}
 
           {isCartOpen && (
 
@@ -715,44 +1226,92 @@ function HomePage() {
               onClose={() =>
                 setIsCartOpen(false)
               }
-              onIncrease={increaseQuantity}
-              onDecrease={decreaseQuantity}
-              onRemove={removeFromCart}
+              onIncrease={
+                increaseQuantity
+              }
+              onDecrease={
+                decreaseQuantity
+              }
+              onRemove={
+                removeFromCart
+              }
             />
 
           )}
 
+
+          {/* =================================
+              NAVEGACIÓN MOBILE
+          ================================= */}
+
           <nav className="bottom-navigation">
 
             <button
+              type="button"
               className="active"
-              onClick={() => history.push('/')}
+              onClick={() =>
+                history.push('/')
+              }
             >
-              <IonIcon icon={homeOutline} />
-              <small>Inicio</small>
+
+              <IonIcon
+                icon={homeOutline}
+              />
+
+              <small>
+                Inicio
+              </small>
+
             </button>
 
+
             <button
+              type="button"
               onClick={handleSearch}
             >
-              <IonIcon icon={searchOutline} />
-              <small>Buscar</small>
+
+              <IonIcon
+                icon={searchOutline}
+              />
+
+              <small>
+                Buscar
+              </small>
+
             </button>
 
+
             <button
+              type="button"
               onClick={() =>
                 history.push('/pedidos')
               }
             >
-              <IonIcon icon={receiptOutline} />
-              <small>Pedidos</small>
+
+              <IonIcon
+                icon={receiptOutline}
+              />
+
+              <small>
+                Pedidos
+              </small>
+
             </button>
 
+
             <button
+              type="button"
               onClick={handleProfile}
             >
-              <IonIcon icon={personOutline} />
-              <small>Perfil</small>
+
+              <IonIcon
+                icon={personOutline}
+              />
+
+              <small>
+                Perfil
+              </small>
+
             </button>
 
           </nav>
@@ -760,8 +1319,10 @@ function HomePage() {
         </div>
 
       </IonContent>
+
     </IonPage>
   );
 }
+
 
 export default HomePage;
