@@ -13,18 +13,28 @@ import {
   arrowBackOutline,
 } from 'ionicons/icons';
 
-import { login } from '../../services/authService';
+import {
+  loginUser,
+} from '../../services/authService';
 
 import './LoginPage.css';
+
 
 function LoginPage() {
   const history = useHistory();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] =
+    useState('');
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [password, setPassword] =
+    useState('');
+
+  const [isLoading, setIsLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState('');
+
 
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
@@ -33,43 +43,65 @@ function LoginPage() {
 
     setError('');
 
-    if (!username.trim() || !password.trim()) {
-      setError('Completa usuario y contraseña.');
+    if (
+      !username.trim() ||
+      !password.trim()
+    ) {
+      setError(
+        'Completa usuario y contraseña.'
+      );
+
       return;
     }
 
     try {
       setIsLoading(true);
+      setError('');
 
-      const data = await login(
-        username.trim(),
-        password
-      );
+      const response =
+        await loginUser({
+          username: username.trim(),
+          password,
+        });
 
       localStorage.setItem(
         'accessToken',
-        data.access
+        response.access
       );
 
       localStorage.setItem(
         'refreshToken',
-        data.refresh
+        response.refresh
       );
 
-      history.push('/');
+      localStorage.setItem(
+        'username',
+        username.trim()
+      );
+
+      history.replace('/');
+
     } catch (error) {
-      console.error(error);
+      console.error(
+        'Error iniciando sesión:',
+        error
+      );
 
       setError(
-        'Usuario o contraseña incorrectos.'
+        error instanceof Error
+          ? error.message
+          : 'No se pudo iniciar sesión.'
       );
+
     } finally {
       setIsLoading(false);
     }
   };
 
+
   return (
     <IonPage>
+
       <IonContent fullscreen>
 
         <div className="login-page">
@@ -77,11 +109,16 @@ function LoginPage() {
           <button
             type="button"
             className="login-back"
-            onClick={() => history.goBack()}
+            onClick={() =>
+              history.goBack()
+            }
             aria-label="Volver"
           >
-            <IonIcon icon={arrowBackOutline} />
+            <IonIcon
+              icon={arrowBackOutline}
+            />
           </button>
+
 
           <div className="login-card">
 
@@ -91,14 +128,20 @@ function LoginPage() {
               alt="Colmado Rodríguez"
             />
 
+
             <div className="login-heading">
-              <h1>Bienvenido</h1>
+
+              <h1>
+                Bienvenido
+              </h1>
 
               <p>
                 Inicia sesión para continuar
                 con tus pedidos.
               </p>
+
             </div>
+
 
             <form
               className="login-form"
@@ -106,54 +149,99 @@ function LoginPage() {
             >
 
               <label>
+
                 Usuario
 
                 <div className="login-input">
-                  <IonIcon icon={personOutline} />
+
+                  <IonIcon
+                    icon={personOutline}
+                  />
 
                   <input
                     type="text"
                     placeholder="Tu usuario"
                     value={username}
                     onChange={(event) =>
-                      setUsername(event.target.value)
+                      setUsername(
+                        event.target.value
+                      )
                     }
+                    autoComplete="username"
                   />
+
                 </div>
+
               </label>
 
+
               <label>
+
                 Contraseña
 
                 <div className="login-input">
-                  <IonIcon icon={lockClosedOutline} />
+
+                  <IonIcon
+                    icon={lockClosedOutline}
+                  />
 
                   <input
                     type="password"
                     placeholder="Tu contraseña"
                     value={password}
                     onChange={(event) =>
-                      setPassword(event.target.value)
+                      setPassword(
+                        event.target.value
+                      )
                     }
+                    autoComplete="current-password"
                   />
+
                 </div>
+
               </label>
 
+
               {error && (
+
                 <p className="login-error">
                   {error}
                 </p>
+
               )}
+
 
               <button
                 type="submit"
                 className="login-button"
                 disabled={isLoading}
               >
+
                 {isLoading
                   ? 'Iniciando sesión...'
                   : 'Iniciar sesión'}
+
               </button>
+
+
+              <div className="login-register">
+
+                <span>
+                  ¿No tienes una cuenta?
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    history.push(
+                      '/registro'
+                    )
+                  }
+                >
+                  Regístrate
+                </button>
+
+              </div>
 
             </form>
 
@@ -162,8 +250,10 @@ function LoginPage() {
         </div>
 
       </IonContent>
+
     </IonPage>
   );
 }
+
 
 export default LoginPage;

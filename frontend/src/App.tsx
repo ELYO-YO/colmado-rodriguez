@@ -12,6 +12,7 @@ import LoginPage from './pages/login/LoginPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import OrdersPage from './pages/orders/OrdersPage';
 import OrderDetailPage from './pages/orders/OrderDetailPage';
+import RegisterPage from './pages/register/RegisterPage';
 
 function App() {
   return (
@@ -54,6 +55,12 @@ function App() {
               exact
               path="/login"
               component={LoginPage}
+            />
+
+            <Route
+              exact
+              path="/registro"
+              component={RegisterPage}
             />
 
             <Route

@@ -139,7 +139,7 @@ history.push(
 
                   <input
                     type="text"
-                    placeholder="Ej: Pedro Pérez"
+                    placeholder=""
                     value={customerName}
                     onChange={(event) =>
                       setCustomerName(event.target.value)
@@ -175,7 +175,7 @@ history.push(
 
                   <input
                     type="text"
-                    placeholder="Ej: Fantino"
+                    placeholder=""
                     value={sector}
                     onChange={(event) =>
                       setSector(event.target.value)
