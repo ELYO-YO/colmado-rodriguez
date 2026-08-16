@@ -14,7 +14,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-
         fields = [
             "id",
             "username",
@@ -37,13 +36,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        validated_data.pop(
-            "password_confirm"
-        )
-
-        password = validated_data.pop(
-            "password"
-        )
+        validated_data.pop("password_confirm")
+        password = validated_data.pop("password")
 
         user = User.objects.create_user(
             password=password,
@@ -53,20 +47,30 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserProfileSerializer(
-    serializers.ModelSerializer
-):
+class UserProfileSerializer(serializers.ModelSerializer):
+    role = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-
         fields = [
             "id",
             "username",
             "email",
             "first_name",
             "last_name",
+            "role",
         ]
 
         read_only_fields = [
             "id",
+            "role",
         ]
+
+    def get_role(self, obj):
+        if obj.is_superuser:
+            return "admin"
+
+        if hasattr(obj, "profile"):
+            return obj.profile.role
+
+        return "customer"

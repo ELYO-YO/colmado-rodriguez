@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
     "products",
     "orders.apps.OrdersConfig",
-    "accounts",
+    "accounts.apps.AccountsConfig",
     "notifications",
 ]
 

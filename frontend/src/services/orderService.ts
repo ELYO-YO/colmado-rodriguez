@@ -136,3 +136,27 @@ export async function cancelOrder(id: number): Promise<Order> {
 
   return data;
 }
+
+export async function updateOrderStatus(id: number): Promise<Order> {
+  const response = await apiFetch(`${API_URL}${id}/status/`, {
+    method: 'PATCH',
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Tu sesión ha expirado.');
+    }
+
+    if (response.status === 403) {
+      throw new Error('No tienes permiso para actualizar pedidos.');
+    }
+
+    throw new Error(
+      data?.detail ?? 'No se pudo actualizar el estado del pedido.'
+    );
+  }
+
+  return data;
+}

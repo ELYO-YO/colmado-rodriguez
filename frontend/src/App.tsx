@@ -13,6 +13,8 @@ import ProfilePage from './pages/profile/ProfilePage';
 import OrdersPage from './pages/orders/OrdersPage';
 import OrderDetailPage from './pages/orders/OrderDetailPage';
 import RegisterPage from './pages/register/RegisterPage';
+import OrderManagementPage from './pages/order-management/OrderManagementPage';
+import OrderManagementDetailPage from './pages/order-management-detail/OrderManagementDetailPage';
 
 function App() {
   return (
@@ -79,6 +81,18 @@ function App() {
               exact
               path="/pedidos/:id"
               component={OrderDetailPage}
+            />
+
+            <Route
+              exact
+              path="/gestion-pedidos"
+              component={OrderManagementPage}
+            />
+
+            <Route
+             exact
+             path="/gestion-pedidos/:id"
+             component={OrderManagementDetailPage}
             />
 
           </IonRouterOutlet>

@@ -33,7 +33,6 @@ import {
 
 import './ProfilePage.css';
 
-
 function ProfilePage() {
   const history = useHistory();
 
@@ -66,11 +65,6 @@ function ProfilePage() {
 
   const [email, setEmail] =
     useState('');
-
-
-  /* =========================================
-     CARGAR PERFIL
-  ========================================= */
 
   useEffect(() => {
     getProfile()
@@ -107,9 +101,7 @@ function ProfilePage() {
           )
         ) {
           logoutUser();
-
           history.replace('/login');
-
           return;
         }
 
@@ -122,11 +114,6 @@ function ProfilePage() {
       });
 
   }, [history]);
-
-
-  /* =========================================
-     EDITAR
-  ========================================= */
 
   const handleEdit = () => {
     if (!profile) {
@@ -154,21 +141,10 @@ function ProfilePage() {
     setIsEditing(true);
   };
 
-
-  /* =========================================
-     CANCELAR EDICIÓN
-  ========================================= */
-
   const handleCancelEdit = () => {
     setFormError('');
-
     setIsEditing(false);
   };
-
-
-  /* =========================================
-     GUARDAR PERFIL
-  ========================================= */
 
   const handleSaveProfile = async (
     event: FormEvent<HTMLFormElement>
@@ -208,12 +184,6 @@ function ProfilePage() {
         updatedProfile
       );
 
-      /*
-       * Lo mantenemos actualizado
-       * para cualquier parte vieja del
-       * proyecto que todavía lea username
-       * desde localStorage.
-       */
       localStorage.setItem(
         'username',
         updatedProfile.username
@@ -238,21 +208,11 @@ function ProfilePage() {
     }
   };
 
-
-  /* =========================================
-     LOGOUT
-  ========================================= */
-
   const handleLogout = () => {
     logoutUser();
 
     history.replace('/login');
   };
-
-
-  /* =========================================
-     NOMBRE A MOSTRAR
-  ========================================= */
 
   const displayName =
     profile?.first_name ||
@@ -263,6 +223,18 @@ function ProfilePage() {
       : profile?.username ??
         'Usuario';
 
+  const getRoleText = () => {
+    switch (profile?.role) {
+      case 'admin':
+        return 'Administrador';
+
+      case 'employee':
+        return 'Empleado';
+
+      default:
+        return 'Cliente';
+    }
+  };
 
   return (
     <IonPage>
@@ -271,19 +243,15 @@ function ProfilePage() {
 
         <div className="profile-page">
 
-
-          {/* =================================
-              HEADER
-          ================================= */}
-
           <header className="profile-header">
 
             <button
               type="button"
               className="profile-back"
-              onClick={() =>
-                history.goBack()
-              }
+              onClick={(event) => {
+                event.currentTarget.blur();
+                history.goBack();
+              }}
               aria-label="Volver"
             >
               <IonIcon
@@ -296,11 +264,6 @@ function ProfilePage() {
             </h1>
 
           </header>
-
-
-          {/* =================================
-              CARGANDO
-          ================================= */}
 
           {loading ? (
 
@@ -331,11 +294,6 @@ function ProfilePage() {
 
             <>
 
-
-              {/* =================================
-                  TARJETA DE PERFIL
-              ================================= */}
-
               <section className="profile-card">
 
                 <div className="profile-avatar">
@@ -356,16 +314,13 @@ function ProfilePage() {
                   @{profile.username}
                 </span>
 
-                <span className="profile-client-text">
-                  Cliente de Colmado Rodríguez
+                <span
+                  className={`profile-client-text role-${profile.role}`}
+                >
+                  {getRoleText()} de Colmado Rodríguez
                 </span>
 
               </section>
-
-
-              {/* =================================
-                  DATOS
-              ================================= */}
 
               <section className="profile-data-card">
 
@@ -403,11 +358,9 @@ function ProfilePage() {
 
                 </div>
 
-
                 {!isEditing ? (
 
                   <div className="profile-data-list">
-
 
                     <div className="profile-data-item">
 
@@ -434,7 +387,6 @@ function ProfilePage() {
 
                     </div>
 
-
                     <div className="profile-data-item">
 
                       <div className="profile-data-icon">
@@ -460,7 +412,6 @@ function ProfilePage() {
 
                     </div>
 
-
                     <div className="profile-data-item">
 
                       <div className="profile-data-icon">
@@ -484,7 +435,6 @@ function ProfilePage() {
                       </div>
 
                     </div>
-
 
                     <div className="profile-data-item">
 
@@ -511,14 +461,9 @@ function ProfilePage() {
 
                     </div>
 
-
                   </div>
 
                 ) : (
-
-                  /* =================================
-                     FORMULARIO EDITAR
-                  ================================= */
 
                   <form
                     className="profile-edit-form"
@@ -527,9 +472,7 @@ function ProfilePage() {
                     }
                   >
 
-
                     <div className="profile-form-grid">
-
 
                       <label>
 
@@ -548,7 +491,6 @@ function ProfilePage() {
 
                       </label>
 
-
                       <label>
 
                         Apellido
@@ -566,9 +508,7 @@ function ProfilePage() {
 
                       </label>
 
-
                     </div>
-
 
                     <label>
 
@@ -587,7 +527,6 @@ function ProfilePage() {
 
                     </label>
 
-
                     <label>
 
                       Correo electrónico
@@ -605,7 +544,6 @@ function ProfilePage() {
 
                     </label>
 
-
                     {formError && (
 
                       <div className="profile-form-error">
@@ -614,9 +552,7 @@ function ProfilePage() {
 
                     )}
 
-
                     <div className="profile-form-actions">
-
 
                       <button
                         type="button"
@@ -635,7 +571,6 @@ function ProfilePage() {
 
                       </button>
 
-
                       <button
                         type="submit"
                         className="profile-save-button"
@@ -652,9 +587,7 @@ function ProfilePage() {
 
                       </button>
 
-
                     </div>
-
 
                   </form>
 
@@ -662,50 +595,122 @@ function ProfilePage() {
 
               </section>
 
-
-              {/* =================================
-                  OPCIONES
-              ================================= */}
-
               <section className="profile-options">
 
+                {profile.role ===
+                  'customer' && (
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    history.push(
-                      '/pedidos'
-                    )
-                  }
-                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      history.push(
+                        '/pedidos'
+                      )
+                    }
+                  >
 
-                  <div className="profile-option-icon">
+                    <div className="profile-option-icon">
 
-                    <IonIcon
-                      icon={receiptOutline}
-                    />
+                      <IonIcon
+                        icon={receiptOutline}
+                      />
 
-                  </div>
+                    </div>
 
-                  <div>
+                    <div>
 
-                    <strong>
-                      Mis pedidos
-                    </strong>
+                      <strong>
+                        Mis pedidos
+                      </strong>
 
-                    <span>
-                      Consulta tu historial de compras
-                    </span>
+                      <span>
+                        Consulta tu historial de compras
+                      </span>
 
-                  </div>
+                    </div>
 
-                </button>
+                  </button>
 
+                )}
+
+                {profile.role ===
+                  'employee' && (
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      history.push(
+                        '/gestion-pedidos'
+                      )
+                    }
+                  >
+
+                    <div className="profile-option-icon">
+
+                      <IonIcon
+                        icon={receiptOutline}
+                      />
+
+                    </div>
+
+                    <div>
+
+                      <strong>
+                        Gestión de pedidos
+                      </strong>
+
+                      <span>
+                        Ver y actualizar pedidos de clientes
+                      </span>
+
+                    </div>
+
+                  </button>
+
+                )}
+
+                {profile.role ===
+                  'admin' && (
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      history.push(
+                        '/gestion-pedidos'
+                      )
+                    }
+                  >
+
+                    <div className="profile-option-icon">
+
+                      <IonIcon
+                        icon={receiptOutline}
+                      />
+
+                    </div>
+
+                    <div>
+
+                      <strong>
+                        Administración de pedidos
+                      </strong>
+
+                      <span>
+                        Gestiona los pedidos de los clientes
+                      </span>
+
+                    </div>
+
+                  </button>
+
+                )}
 
                 <button
                   type="button"
                   className="logout-option"
-                  onClick={handleLogout}
+                  onClick={
+                    handleLogout
+                  }
                 >
 
                   <div className="profile-option-icon">
@@ -730,14 +735,11 @@ function ProfilePage() {
 
                 </button>
 
-
               </section>
-
 
             </>
 
           ) : null}
-
 
         </div>
 
@@ -746,6 +748,5 @@ function ProfilePage() {
     </IonPage>
   );
 }
-
 
 export default ProfilePage;

@@ -1,0 +1,321 @@
+.management-detail-page {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 24px 20px 50px;
+}
+
+.management-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.management-detail-header > button {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 12px;
+  background: #eef3f8;
+  color: #002d62;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.management-detail-header span {
+  color: #8a9099;
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+.management-detail-header h1 {
+  margin: 3px 0 0;
+  color: #111827;
+  font-size: 1.4rem;
+}
+
+.management-detail-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+  padding: 22px;
+  border-radius: 18px;
+  background: #002d62;
+  color: #fff;
+}
+
+.management-detail-hero > div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.management-detail-hero > div:first-child span {
+  color: rgba(255,255,255,.65);
+  font-size: .68rem;
+}
+
+.management-detail-hero > div:first-child strong {
+  margin-top: 5px;
+  font-size: 1.35rem;
+}
+
+.management-detail-hero small {
+  margin-top: 7px;
+  color: rgba(255,255,255,.7);
+  font-size: .65rem;
+}
+
+.management-detail-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 20px;
+  background: #fff;
+  font-size: .7rem;
+  font-weight: 800;
+}
+
+.management-detail-action {
+  margin-bottom: 16px;
+  padding: 18px;
+  border: 1px solid #dbe5ef;
+  border-radius: 16px;
+  background: #f8fbff;
+}
+
+.management-detail-action > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 13px;
+}
+
+.management-detail-action strong {
+  color: #111827;
+  font-size: .85rem;
+}
+
+.management-detail-action span {
+  color: #8a9099;
+  font-size: .7rem;
+}
+
+.management-detail-action > button {
+  width: 100%;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  border-radius: 11px;
+  background: #002d62;
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.management-detail-action > button:disabled {
+  opacity: .6;
+}
+
+.management-detail-action p {
+  margin: 10px 0 0;
+  color: #dc3545;
+  font-size: .7rem;
+  text-align: center;
+}
+
+.management-detail-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.management-detail-card {
+  margin-bottom: 16px;
+  padding: 19px;
+  border: 1px solid #e5e7eb;
+  border-radius: 17px;
+  background: #fff;
+}
+
+.management-card-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 17px;
+}
+
+.management-card-title > ion-icon {
+  color: #002d62;
+  font-size: 1.3rem;
+}
+
+.management-card-title h2 {
+  margin: 0;
+  color: #111827;
+  font-size: .9rem;
+}
+
+.management-card-title span {
+  display: block;
+  margin-top: 3px;
+  color: #8a9099;
+  font-size: .65rem;
+}
+
+.management-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.management-info-list > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: .76rem;
+}
+
+.management-info-list > div ion-icon {
+  color: #002d62;
+}
+
+.management-info-list strong {
+  color: #111827;
+}
+
+.management-info-list small {
+  color: #8a9099;
+  font-size: .68rem;
+}
+
+.management-payment {
+  color: #002d62;
+  font-size: .9rem;
+}
+
+.management-products {
+  display: flex;
+  flex-direction: column;
+}
+
+.management-product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.management-product:last-child {
+  border-bottom: none;
+}
+
+.management-product > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.management-product strong {
+  color: #111827;
+  font-size: .78rem;
+}
+
+.management-product span {
+  color: #8a9099;
+  font-size: .68rem;
+}
+
+.management-total-card {
+  padding: 20px;
+  border-radius: 17px;
+  background: #f8fafc;
+}
+
+.management-total-card > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 11px;
+}
+
+.management-total-card span {
+  color: #6b7280;
+  font-size: .78rem;
+}
+
+.management-total-card strong {
+  color: #111827;
+  font-size: .82rem;
+}
+
+.management-grand-total {
+  margin: 15px 0 0 !important;
+  padding-top: 15px;
+  border-top: 1px solid #dfe3e7;
+}
+
+.management-grand-total span {
+  color: #111827;
+  font-size: .9rem;
+  font-weight: 800;
+}
+
+.management-grand-total strong {
+  color: #002d62;
+  font-size: 1.2rem;
+}
+
+.management-detail-message {
+  padding: 50px 20px;
+  color: #8a9099;
+  text-align: center;
+}
+
+.management-detail-message.error {
+  color: #dc3545;
+}
+
+@media (max-width: 700px) {
+  .management-detail-page {
+    padding: 16px 14px 35px;
+  }
+
+  .management-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .management-detail-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .management-detail-status {
+    align-self: flex-start;
+  }
+
+  .management-detail-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .management-product {
+    gap: 10px;
+  }
+}

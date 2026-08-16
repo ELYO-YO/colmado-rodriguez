@@ -6,6 +6,7 @@ import {
   chevronForwardOutline,
   receiptOutline,
   timeOutline,
+  searchOutline,
 } from 'ionicons/icons';
 
 import {
@@ -16,13 +17,14 @@ import {
 
 import { getProfile } from '../../services/authService';
 
-import './OrderDetailPage.css';
+import './OrderManagementPage.css';
 
 function OrderManagementPage() {
   const history = useHistory();
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [selectedStatus, setSelectedStatus] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [updatingOrderId, setUpdatingOrderId] =
@@ -82,12 +84,23 @@ function OrderManagementPage() {
     };
   }, [history]);
 
-  const filteredOrders = orders.filter((order) => {
-    if (selectedStatus === 'all') {
-      return true;
-    }
+  const normalizedSearch = searchTerm
+    .trim()
+    .toLowerCase();
 
-    return order.status === selectedStatus;
+  const filteredOrders = orders.filter((order) => {
+    const matchesStatus =
+      selectedStatus === 'all' ||
+      order.status === selectedStatus;
+
+    const matchesSearch =
+      normalizedSearch === '' ||
+      order.customer_name
+        .toLowerCase()
+        .includes(normalizedSearch) ||
+      String(order.id).includes(normalizedSearch);
+
+    return matchesStatus && matchesSearch;
   });
 
   const getStatusText = (status: string) => {
@@ -180,6 +193,7 @@ function OrderManagementPage() {
     <IonPage>
       <IonContent fullscreen>
         <div className="order-management-page">
+
           <header className="order-management-header">
             <button
               type="button"
@@ -210,6 +224,7 @@ function OrderManagementPage() {
             </div>
           ) : (
             <>
+
               <div className="order-management-summary">
                 <div>
                   <span>Total</span>
@@ -238,6 +253,33 @@ function OrderManagementPage() {
                 </div>
               </div>
 
+              <div className="order-management-search">
+                <IonIcon icon={searchOutline} />
+
+                <input
+                  type="search"
+                  placeholder="Buscar por pedido o cliente..."
+                  value={searchTerm}
+                  onChange={(event) =>
+                    setSearchTerm(
+                      event.target.value
+                    )
+                  }
+                />
+
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSearchTerm('')
+                    }
+                    aria-label="Limpiar búsqueda"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+
               <div className="order-management-filters">
                 <button
                   type="button"
@@ -251,7 +293,9 @@ function OrderManagementPage() {
                   }
                 >
                   Todos
-                  <span>{getStatusCount('all')}</span>
+                  <span>
+                    {getStatusCount('all')}
+                  </span>
                 </button>
 
                 <button
@@ -370,7 +414,7 @@ function OrderManagementPage() {
                   <h2>No hay pedidos</h2>
 
                   <p>
-                    No hay pedidos con este estado.
+                    No encontramos pedidos con estos filtros.
                   </p>
                 </div>
               ) : (
@@ -380,6 +424,7 @@ function OrderManagementPage() {
                       className="management-order-card"
                       key={order.id}
                     >
+
                       <div className="management-order-top">
                         <div>
                           <strong>
@@ -424,6 +469,7 @@ function OrderManagementPage() {
                       </div>
 
                       <div className="management-order-actions">
+
                         {order.status !== 'delivered' &&
                           order.status !== 'cancelled' && (
                           <button
@@ -455,7 +501,7 @@ function OrderManagementPage() {
                             event.currentTarget.blur();
 
                             history.push(
-                              `/pedido/${order.id}`
+                              `/gestion-pedidos/${order.id}`
                             );
                           }}
                         >
@@ -467,13 +513,17 @@ function OrderManagementPage() {
                             }
                           />
                         </button>
+
                       </div>
+
                     </article>
                   ))}
                 </div>
               )}
+
             </>
           )}
+
         </div>
       </IonContent>
     </IonPage>

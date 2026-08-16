@@ -27,12 +27,15 @@ export interface RegisteredUser {
   last_name: string;
 }
 
+export type UserRole = 'customer' | 'employee' | 'admin';
+
 export interface UserProfile {
   id: number;
   username: string;
   email: string;
   first_name: string;
   last_name: string;
+  role: UserRole;
 }
 
 export interface UpdateProfileRequest {
@@ -44,9 +47,7 @@ export interface UpdateProfileRequest {
 
 const API_URL = 'http://127.0.0.1:8000/api/auth';
 
-export async function loginUser(
-  credentials: LoginRequest
-): Promise<LoginResponse> {
+export async function loginUser(credentials: LoginRequest): Promise<LoginResponse> {
   const response = await fetch(`${API_URL}/login/`, {
     method: 'POST',
     headers: {
@@ -64,9 +65,7 @@ export async function loginUser(
   return data;
 }
 
-export async function registerUser(
-  userData: RegisterRequest
-): Promise<RegisteredUser> {
+export async function registerUser(userData: RegisterRequest): Promise<RegisteredUser> {
   const response = await fetch(`${API_URL}/register/`, {
     method: 'POST',
     headers: {
