@@ -149,6 +149,27 @@
   font-weight: 700;
 }
 
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #e31b23;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+  z-index: 5;
+  pointer-events: none;
+}
+
 /* SEGUNDA FILA HEADER */
 
 .header-bottom {
@@ -948,13 +969,48 @@
     gap: 7px;
   }
 
-  .notification-button,
   .cart-button {
     width: 43px;
     height: 43px;
     border-radius: 12px;
     font-size: 1.15rem;
   }
+
+.notification-button {
+  position: relative;
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 12px;
+  background: #eef3f8;
+  color: #002d62;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #e31b23;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+  z-index: 5;
+}
 
   .search-box {
     display: flex;

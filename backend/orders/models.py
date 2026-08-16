@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-
 from products.models import Product
 
 
@@ -28,25 +27,11 @@ class Order(models.Model):
         blank=True,
     )
 
-    customer_name = models.CharField(
-        max_length=150
-    )
-
-    phone = models.CharField(
-        max_length=20
-    )
-
-    sector = models.CharField(
-        max_length=120
-    )
-
-    address = models.CharField(
-        max_length=255
-    )
-
-    reference = models.TextField(
-        blank=True
-    )
+    customer_name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=20)
+    sector = models.CharField(max_length=120)
+    address = models.CharField(max_length=255)
+    reference = models.TextField(blank=True)
 
     payment_method = models.CharField(
         max_length=20,
@@ -76,9 +61,7 @@ class Order(models.Model):
         default="pending",
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-created_at"]
@@ -102,18 +85,14 @@ class OrderItem(models.Model):
         related_name="order_items",
     )
 
-    product_name = models.CharField(
-        max_length=150
-    )
+    product_name = models.CharField(max_length=150)
 
     unit_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
     )
 
-    quantity = models.PositiveIntegerField(
-        default=1
-    )
+    quantity = models.PositiveIntegerField(default=1)
 
     class Meta:
         verbose_name = "Producto del pedido"

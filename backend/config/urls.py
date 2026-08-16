@@ -39,4 +39,9 @@ urlpatterns = [
         TokenRefreshView.as_view(),
         name="token_refresh",
     ),
+
+    path(
+        "api/notifications/",
+        include("notifications.urls"),
+    ),
 ]
