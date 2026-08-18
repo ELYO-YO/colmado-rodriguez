@@ -1,0 +1,306 @@
+.category-management-page {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 26px 22px 50px;
+}
+
+.category-management-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.category-management-header > button {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 12px;
+  background: #eef3f8;
+  color: #002d62;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.category-management-header span {
+  color: #002d62;
+  font-size: .64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.category-management-header h1 {
+  margin: 3px 0 0;
+  color: #111827;
+  font-size: 1.45rem;
+}
+
+.category-management-header p {
+  margin: 5px 0 0;
+  color: #8a9099;
+  font-size: .7rem;
+}
+
+.category-management-layout {
+  display: grid;
+  grid-template-columns: 360px minmax(0,1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.category-form-card,
+.category-list-card {
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.category-form-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 18px;
+}
+
+.category-form-title > ion-icon {
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  box-sizing: border-box;
+  border-radius: 11px;
+  background: #eef3f8;
+  color: #002d62;
+}
+
+.category-form-title h2,
+.category-list-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: .9rem;
+}
+
+.category-form-title span,
+.category-list-header span {
+  display: block;
+  margin-top: 3px;
+  color: #8a9099;
+  font-size: .62rem;
+}
+
+.category-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.category-form-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #374151;
+  font-size: .69rem;
+  font-weight: 700;
+}
+
+.category-form-card input {
+  width: 100%;
+  height: 44px;
+  padding: 0 11px;
+  border: 1px solid #dfe3e8;
+  border-radius: 10px;
+  outline: none;
+  background: #fafbfc;
+  color: #111827;
+  font-size: .72rem;
+}
+
+.category-form-card input:focus {
+  border-color: #002d62;
+  background: #fff;
+}
+
+.category-image-input {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 1px solid #dfe3e8;
+  border-radius: 10px;
+  background: #fafbfc;
+}
+
+.category-image-input ion-icon {
+  color: #8a9099;
+}
+
+.category-image-input input {
+  height: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.category-form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.category-form-actions button {
+  flex: 1;
+  height: 42px;
+  border-radius: 10px;
+  font-size: .68rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.category-save-button {
+  border: none;
+  background: #002d62;
+  color: #fff;
+}
+
+.category-cancel-button {
+  border: 1px solid #dfe3e8;
+  background: #fff;
+  color: #6b7280;
+}
+
+.category-form-error,
+.category-form-success {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: .66rem;
+  text-align: center;
+}
+
+.category-form-error {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #dc3545;
+}
+
+.category-form-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.category-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-item {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.category-item:last-child {
+  border-bottom: none;
+}
+
+.category-image {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 11px;
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+.category-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.category-info strong {
+  color: #111827;
+  font-size: .75rem;
+}
+
+.category-info span {
+  color: #8a9099;
+  font-size: .6rem;
+}
+
+.category-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.category-actions button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dfe3e8;
+  border-radius: 9px;
+  background: #fff;
+  color: #002d62;
+  cursor: pointer;
+}
+
+.category-actions button.delete {
+  border-color: #fecaca;
+  color: #dc3545;
+}
+
+.category-message {
+  padding: 35px 15px;
+  color: #8a9099;
+  font-size: .7rem;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .category-management-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .category-management-page {
+    padding: 17px 14px 35px;
+  }
+
+  .category-management-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .category-form-card,
+  .category-list-card {
+    padding: 16px;
+    border-radius: 15px;
+  }
+}

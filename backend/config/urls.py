@@ -29,6 +29,16 @@ urlpatterns = [
     ),
 
     path(
+        "api/notifications/",
+        include("notifications.urls"),
+    ),
+
+    path(
+        "api/dashboard/",
+        include("dashboard.urls"),
+    ),
+
+    path(
         "api/auth/login/",
         TokenObtainPairView.as_view(),
         name="token_obtain_pair",
@@ -38,10 +48,5 @@ urlpatterns = [
         "api/auth/refresh/",
         TokenRefreshView.as_view(),
         name="token_refresh",
-    ),
-
-    path(
-        "api/notifications/",
-        include("notifications.urls"),
     ),
 ]

@@ -1,6 +1,5 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import {
   IonContent,
   IonIcon,
@@ -8,62 +7,57 @@ import {
 } from '@ionic/react';
 
 import {
-  personOutline,
+  eyeOffOutline,
+  eyeOutline,
   lockClosedOutline,
-  arrowBackOutline,
+  personOutline,
 } from 'ionicons/icons';
 
 import {
+  getProfile,
   loginUser,
 } from '../../services/authService';
 
 import './LoginPage.css';
 
-
 function LoginPage() {
   const history = useHistory();
 
-  const [username, setUsername] =
-    useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [password, setPassword] =
-    useState('');
+  const [showPassword, setShowPassword] =
+    useState(false);
 
-  const [isLoading, setIsLoading] =
+  const [loading, setLoading] =
     useState(false);
 
   const [error, setError] =
     useState('');
 
-
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
+  const handleLogin = async (
+    event: React.FormEvent
   ) => {
     event.preventDefault();
 
-    setError('');
-
-    if (
-      !username.trim() ||
-      !password.trim()
-    ) {
+    if (!username.trim() || !password) {
       setError(
-        'Completa usuario y contraseña.'
+        'Completa el usuario y la contraseña.'
       );
-
       return;
     }
 
     try {
-      setIsLoading(true);
+      setLoading(true);
       setError('');
 
-      const response =
-        await loginUser({
-          username: username.trim(),
-          password,
-        });
+      // 1. Iniciar sesión
+      const response = await loginUser({
+        username: username.trim(),
+        password,
+      });
 
+      // 2. Guardar los tokens
       localStorage.setItem(
         'accessToken',
         response.access
@@ -79,7 +73,28 @@ function LoginPage() {
         username.trim()
       );
 
-      history.replace('/');
+      // 3. Obtener el perfil del usuario
+      const profile = await getProfile();
+
+      console.log(
+        'USUARIO AUTENTICADO:',
+        profile
+      );
+
+      console.log(
+        'ROL:',
+        profile.role
+      );
+
+      // 4. Redirección según el rol
+      if (
+        profile.role === 'admin' ||
+        profile.role === 'employee'
+      ) {
+        history.replace('/dashboard');
+      } else {
+        history.replace('/');
+      }
 
     } catch (error) {
       console.error(
@@ -94,73 +109,50 @@ function LoginPage() {
       );
 
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-
   return (
     <IonPage>
-
       <IonContent fullscreen>
-
         <div className="login-page">
 
-          <button
-            type="button"
-            className="login-back"
-            onClick={() =>
-              history.goBack()
-            }
-            aria-label="Volver"
-          >
-            <IonIcon
-              icon={arrowBackOutline}
-            />
-          </button>
+          <div className="login-container">
 
+            <div className="login-header">
+  <img
+    src="/images/logo/logo-colmado-rodriguez.png"
+    alt="Colmado Rodríguez"
+    className="login-logo"
+  />
 
-          <div className="login-card">
+  <h1>Inicia sesión</h1>
 
-            <img
-              className="login-logo"
-              src="/images/logo/logo-colmado-rodriguez.png"
-              alt="Colmado Rodríguez"
-            />
-
-
-            <div className="login-heading">
-
-              <h1>
-                Bienvenido
-              </h1>
-
-              <p>
-                Inicia sesión para continuar
-                con tus pedidos.
-              </p>
-
-            </div>
-
+  <p>
+    Ingresa tus credenciales para continuar
+  </p>
+</div>
 
             <form
               className="login-form"
-              onSubmit={handleSubmit}
+              onSubmit={handleLogin}
             >
 
-              <label>
-
-                Usuario
+              <div className="login-field">
+                <label htmlFor="username">
+                  Usuario
+                </label>
 
                 <div className="login-input">
-
                   <IonIcon
                     icon={personOutline}
                   />
 
                   <input
+                    id="username"
                     type="text"
-                    placeholder="Tu usuario"
+                    placeholder="Ingresa tu usuario"
                     value={username}
                     onChange={(event) =>
                       setUsername(
@@ -169,25 +161,27 @@ function LoginPage() {
                     }
                     autoComplete="username"
                   />
-
                 </div>
+              </div>
 
-              </label>
-
-
-              <label>
-
-                Contraseña
+              <div className="login-field">
+                <label htmlFor="password">
+                  Contraseña
+                </label>
 
                 <div className="login-input">
-
                   <IonIcon
                     icon={lockClosedOutline}
                   />
 
                   <input
-                    type="password"
-                    placeholder="Tu contraseña"
+                    id="password"
+                    type={
+                      showPassword
+                        ? 'text'
+                        : 'password'
+                    }
+                    placeholder="Ingresa tu contraseña"
                     value={password}
                     onChange={(event) =>
                       setPassword(
@@ -197,63 +191,71 @@ function LoginPage() {
                     autoComplete="current-password"
                   />
 
+                  <button
+                    type="button"
+                    className="login-password-button"
+                    onClick={() =>
+                      setShowPassword(
+                        (current) =>
+                          !current
+                      )
+                    }
+                    aria-label={
+                      showPassword
+                        ? 'Ocultar contraseña'
+                        : 'Mostrar contraseña'
+                    }
+                  >
+                    <IonIcon
+                      icon={
+                        showPassword
+                          ? eyeOffOutline
+                          : eyeOutline
+                      }
+                    />
+                  </button>
                 </div>
-
-              </label>
-
+              </div>
 
               {error && (
-
-                <p className="login-error">
+                <div className="login-error">
                   {error}
-                </p>
-
+                </div>
               )}
-
 
               <button
                 type="submit"
-                className="login-button"
-                disabled={isLoading}
+                className="login-submit"
+                disabled={loading}
               >
-
-                {isLoading
+                {loading
                   ? 'Iniciando sesión...'
                   : 'Iniciar sesión'}
-
               </button>
 
-
-              <div className="login-register">
-
-                <span>
-                  ¿No tienes una cuenta?
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    history.push(
-                      '/registro'
-                    )
-                  }
-                >
-                  Regístrate
-                </button>
-
-              </div>
-
             </form>
+
+            <div className="login-register">
+              <span>
+                ¿No tienes una cuenta?
+              </span>
+
+              <button
+                type="button"
+                onClick={() =>
+                  history.push('/registro')
+                }
+              >
+                Crear cuenta
+              </button>
+            </div>
 
           </div>
 
         </div>
-
       </IonContent>
-
     </IonPage>
   );
 }
-
 
 export default LoginPage;

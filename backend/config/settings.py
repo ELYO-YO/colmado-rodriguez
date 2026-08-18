@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "orders.apps.OrdersConfig",
     "accounts.apps.AccountsConfig",
     "notifications",
+    "dashboard",
 ]
 
 MIDDLEWARE = [

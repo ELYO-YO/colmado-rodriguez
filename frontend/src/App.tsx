@@ -1,20 +1,58 @@
-import { IonApp, IonRouterOutlet } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { Route } from 'react-router-dom';
+import {
+  IonApp,
+  IonRouterOutlet,
+} from '@ionic/react';
 
-import { CartProvider } from './context/CartContext';
+import {
+  IonReactRouter,
+} from '@ionic/react-router';
+
+import {
+  Route,
+} from 'react-router-dom';
+
+import {
+  CartProvider,
+} from './context/CartContext';
 
 import HomePage from './pages/home/HomePage';
+
 import ProductDetailPage from './pages/product/ProductDetailPage';
+
 import CheckoutPage from './pages/checkout/CheckoutPage';
+
 import OrderSuccessPage from './pages/order-success/OrderSuccessPage';
+
 import LoginPage from './pages/login/LoginPage';
-import ProfilePage from './pages/profile/ProfilePage';
-import OrdersPage from './pages/orders/OrdersPage';
-import OrderDetailPage from './pages/orders/OrderDetailPage';
+
 import RegisterPage from './pages/register/RegisterPage';
+
+import ProfilePage from './pages/profile/ProfilePage';
+
+import OrdersPage from './pages/orders/OrdersPage';
+
+import OrderDetailPage from './pages/orders/OrderDetailPage';
+
 import OrderManagementPage from './pages/order-management/OrderManagementPage';
+
 import OrderManagementDetailPage from './pages/order-management-detail/OrderManagementDetailPage';
+
+import DashboardPage from './pages/dashboard/DashboardPage';
+
+import AddProductPage from './pages/product-management/AddProductPage';
+
+import OfferManagementPage from './pages/offer-management/OfferManagementPage';
+
+import ProductManagementPage from './pages/product-management-list/ProductManagementPage';
+
+import EditProductPage from './pages/product-edit/EditProductPage';
+
+import CategoryManagementPage from './pages/category-management/CategoryManagementPage';
+
+import UserManagementPage from './pages/user-management/UserManagementPage';
+
+import EmployeeProductConsultationPage from './pages/employee-product-consultation/EmployeeProductConsultationPage';
+
 
 function App() {
   return (
@@ -22,6 +60,10 @@ function App() {
       <CartProvider>
         <IonReactRouter>
           <IonRouterOutlet>
+
+            {/* =====================================
+                HOME
+            ====================================== */}
 
             <Route
               exact
@@ -35,11 +77,21 @@ function App() {
               component={HomePage}
             />
 
+
+            {/* =====================================
+                PRODUCTOS CLIENTE
+            ====================================== */}
+
             <Route
               exact
               path="/producto/:id"
               component={ProductDetailPage}
             />
+
+
+            {/* =====================================
+                CHECKOUT
+            ====================================== */}
 
             <Route
               exact
@@ -52,6 +104,11 @@ function App() {
               path="/pedido-realizado/:id"
               component={OrderSuccessPage}
             />
+
+
+            {/* =====================================
+                AUTENTICACIÓN
+            ====================================== */}
 
             <Route
               exact
@@ -71,6 +128,11 @@ function App() {
               component={ProfilePage}
             />
 
+
+            {/* =====================================
+                PEDIDOS DEL CLIENTE
+            ====================================== */}
+
             <Route
               exact
               path="/pedidos"
@@ -83,6 +145,12 @@ function App() {
               component={OrderDetailPage}
             />
 
+
+            {/* =====================================
+                GESTIÓN DE PEDIDOS
+                ADMIN / EMPLEADO
+            ====================================== */}
+
             <Route
               exact
               path="/gestion-pedidos"
@@ -90,9 +158,88 @@ function App() {
             />
 
             <Route
-             exact
-             path="/gestion-pedidos/:id"
-             component={OrderManagementDetailPage}
+              exact
+              path="/gestion-pedidos/:id"
+              component={OrderManagementDetailPage}
+            />
+
+
+            {/* =====================================
+                DASHBOARD
+            ====================================== */}
+
+            <Route
+              exact
+              path="/dashboard"
+              component={DashboardPage}
+            />
+
+
+            {/* =====================================
+                CONSULTA DE PRODUCTOS EMPLEADO
+                Poner antes de rutas dinámicas
+            ====================================== */}
+
+            <Route
+              exact
+              path="/dashboard/productos/consulta"
+              component={EmployeeProductConsultationPage}
+            />
+
+
+            {/* =====================================
+                PRODUCTOS ADMIN
+            ====================================== */}
+
+            <Route
+              exact
+              path="/dashboard/productos/nuevo"
+              component={AddProductPage}
+            />
+
+            <Route
+              exact
+              path="/dashboard/productos"
+              component={ProductManagementPage}
+            />
+
+            <Route
+              exact
+              path="/dashboard/productos/:id/editar"
+              component={EditProductPage}
+            />
+
+
+            {/* =====================================
+                OFERTAS
+            ====================================== */}
+
+            <Route
+              exact
+              path="/dashboard/ofertas"
+              component={OfferManagementPage}
+            />
+
+
+            {/* =====================================
+                CATEGORÍAS
+            ====================================== */}
+
+            <Route
+              exact
+              path="/dashboard/categorias"
+              component={CategoryManagementPage}
+            />
+
+
+            {/* =====================================
+                USUARIOS
+            ====================================== */}
+
+            <Route
+              exact
+              path="/dashboard/usuarios"
+              component={UserManagementPage}
             />
 
           </IonRouterOutlet>

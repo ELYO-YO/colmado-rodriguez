@@ -1,73 +1,97 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  useHistory,
+} from 'react-router-dom';
 
 import {
   IonContent,
   IonIcon,
   IonPage,
-  useIonViewWillEnter,
 } from '@ionic/react';
 
 import {
   arrowBackOutline,
+  chevronForwardOutline,
   receiptOutline,
   timeOutline,
-  checkmarkCircleOutline,
-  bicycleOutline,
-  closeCircleOutline,
 } from 'ionicons/icons';
 
 import {
+  cancelOrder,
   getOrders,
   type Order,
 } from '../../services/orderService';
 
 import './OrdersPage.css';
 
+
 function OrdersPage() {
   const history = useHistory();
 
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [orders, setOrders] =
+    useState<Order[]>([]);
 
-  const loadOrders = async () => {
-    try {
-      setLoading(true);
-      setError('');
+  const [loading, setLoading] =
+    useState(true);
 
-      const data = await getOrders();
+  const [error, setError] =
+    useState('');
 
-      setOrders(data);
-    } catch (error) {
-      console.error(
-        'Error cargando pedidos:',
-        error
-      );
+  const [cancellingId, setCancellingId] =
+    useState<number | null>(null);
 
-      if (
-        error instanceof Error &&
-        error.message.includes('sesión')
-      ) {
-        history.replace('/login');
-        return;
+
+  /* =====================================
+     CARGAR PEDIDOS
+  ====================================== */
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadOrders = async () => {
+      try {
+        const data =
+          await getOrders();
+
+        if (isMounted) {
+          setOrders(data);
+          setError('');
+        }
+      } catch (error) {
+        console.error(
+          'Error cargando pedidos:',
+          error
+        );
+
+        if (isMounted) {
+          setError(
+            error instanceof Error
+              ? error.message
+              : 'No se pudieron cargar los pedidos.'
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
+    };
 
-      setError(
-        'No se pudieron cargar tus pedidos.'
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /*
-    Se ejecuta cada vez que la página
-    vuelve a mostrarse en Ionic.
-  */
-  useIonViewWillEnter(() => {
     loadOrders();
-  });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+
+  /* =====================================
+     ESTADO EN ESPAÑOL
+  ====================================== */
 
   const getStatusText = (
     status: string
@@ -96,44 +120,102 @@ function OrdersPage() {
     }
   };
 
-  const getStatusIcon = (
-    status: string
-  ) => {
-    switch (status) {
-      case 'pending':
-        return timeOutline;
 
-      case 'confirmed':
-      case 'preparing':
-        return receiptOutline;
-
-      case 'on_the_way':
-        return bicycleOutline;
-
-      case 'delivered':
-        return checkmarkCircleOutline;
-
-      case 'cancelled':
-        return closeCircleOutline;
-
-      default:
-        return receiptOutline;
-    }
-  };
+  /* =====================================
+     FORMATEAR FECHA
+  ====================================== */
 
   const formatDate = (
     date: string
   ) => {
-    return new Date(date)
-      .toLocaleDateString(
-        'es-DO',
-        {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-        }
-      );
+    return new Date(
+      date
+    ).toLocaleString(
+      'es-DO',
+      {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }
+    );
   };
+
+
+  /* =====================================
+     VER DETALLE
+  ====================================== */
+
+  const handleViewDetail = (
+    orderId: number
+  ) => {
+    history.push(
+      `/pedidos/${orderId}`
+    );
+  };
+
+
+  /* =====================================
+     CANCELAR PEDIDO
+  ====================================== */
+
+  const handleCancel = async (
+    order: Order
+  ) => {
+    if (
+      order.status !== 'pending'
+    ) {
+      return;
+    }
+
+    const confirmed =
+      window.confirm(
+        `¿Seguro que deseas cancelar el pedido #${order.id}?`
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setCancellingId(
+        order.id
+      );
+
+      setError('');
+
+      const updatedOrder =
+        await cancelOrder(
+          order.id
+        );
+
+      setOrders(
+        (current) =>
+          current.map(
+            (item) =>
+              item.id ===
+              updatedOrder.id
+                ? updatedOrder
+                : item
+          )
+      );
+    } catch (error) {
+      console.error(
+        'Error cancelando pedido:',
+        error
+      );
+
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'No se pudo cancelar el pedido.'
+      );
+    } finally {
+      setCancellingId(null);
+    }
+  };
+
 
   return (
     <IonPage>
@@ -141,79 +223,78 @@ function OrdersPage() {
 
         <div className="orders-page">
 
-          {/* Header */}
+          {/* =====================================
+              HEADER
+          ====================================== */}
+
           <header className="orders-header">
 
             <button
-              className="orders-back"
-              onClick={() =>
-                history.goBack()
-              }
+              type="button"
+              className="orders-back-button"
+              onClick={(event) => {
+                event.currentTarget.blur();
+
+                history.push('/');
+              }}
               aria-label="Volver"
             >
               <IonIcon
-                icon={arrowBackOutline}
+                icon={
+                  arrowBackOutline
+                }
               />
             </button>
 
             <div>
-
               <h1>
                 Mis pedidos
               </h1>
 
               <span>
-                Consulta el estado de tus compras
+                Consulta el estado
+                de tus pedidos
               </span>
-
             </div>
 
           </header>
 
-          {/* Cargando */}
+
+          {/* =====================================
+              ERROR
+          ====================================== */}
+
+          {error && (
+            <div className="orders-error">
+              {error}
+            </div>
+          )}
+
+
+          {/* =====================================
+              CARGANDO
+          ====================================== */}
+
           {loading ? (
-
             <div className="orders-message">
-
-              <p>
-                Cargando pedidos...
-              </p>
-
+              Cargando pedidos...
             </div>
-
-          ) : error ? (
-
-            /* Error */
-            <div className="orders-message error">
-
-              <p>
-                {error}
-              </p>
-
-              <button
-                className="orders-retry-button"
-                onClick={loadOrders}
-              >
-                Intentar de nuevo
-              </button>
-
-            </div>
-
           ) : orders.length === 0 ? (
 
-            /* Sin pedidos */
+            /* =====================================
+               SIN PEDIDOS
+            ====================================== */
+
             <div className="orders-empty">
 
-              <div className="orders-empty-icon">
-
-                <IonIcon
-                  icon={receiptOutline}
-                />
-
-              </div>
+              <IonIcon
+                icon={
+                  receiptOutline
+                }
+              />
 
               <h2>
-                No tienes pedidos todavía
+                No tienes pedidos
               </h2>
 
               <p>
@@ -222,56 +303,54 @@ function OrdersPage() {
               </p>
 
               <button
-                onClick={() =>
-                  history.push('/')
-                }
+                type="button"
+                onClick={(event) => {
+                  event.currentTarget.blur();
+
+                  history.push('/');
+                }}
               >
-                Ver productos
+                Ir al catálogo
               </button>
 
             </div>
 
           ) : (
 
-            /* Lista de pedidos */
+            /* =====================================
+               LISTA DE PEDIDOS
+            ====================================== */
+
             <div className="orders-list">
 
-              {orders.map((order) => (
+              {orders.map(
+                (order) => (
+                  <article
+                    className="order-card"
+                    key={order.id}
+                  >
 
-                <article
-                  className="order-card"
-                  key={order.id}
-                >
+                    {/* PEDIDO + ESTADO */}
 
-                  {/* Header pedido */}
-                  <div className="order-card-header">
+                    <div className="order-card-top">
 
-                    <div>
+                      <div>
+                        <strong>
+                          Pedido #{order.id}
+                        </strong>
 
-                      <span className="order-number">
-                        Pedido #{order.id}
-                      </span>
+                        <span>
+                          {formatDate(
+                            order.created_at
+                          )}
+                        </span>
+                      </div>
 
-                      <span className="order-date">
-                        {formatDate(
-                          order.created_at
-                        )}
-                      </span>
-
-                    </div>
-
-                    {/* Estado */}
-                    <div
-                      className={`order-status status-${order.status}`}
-                    >
-
-                      <IonIcon
-                        icon={getStatusIcon(
-                          order.status
-                        )}
-                      />
-
-                      <span>
+                      <span
+                        className={
+                          `order-status status-${order.status}`
+                        }
+                      >
                         {getStatusText(
                           order.status
                         )}
@@ -279,109 +358,103 @@ function OrdersPage() {
 
                     </div>
 
-                  </div>
 
-                  {/* Productos */}
-                  <div className="order-products">
+                    {/* INFORMACIÓN */}
 
-                    {(order.items ?? []).map(
-                      (item) => (
+                    <div className="order-card-info">
 
-                        <div
-                          className="order-product"
-                          key={item.id}
+                      <div>
+                        <IonIcon
+                          icon={
+                            timeOutline
+                          }
+                        />
+
+                        <span>
+                          {order.items?.length ??
+                            0}{' '}
+                          {(
+                            order.items?.length ??
+                            0
+                          ) === 1
+                            ? 'producto'
+                            : 'productos'}
+                        </span>
+                      </div>
+
+                      <strong>
+                        RD${' '}
+                        {Number(
+                          order.total
+                        ).toLocaleString(
+                          'es-DO'
+                        )}
+                      </strong>
+
+                    </div>
+
+
+                    {/* =====================================
+                        ACCIONES DEL CLIENTE
+                    ====================================== */}
+
+                    <div className="order-card-actions">
+
+                      {/* El cliente solo puede cancelar
+                          mientras el pedido está pendiente */}
+
+                      {order.status ===
+                        'pending' && (
+                        <button
+                          type="button"
+                          className="order-cancel-button-list"
+                          onClick={() =>
+                            handleCancel(
+                              order
+                            )
+                          }
+                          disabled={
+                            cancellingId ===
+                            order.id
+                          }
                         >
-
-                          <div>
-
-                            <strong>
-                              {item.product_name}
-                            </strong>
-
-                            <span>
-
-                              {item.quantity}
-
-                              {' × '}
-
-                              RD${' '}
-
-                              {Number(
-                                item.unit_price
-                              ).toLocaleString(
-                                'es-DO'
-                              )}
-
-                            </span>
-
-                          </div>
-
-                          <strong>
-
-                            RD${' '}
-
-                            {Number(
-                              item.subtotal
-                            ).toLocaleString(
-                              'es-DO'
-                            )}
-
-                          </strong>
-
-                        </div>
-
-                      )
-                    )}
-
-                    {(order.items?.length ?? 0) === 0 && (
-
-                      <p className="order-no-products">
-                        No hay productos registrados.
-                      </p>
-
-                    )}
-
-                  </div>
-
-                  {/* Total */}
-                  <div className="order-card-footer">
-
-                    <span>
-                      Total
-                    </span>
-
-                    <strong>
-
-                      RD${' '}
-
-                      {Number(
-                        order.total
-                      ).toLocaleString(
-                        'es-DO'
+                          {cancellingId ===
+                          order.id
+                            ? 'Cancelando...'
+                            : 'Cancelar pedido'}
+                        </button>
                       )}
 
-                    </strong>
 
-                  </div>
+                      {/* VER DETALLE */}
 
-                  {/* Ver detalle */}
-                  <button
-                    className="order-detail-button"
-                    onClick={() =>
-                      history.push(
-                        `/pedidos/${order.id}`
-                      )
-                    }
-                  >
-                    Ver detalle
-                  </button>
+                      <button
+                        type="button"
+                        className="order-detail-button"
+                        onClick={(event) => {
+                          event.currentTarget.blur();
 
-                </article>
+                          handleViewDetail(
+                            order.id
+                          );
+                        }}
+                      >
+                        Ver detalle
 
-              ))}
+                        <IonIcon
+                          icon={
+                            chevronForwardOutline
+                          }
+                        />
+                      </button>
+
+                    </div>
+
+                  </article>
+                )
+              )}
 
             </div>
-
           )}
 
         </div>

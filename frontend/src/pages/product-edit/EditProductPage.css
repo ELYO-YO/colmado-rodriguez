@@ -1,0 +1,267 @@
+.edit-product-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 26px 22px 50px;
+}
+
+.edit-product-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.edit-product-header > button {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 12px;
+  background: #eef3f8;
+  color: #002d62;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.edit-product-header span {
+  color: #002d62;
+  font-size: .64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.edit-product-header h1 {
+  margin: 3px 0 0;
+  color: #111827;
+  font-size: 1.45rem;
+}
+
+.edit-product-header p {
+  margin: 5px 0 0;
+  color: #8a9099;
+  font-size: .7rem;
+}
+
+.edit-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-product-card {
+  padding: 21px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.edit-product-card h2 {
+  margin: 0 0 18px;
+  color: #111827;
+  font-size: .9rem;
+}
+
+.edit-product-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 15px;
+}
+
+.edit-product-grid label,
+.edit-product-full {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #374151;
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+.edit-product-grid input,
+.edit-product-grid select,
+.edit-product-full textarea {
+  width: 100%;
+  border: 1px solid #dfe3e8;
+  border-radius: 11px;
+  outline: none;
+  background: #fafbfc;
+  color: #111827;
+  font-family: inherit;
+  font-size: .74rem;
+}
+
+.edit-product-grid input,
+.edit-product-grid select {
+  height: 45px;
+  padding: 0 11px;
+}
+
+.edit-product-full {
+  margin-top: 15px;
+}
+
+.edit-product-full textarea {
+  min-height: 100px;
+  padding: 11px;
+  resize: vertical;
+}
+
+.edit-product-grid input:focus,
+.edit-product-grid select:focus,
+.edit-product-full textarea:focus {
+  border-color: #002d62;
+  background: #fff;
+}
+
+.edit-image-input {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid #dfe3e8;
+  border-radius: 11px;
+  background: #fafbfc;
+}
+
+.edit-image-input ion-icon {
+  color: #8a9099;
+}
+
+.edit-image-input input {
+  height: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.edit-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.edit-switch-row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-switch-row strong {
+  color: #111827;
+  font-size: .74rem;
+}
+
+.edit-switch-row span {
+  color: #8a9099;
+  font-size: .63rem;
+}
+
+.edit-switch-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: #002d62;
+}
+
+.edit-product-grid.offer {
+  margin-top: 17px;
+}
+
+.edit-product-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.edit-product-actions button {
+  min-width: 145px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 11px;
+  font-size: .7rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.edit-product-cancel {
+  border: 1px solid #dfe3e8;
+  background: #fff;
+  color: #6b7280;
+}
+
+.edit-product-save {
+  border: none;
+  background: #002d62;
+  color: #fff;
+}
+
+.edit-product-save:hover {
+  background: #003d82;
+}
+
+.edit-product-save:disabled {
+  opacity: .6;
+}
+
+.edit-product-error,
+.edit-product-success {
+  margin-bottom: 14px;
+  padding: 11px 13px;
+  border-radius: 11px;
+  font-size: .68rem;
+  text-align: center;
+}
+
+.edit-product-error {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #dc3545;
+}
+
+.edit-product-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.edit-product-message {
+  padding: 60px 20px;
+  color: #8a9099;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .edit-product-page {
+    padding: 17px 14px 35px;
+  }
+
+  .edit-product-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .edit-product-card {
+    padding: 16px;
+    border-radius: 15px;
+  }
+
+  .edit-product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-product-actions {
+    flex-direction: column-reverse;
+  }
+
+  .edit-product-actions button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,306 @@
+.add-product-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 26px 22px 50px;
+}
+
+.add-product-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.add-product-header > button {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 12px;
+  background: #eef3f8;
+  color: #002d62;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.add-product-header span {
+  color: #002d62;
+  font-size: .65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.add-product-header h1 {
+  margin: 3px 0 0;
+  color: #111827;
+  font-size: 1.45rem;
+}
+
+.add-product-header p {
+  margin: 5px 0 0;
+  color: #8a9099;
+  font-size: .72rem;
+}
+
+.add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-form-card {
+  padding: 21px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.product-form-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 20px;
+}
+
+.product-form-title > ion-icon {
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  box-sizing: border-box;
+  border-radius: 11px;
+  background: #eef3f8;
+  color: #002d62;
+}
+
+.product-form-title h2 {
+  margin: 0;
+  color: #111827;
+  font-size: .9rem;
+}
+
+.product-form-title span {
+  display: block;
+  margin-top: 3px;
+  color: #8a9099;
+  font-size: .63rem;
+}
+
+.product-form-grid,
+.product-offer-fields {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 16px;
+}
+
+.product-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.product-form-field.full {
+  margin-top: 16px;
+}
+
+.product-form-field label {
+  color: #374151;
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+.product-form-field input,
+.product-form-field select,
+.product-form-field textarea {
+  width: 100%;
+  border: 1px solid #dfe3e8;
+  border-radius: 11px;
+  outline: none;
+  background: #fafbfc;
+  color: #111827;
+  font-family: inherit;
+  font-size: .75rem;
+}
+
+.product-form-field input,
+.product-form-field select {
+  height: 45px;
+  padding: 0 12px;
+}
+
+.product-form-field textarea {
+  min-height: 100px;
+  padding: 12px;
+  resize: vertical;
+}
+
+.product-form-field input:focus,
+.product-form-field select:focus,
+.product-form-field textarea:focus {
+  border-color: #002d62;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,45,98,.06);
+}
+
+.product-image-input {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid #dfe3e8;
+  border-radius: 11px;
+  background: #fafbfc;
+}
+
+.product-image-input:focus-within {
+  border-color: #002d62;
+  background: #fff;
+}
+
+.product-image-input ion-icon {
+  color: #8a9099;
+}
+
+.product-image-input input {
+  height: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none !important;
+}
+
+.product-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid #edf0f2;
+  cursor: pointer;
+}
+
+.product-switch-row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.product-switch-row strong {
+  color: #111827;
+  font-size: .75rem;
+}
+
+.product-switch-row span {
+  color: #8a9099;
+  font-size: .64rem;
+}
+
+.product-switch-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: #002d62;
+}
+
+.product-offer-fields {
+  margin-top: 18px;
+}
+
+.product-form-error,
+.product-form-success {
+  padding: 11px 13px;
+  border-radius: 11px;
+  font-size: .7rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.product-form-error {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #dc3545;
+}
+
+.product-form-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.product-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.product-form-actions button {
+  min-width: 145px;
+  height: 45px;
+  padding: 0 17px;
+  border-radius: 11px;
+  font-size: .72rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.product-cancel-button {
+  border: 1px solid #dfe3e8;
+  background: #fff;
+  color: #6b7280;
+}
+
+.product-save-button {
+  border: none;
+  background: #002d62;
+  color: #fff;
+}
+
+.product-save-button:hover {
+  background: #003d82;
+}
+
+.product-save-button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.add-product-message {
+  padding: 60px 20px;
+  color: #8a9099;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .add-product-page {
+    padding: 17px 14px 35px;
+  }
+
+  .add-product-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .product-form-card {
+    padding: 16px;
+    border-radius: 15px;
+  }
+
+  .product-form-grid,
+  .product-offer-fields {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .product-form-field.full {
+    margin-top: 13px;
+  }
+
+  .product-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .product-form-actions button {
+    width: 100%;
+  }
+}
