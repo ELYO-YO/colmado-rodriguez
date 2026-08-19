@@ -1,4 +1,7 @@
-import { apiFetch } from './apiClient';
+import {
+  apiFetch,
+  clearSession,
+} from './apiClient';
 
 export interface LoginRequest {
   username: string;
@@ -27,7 +30,10 @@ export interface RegisteredUser {
   last_name: string;
 }
 
-export type UserRole = 'customer' | 'employee' | 'admin';
+export type UserRole =
+  | 'admin'
+  | 'employee'
+  | 'customer';
 
 export interface UserProfile {
   id: number;
@@ -35,7 +41,7 @@ export interface UserProfile {
   email: string;
   first_name: string;
   last_name: string;
-  role: 'admin' | 'employee' | 'customer';
+  role: UserRole;
 }
 
 export interface UpdateProfileRequest {
@@ -45,101 +51,203 @@ export interface UpdateProfileRequest {
   last_name?: string;
 }
 
-const API_URL = 'http://127.0.0.1:8000/api/auth';
+const API_URL =
+  'http://127.0.0.1:8000/api/auth';
 
-export async function loginUser(credentials: LoginRequest): Promise<LoginResponse> {
-  const response = await fetch(`${API_URL}/login/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
-  });
+export async function loginUser(
+  credentials: LoginRequest
+): Promise<LoginResponse> {
+  const response = await fetch(
+    `${API_URL}/login/`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type':
+          'application/json',
+      },
+      body: JSON.stringify(
+        credentials
+      ),
+    }
+  );
 
-  const data = await response.json().catch(() => null);
+  const data = await response
+    .json()
+    .catch(() => null);
 
   if (!response.ok) {
-    throw new Error('Usuario o contraseña incorrectos.');
+    throw new Error(
+      'Usuario o contraseña incorrectos.'
+    );
   }
+
+  if (
+    !data?.access ||
+    !data?.refresh
+  ) {
+    throw new Error(
+      'La respuesta del servidor no contiene los tokens.'
+    );
+  }
+
+  localStorage.setItem(
+    'accessToken',
+    data.access
+  );
+
+  localStorage.setItem(
+    'refreshToken',
+    data.refresh
+  );
+
+  localStorage.setItem(
+    'username',
+    credentials.username
+  );
 
   return data;
 }
 
-export async function registerUser(userData: RegisterRequest): Promise<RegisteredUser> {
-  const response = await fetch(`${API_URL}/register/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
+export async function registerUser(
+  userData: RegisterRequest
+): Promise<RegisteredUser> {
+  const response = await fetch(
+    `${API_URL}/register/`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type':
+          'application/json',
+      },
+      body: JSON.stringify(
+        userData
+      ),
+    }
+  );
 
-  const data = await response.json().catch(() => null);
+  const data = await response
+    .json()
+    .catch(() => null);
 
   if (!response.ok) {
-    console.error('Error registrando usuario:', data);
+    console.error(
+      'Error registrando usuario:',
+      data
+    );
 
     if (data?.username) {
-      throw new Error('Ese nombre de usuario ya está registrado.');
+      throw new Error(
+        'Ese nombre de usuario ya está registrado.'
+      );
     }
 
     if (data?.email) {
-      throw new Error('Ese correo electrónico no es válido.');
+      throw new Error(
+        'Ese correo electrónico no es válido.'
+      );
     }
 
     if (data?.password_confirm) {
-      throw new Error(data.password_confirm[0]);
+      const message =
+        Array.isArray(
+          data.password_confirm
+        )
+          ? data.password_confirm[0]
+          : data.password_confirm;
+
+      throw new Error(
+        message
+      );
     }
 
-    throw new Error('No se pudo crear la cuenta.');
+    throw new Error(
+      data?.detail ??
+        'No se pudo crear la cuenta.'
+    );
   }
 
   return data;
 }
 
 export async function getProfile(): Promise<UserProfile> {
-  const response = await apiFetch(`${API_URL}/profile/`);
+  const response =
+    await apiFetch(
+      `${API_URL}/profile/`
+    );
+
+  const data = await response
+    .json()
+    .catch(() => null);
 
   if (!response.ok) {
-    if (response.status === 401) {
-      throw new Error('Tu sesión ha expirado.');
+    if (
+      response.status === 401
+    ) {
+      clearSession();
+
+      throw new Error(
+        'Tu sesión ha expirado.'
+      );
     }
 
-    throw new Error('No se pudo cargar el perfil.');
+    throw new Error(
+      data?.detail ??
+        'No se pudo cargar el perfil.'
+    );
   }
 
-  return response.json();
+  return data;
 }
 
 export async function updateProfile(
   userData: UpdateProfileRequest
 ): Promise<UserProfile> {
-  const response = await apiFetch(`${API_URL}/profile/`, {
-    method: 'PATCH',
-    body: JSON.stringify(userData),
-  });
+  const response =
+    await apiFetch(
+      `${API_URL}/profile/`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(
+          userData
+        ),
+      }
+    );
 
-  const data = await response.json().catch(() => null);
+  const data = await response
+    .json()
+    .catch(() => null);
 
   if (!response.ok) {
-    console.error('Error actualizando perfil:', data);
+    console.error(
+      'Error actualizando perfil:',
+      data
+    );
 
-    if (response.status === 401) {
-      throw new Error('Tu sesión ha expirado.');
+    if (
+      response.status === 401
+    ) {
+      clearSession();
+
+      throw new Error(
+        'Tu sesión ha expirado.'
+      );
     }
 
     if (data?.username) {
-      throw new Error('Ese nombre de usuario ya está en uso.');
+      throw new Error(
+        'Ese nombre de usuario ya está en uso.'
+      );
     }
 
-    throw new Error('No se pudo actualizar el perfil.');
+    throw new Error(
+      data?.detail ??
+        'No se pudo actualizar el perfil.'
+    );
   }
 
   return data;
 }
 
 export function logoutUser() {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  localStorage.removeItem('username');
+  clearSession();
 }

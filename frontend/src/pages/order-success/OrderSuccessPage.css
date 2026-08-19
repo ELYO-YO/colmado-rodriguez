@@ -1,238 +1,227 @@
-.order-success-page {
-  min-height: 100%;
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 50px 24px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-  background: #ffffff;
+.order-success-page{
+  min-height:100%;
+  max-width:560px;
+  margin:0 auto;
+  padding:50px 24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:#fff;
 }
 
-/* ========================================
-   ICONO DE ÉXITO
-======================================== */
-
-.success-icon {
-  width: 135px;
-  height: 135px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 28px;
-
-  border-radius: 50%;
-  background: #edf8f2;
-
-  color: #198754;
+.success-icon{
+  width:135px;
+  height:135px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:28px;
+  border-radius:50%;
+  background:#edf8f2;
+  color:#198754;
 }
 
-.success-icon ion-icon {
-  font-size: 88px;
+.success-icon ion-icon{
+  font-size:88px;
 }
 
-/* ========================================
-   TÍTULO
-======================================== */
-
-.order-success-page h1 {
-  margin: 0;
-
-  color: #111827;
-
-  font-size: 2.1rem;
-  font-weight: 600;
+.order-success-page h1{
+  margin:0;
+  color:#111827;
+  font-size:2.1rem;
+  font-weight:700;
 }
 
-/* ========================================
-   MENSAJE
-======================================== */
-
-.success-message {
-  margin: 14px 0 0;
-
-  color: #6b7280;
-
-  font-size: 1rem;
-  line-height: 1.5;
+.success-message{
+  margin:14px 0 0;
+  color:#6b7280;
+  font-size:1rem;
+  line-height:1.5;
 }
 
-/* ========================================
-   NÚMERO DEL PEDIDO
-======================================== */
-
-.order-number {
-  width: 100%;
-
-  margin-top: 32px;
-  padding: 25px 20px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-
-  border: 1px solid #e1e5ea;
-  border-radius: 20px;
-
-  background: #f8fafc;
+.order-number{
+  width:100%;
+  margin-top:32px;
+  padding:25px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  border:1px solid #e1e5ea;
+  border-radius:20px;
+  background:#f8fafc;
 }
 
-.order-number span {
-  color: #8a9099;
-
-  font-size: 0.85rem;
-  font-weight: 700;
+.order-number span{
+  color:#8a9099;
+  font-size:.85rem;
+  font-weight:700;
 }
 
-.order-number strong {
-  color: #002d62;
-
-  font-size: 1.8rem;
-  font-weight: 800;
+.order-number strong{
+  color:#002d62;
+  font-size:1.8rem;
+  font-weight:800;
 }
 
-/* ========================================
-   MENSAJE DE ENTREGA
-======================================== */
-
-.delivery-message {
-  max-width: 460px;
-
-  margin: 28px 0 0;
-
-  color: #6b7280;
-
-  font-size: 0.95rem;
-  line-height: 1.55;
+.delivery-message{
+  max-width:460px;
+  margin:28px 0 0;
+  color:#6b7280;
+  font-size:.95rem;
+  line-height:1.55;
 }
 
-/* ========================================
-   BOTONES
-======================================== */
-
-.order-detail-button,
-.home-button {
-  width: 100%;
-  height: 58px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  border-radius: 15px;
-
-  font-size: 1rem;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    color 0.2s ease;
+.order-success-page .order-detail-button,
+.order-success-page .home-button{
+  width:100%;
+  min-width:100%;
+  height:58px;
+  min-height:58px;
+  flex:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:0 20px;
+  border-radius:15px;
+  font-size:1rem;
+  font-weight:700;
+  line-height:1;
+  cursor:pointer;
+  box-sizing:border-box;
+  transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease;
 }
 
-.order-detail-button ion-icon,
-.home-button ion-icon {
-  font-size: 1.3rem;
+.order-success-page .order-detail-button ion-icon,
+.order-success-page .home-button ion-icon{
+  flex-shrink:0;
+  font-size:1.3rem;
 }
 
-/* Ver pedido */
-
-.order-detail-button {
-  margin-top: 28px;
-
-  border: 2px solid #002d62;
-
-  background: #ffffff;
-  color: #002d62;
+.order-success-page .order-detail-button{
+  margin-top:28px;
+  border:2px solid #002d62;
+  background:#fff;
+  color:#002d62;
 }
 
-.order-detail-button:hover {
-  background: #eef3f8;
+.order-success-page .order-detail-button:hover{
+  background:#f1f6fb;
 }
 
-/* Volver al inicio */
-
-.home-button {
-  margin-top: 12px;
-
-  border: 2px solid #002d62;
-
-  background: #002d62;
-  color: #ffffff;
+.order-success-page .home-button{
+  margin-top:12px;
+  border:2px solid #002d62;
+  background:#002d62;
+  color:#fff;
 }
 
-.home-button:hover {
-  background: #001f45;
+.order-success-page .home-button:hover{
+  border-color:#001f45;
+  background:#001f45;
 }
 
-/* Efecto al presionar */
-
-.order-detail-button:active,
-.home-button:active {
-  transform: scale(0.98);
+.order-success-page .order-detail-button:active,
+.order-success-page .home-button:active{
+  transform:scale(.98);
 }
 
-/* ========================================
-   MOBILE
-======================================== */
-
-@media (max-width: 600px) {
-
-  .order-success-page {
-    padding: 35px 20px;
-    justify-content: flex-start;
-    padding-top: 60px;
+@media(max-width:600px){
+  .order-success-page{
+    padding:60px 20px 35px;
+    justify-content:flex-start;
   }
 
-  .success-icon {
-    width: 105px;
-    height: 105px;
-
-    margin-bottom: 24px;
+  .success-icon{
+    width:105px;
+    height:105px;
+    margin-bottom:24px;
   }
 
-  .success-icon ion-icon {
-    font-size: 70px;
+  .success-icon ion-icon{
+    font-size:70px;
   }
 
-  .order-success-page h1 {
-    font-size: 1.7rem;
+  .order-success-page h1{
+    font-size:1.7rem;
   }
 
-  .success-message {
-    font-size: 0.9rem;
+  .success-message{
+    font-size:.9rem;
   }
 
-  .order-number {
-    margin-top: 26px;
-    padding: 22px 15px;
-    border-radius: 17px;
+  .order-number{
+    margin-top:26px;
+    padding:22px 15px;
+    border-radius:17px;
   }
 
-  .order-number strong {
-    font-size: 1.6rem;
+  .order-number strong{
+    font-size:1.6rem;
   }
 
-  .delivery-message {
-    margin-top: 24px;
-    font-size: 0.88rem;
+  .delivery-message{
+    margin-top:24px;
+    font-size:.88rem;
   }
 
-  .order-detail-button,
-  .home-button {
-    height: 55px;
+  .order-success-page .order-detail-button,
+  .order-success-page .home-button{
+    width:100%;
+    min-width:100%;
+    height:55px;
+    min-height:55px;
+    padding:0 16px;
+    border-radius:14px;
+    font-size:.92rem;
+  }
 
-    font-size: 0.92rem;
-    border-radius: 14px;
+  .order-success-page .order-detail-button{
+    margin-top:25px;
+  }
+
+  .order-success-page .home-button{
+    margin-top:10px;
+  }
+}
+
+@media(max-width:390px){
+  .order-success-page{
+    padding:45px 16px 30px;
+  }
+
+  .success-icon{
+    width:90px;
+    height:90px;
+  }
+
+  .success-icon ion-icon{
+    font-size:60px;
+  }
+
+  .order-success-page h1{
+    font-size:1.5rem;
+  }
+
+  .success-message{
+    font-size:.84rem;
+  }
+
+  .order-number{
+    padding:19px 14px;
+  }
+
+  .delivery-message{
+    font-size:.82rem;
+  }
+
+  .order-success-page .order-detail-button,
+  .order-success-page .home-button{
+    height:52px;
+    min-height:52px;
+    font-size:.86rem;
   }
 }

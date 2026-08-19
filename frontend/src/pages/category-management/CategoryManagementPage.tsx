@@ -15,9 +15,14 @@ import {
 import {
   addOutline,
   arrowBackOutline,
+  basketOutline,
+  cubeOutline,
   createOutline,
-  imageOutline,
+  nutritionOutline,
+  snowOutline,
+  sparklesOutline,
   trashOutline,
+  waterOutline,
 } from 'ionicons/icons';
 
 import {
@@ -32,33 +37,81 @@ import { getProfile } from '../../services/authService';
 
 import './CategoryManagementPage.css';
 
+function normalizeCategoryName(name: string) {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function getCategoryIcon(name: string) {
+  const category = normalizeCategoryName(name);
+
+  if (
+    category.includes('bebida') ||
+    category.includes('refresco') ||
+    category.includes('fria')
+  ) {
+    return snowOutline;
+  }
+
+  if (
+    category.includes('viver') ||
+    category.includes('abarrote')
+  ) {
+    return basketOutline;
+  }
+
+  if (
+    category.includes('provision') ||
+    category.includes('alimento')
+  ) {
+    return nutritionOutline;
+  }
+
+  if (
+    category.includes('lacteo') ||
+    category.includes('leche')
+  ) {
+    return waterOutline;
+  }
+
+  if (
+    category.includes('enlatado') ||
+    category.includes('enlat') ||
+    category.includes('lata')
+  ) {
+    return cubeOutline;
+  }
+
+  if (
+    category.includes('limpieza') ||
+    category.includes('higiene')
+  ) {
+    return sparklesOutline;
+  }
+
+  return basketOutline;
+}
+
 function CategoryManagementPage() {
   const history = useHistory();
 
-  const [categories, setCategories] =
-    useState<Category[]>([]);
-
+  const [categories, setCategories] = useState<Category[]>([]);
   const [name, setName] = useState('');
-  const [image, setImage] = useState('');
-  const [editingId, setEditingId] =
-    useState<number | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const [saving, setSaving] =
-    useState(false);
-
-  const [deletingId, setDeletingId] =
-    useState<number | null>(null);
-
-  const [error, setError] =
-    useState('');
-
-  const [success, setSuccess] =
-    useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadPage = async () => {
       try {
         const profile = await getProfile();
@@ -70,47 +123,51 @@ function CategoryManagementPage() {
 
         const data = await getCategories();
 
-        setCategories(data);
+        if (isMounted) {
+          setCategories(data);
+        }
       } catch (error) {
-        setError(
-          error instanceof Error
-            ? error.message
-            : 'No se pudieron cargar las categorías.'
-        );
+        if (isMounted) {
+          setError(
+            error instanceof Error
+              ? error.message
+              : 'No se pudieron cargar las categorías.'
+          );
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadPage();
+
+    return () => {
+      isMounted = false;
+    };
   }, [history]);
 
   const resetForm = () => {
     setEditingId(null);
     setName('');
-    setImage('');
     setError('');
   };
 
-  const handleEdit = (
-    category: Category
-  ) => {
+  const handleEdit = (category: Category) => {
     setEditingId(category.id);
     setName(category.name);
-    setImage(category.image ?? '');
     setError('');
     setSuccess('');
   };
 
   const handleSubmit = async (
-    event: FormEvent
+    event: FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
     if (!name.trim()) {
-      setError(
-        'El nombre de la categoría es obligatorio.'
-      );
+      setError('El nombre de la categoría es obligatorio.');
       return;
     }
 
@@ -119,15 +176,14 @@ function CategoryManagementPage() {
       setError('');
       setSuccess('');
 
-      if (editingId) {
-        const updated =
-          await updateCategory(
-            editingId,
-            {
-              name: name.trim(),
-              image: image.trim(),
-            }
-          );
+      if (editingId !== null) {
+        const updated = await updateCategory(
+          editingId,
+          {
+            name: name.trim(),
+            image: '',
+          }
+        );
 
         setCategories((current) =>
           current.map((category) =>
@@ -137,27 +193,23 @@ function CategoryManagementPage() {
           )
         );
 
-        setSuccess(
-          'Categoría actualizada correctamente.'
-        );
+        setSuccess('Categoría actualizada correctamente.');
       } else {
-        const created =
-          await createCategory({
-            name: name.trim(),
-            image: image.trim(),
-          });
+        const created = await createCategory({
+          name: name.trim(),
+          image: '',
+        });
 
         setCategories((current) => [
           ...current,
           created,
         ]);
 
-        setSuccess(
-          'Categoría creada correctamente.'
-        );
+        setSuccess('Categoría creada correctamente.');
       }
 
-      resetForm();
+      setEditingId(null);
+      setName('');
     } catch (error) {
       setError(
         error instanceof Error
@@ -176,7 +228,9 @@ function CategoryManagementPage() {
       `¿Seguro que deseas eliminar "${category.name}"?`
     );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
 
     try {
       setDeletingId(category.id);
@@ -214,24 +268,20 @@ function CategoryManagementPage() {
           <header className="category-management-header">
             <button
               type="button"
+              className="category-back-button"
               onClick={() =>
                 history.push('/dashboard')
               }
               aria-label="Volver"
             >
-              <IonIcon
-                icon={arrowBackOutline}
-              />
+              <IonIcon icon={arrowBackOutline} />
             </button>
 
             <div>
               <span>Administración</span>
-
               <h1>Gestionar categorías</h1>
-
               <p>
-                Crea y organiza las categorías
-                del catálogo.
+                Crea y organiza las categorías del catálogo.
               </p>
             </div>
           </header>
@@ -240,17 +290,19 @@ function CategoryManagementPage() {
 
             <section className="category-form-card">
               <div className="category-form-title">
-                <IonIcon
-                  icon={
-                    editingId
-                      ? createOutline
-                      : addOutline
-                  }
-                />
+                <div className="category-form-icon">
+                  <IonIcon
+                    icon={
+                      editingId !== null
+                        ? createOutline
+                        : addOutline
+                    }
+                  />
+                </div>
 
                 <div>
                   <h2>
-                    {editingId
+                    {editingId !== null
                       ? 'Editar categoría'
                       : 'Nueva categoría'}
                   </h2>
@@ -262,7 +314,6 @@ function CategoryManagementPage() {
               </div>
 
               <form onSubmit={handleSubmit}>
-
                 <label>
                   Nombre *
 
@@ -270,34 +321,29 @@ function CategoryManagementPage() {
                     type="text"
                     value={name}
                     onChange={(event) =>
-                      setName(
-                        event.target.value
-                      )
+                      setName(event.target.value)
                     }
                     placeholder="Ej. Bebidas"
                   />
                 </label>
 
-                <label>
-                  Imagen
+                {name.trim() && (
+                  <div className="category-preview">
+                    <span>Vista previa</span>
 
-                  <div className="category-image-input">
-                    <IonIcon
-                      icon={imageOutline}
-                    />
+                    <div className="category-preview-box">
+                      <div className="category-preview-icon">
+                        <IonIcon
+                          icon={getCategoryIcon(name)}
+                        />
+                      </div>
 
-                    <input
-                      type="text"
-                      value={image}
-                      onChange={(event) =>
-                        setImage(
-                          event.target.value
-                        )
-                      }
-                      placeholder="/images/categories/bebidas.jpg"
-                    />
+                      <strong>
+                        {name.trim()}
+                      </strong>
+                    </div>
                   </div>
-                </label>
+                )}
 
                 {error && (
                   <div className="category-form-error">
@@ -312,8 +358,7 @@ function CategoryManagementPage() {
                 )}
 
                 <div className="category-form-actions">
-
-                  {editingId && (
+                  {editingId !== null && (
                     <button
                       type="button"
                       className="category-cancel-button"
@@ -330,11 +375,10 @@ function CategoryManagementPage() {
                   >
                     {saving
                       ? 'Guardando...'
-                      : editingId
+                      : editingId !== null
                         ? 'Guardar cambios'
                         : 'Crear categoría'}
                   </button>
-
                 </div>
               </form>
             </section>
@@ -344,92 +388,78 @@ function CategoryManagementPage() {
                 <h2>Categorías</h2>
 
                 <span>
-                  {categories.length} registradas
+                  {categories.length}{' '}
+                  {categories.length === 1
+                    ? 'registrada'
+                    : 'registradas'}
                 </span>
               </div>
 
               {loading ? (
                 <div className="category-message">
-                  Cargando...
+                  Cargando categorías...
                 </div>
               ) : categories.length === 0 ? (
                 <div className="category-message">
-                  No hay categorías.
+                  No hay categorías registradas.
                 </div>
               ) : (
                 <div className="category-list">
-
-                  {categories.map(
-                    (category) => (
-                      <article
-                        className="category-item"
-                        key={category.id}
-                      >
-
-                        <div className="category-image">
-                          {category.image ? (
-                            <img
-                              src={category.image}
-                              alt={category.name}
-                            />
-                          ) : (
-                            <IonIcon
-                              icon={imageOutline}
-                            />
+                  {categories.map((category) => (
+                    <article
+                      className="category-item"
+                      key={category.id}
+                    >
+                      <div className="category-item-icon">
+                        <IonIcon
+                          icon={getCategoryIcon(
+                            category.name
                           )}
-                        </div>
+                        />
+                      </div>
 
-                        <div className="category-info">
-                          <strong>
-                            {category.name}
-                          </strong>
+                      <div className="category-info">
+                        <strong>
+                          {category.name}
+                        </strong>
 
-                          <span>
-                            ID #{category.id}
-                          </span>
-                        </div>
+                        <span>
+                          ID #{category.id}
+                        </span>
+                      </div>
 
-                        <div className="category-actions">
+                      <div className="category-actions">
+                        <button
+                          type="button"
+                          className="category-edit-button"
+                          onClick={() =>
+                            handleEdit(category)
+                          }
+                          aria-label={`Editar ${category.name}`}
+                        >
+                          <IonIcon
+                            icon={createOutline}
+                          />
+                        </button>
 
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleEdit(
-                                category
-                              )
-                            }
-                            aria-label="Editar"
-                          >
-                            <IonIcon
-                              icon={createOutline}
-                            />
-                          </button>
-
-                          <button
-                            type="button"
-                            className="delete"
-                            onClick={() =>
-                              handleDelete(
-                                category
-                              )
-                            }
-                            disabled={
-                              deletingId ===
-                              category.id
-                            }
-                            aria-label="Eliminar"
-                          >
-                            <IonIcon
-                              icon={trashOutline}
-                            />
-                          </button>
-
-                        </div>
-
-                      </article>
-                    )
-                  )}
-
+                        <button
+                          type="button"
+                          className="category-delete-button"
+                          onClick={() =>
+                            handleDelete(category)
+                          }
+                          disabled={
+                            deletingId === category.id
+                          }
+                          aria-label={`Eliminar ${category.name}`}
+                        >
+                          <IonIcon
+                            icon={trashOutline}
+                          />
+                        </button>
+                      </div>
+                    </article>
+                  ))}
                 </div>
               )}
             </section>

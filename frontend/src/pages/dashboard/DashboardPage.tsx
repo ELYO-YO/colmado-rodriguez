@@ -93,14 +93,18 @@ function DashboardPage() {
 
     loadDashboard();
 
-    const interval = window.setInterval(
-      loadDashboard,
-      20000
-    );
+    const interval =
+      window.setInterval(
+        loadDashboard,
+        20000
+      );
 
     return () => {
       isMounted = false;
-      window.clearInterval(interval);
+
+      window.clearInterval(
+        interval
+      );
     };
   }, [history]);
 
@@ -128,8 +132,6 @@ function DashboardPage() {
       <IonContent fullscreen>
         <div className="dashboard-page">
 
-          {/* HEADER */}
-
           <header
             className={`dashboard-header ${
               isEmployee
@@ -137,8 +139,8 @@ function DashboardPage() {
                 : ''
             }`}
           >
-            <div>
-              <span>
+            <div className="dashboard-header-content">
+              <span className="dashboard-role">
                 {roleText}
               </span>
 
@@ -155,17 +157,14 @@ function DashboardPage() {
 
             <button
               type="button"
-              onClick={(event) => {
-                event.currentTarget.blur();
-
-                history.push('/perfil');
-              }}
+              className="dashboard-profile-button"
+              onClick={() =>
+                history.push('/perfil')
+              }
             >
               Mi perfil
             </button>
           </header>
-
-          {/* LOADING */}
 
           {loading ? (
             <div className="dashboard-message">
@@ -178,21 +177,16 @@ function DashboardPage() {
           ) : stats ? (
             <>
 
-              {/* =====================================
-                  ESTADÍSTICAS ADMIN
-              ====================================== */}
-
               {isAdmin && (
                 <section className="dashboard-stats">
-
                   <article className="dashboard-stat-card revenue">
-                    <div className="dashboard-stat-icon">
+                    <div className="dashboard-stat-icon red">
                       <IonIcon
                         icon={cashOutline}
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         Ingresos totales
                       </span>
@@ -215,7 +209,7 @@ function DashboardPage() {
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         Pedidos
                       </span>
@@ -233,7 +227,7 @@ function DashboardPage() {
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         Productos
                       </span>
@@ -245,13 +239,13 @@ function DashboardPage() {
                   </article>
 
                   <article className="dashboard-stat-card">
-                    <div className="dashboard-stat-icon">
+                    <div className="dashboard-stat-icon red">
                       <IonIcon
                         icon={pricetagOutline}
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         Ofertas activas
                       </span>
@@ -261,17 +255,11 @@ function DashboardPage() {
                       </strong>
                     </div>
                   </article>
-
                 </section>
               )}
 
-              {/* =====================================
-                  ESTADÍSTICAS EMPLEADO
-              ====================================== */}
-
               {isEmployee && (
                 <section className="dashboard-stats employee-stats">
-
                   <article className="dashboard-stat-card">
                     <div className="dashboard-stat-icon">
                       <IonIcon
@@ -279,7 +267,7 @@ function DashboardPage() {
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         Pendientes
                       </span>
@@ -297,7 +285,7 @@ function DashboardPage() {
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         Preparando
                       </span>
@@ -315,7 +303,7 @@ function DashboardPage() {
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         En camino
                       </span>
@@ -333,7 +321,7 @@ function DashboardPage() {
                       />
                     </div>
 
-                    <div>
+                    <div className="dashboard-stat-info">
                       <span>
                         Entregados
                       </span>
@@ -343,16 +331,10 @@ function DashboardPage() {
                       </strong>
                     </div>
                   </article>
-
                 </section>
               )}
 
-              {/* =====================================
-                  ESTADO DE PEDIDOS
-              ====================================== */}
-
               <section className="dashboard-orders">
-
                 <div className="dashboard-section-header">
                   <div>
                     <h2>
@@ -366,13 +348,11 @@ function DashboardPage() {
 
                   <button
                     type="button"
-                    onClick={(event) => {
-                      event.currentTarget.blur();
-
+                    onClick={() =>
                       history.push(
                         '/gestion-pedidos'
-                      );
-                    }}
+                      )
+                    }
                   >
                     Ver pedidos
 
@@ -385,7 +365,6 @@ function DashboardPage() {
                 </div>
 
                 <div className="dashboard-order-stats">
-
                   <div>
                     <span>
                       Pendientes
@@ -445,17 +424,11 @@ function DashboardPage() {
                       {stats.cancelled_orders}
                     </strong>
                   </div>
-
                 </div>
               </section>
 
-              {/* =====================================
-                  ADMINISTRACIÓN
-              ====================================== */}
-
               {isAdmin && (
                 <section className="dashboard-actions">
-
                   <div className="dashboard-section-header">
                     <div>
                       <h2>
@@ -472,19 +445,22 @@ function DashboardPage() {
 
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card action-red"
+                      onClick={() =>
                         history.push(
                           '/dashboard/productos/nuevo'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={addCircleOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={
+                            addCircleOutline
+                          }
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Agregar producto
                         </strong>
@@ -495,6 +471,7 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
@@ -503,19 +480,22 @@ function DashboardPage() {
 
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card"
+                      onClick={() =>
                         history.push(
                           '/dashboard/productos'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={bagHandleOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={
+                            bagHandleOutline
+                          }
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Gestionar productos
                         </strong>
@@ -526,6 +506,7 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
@@ -534,19 +515,22 @@ function DashboardPage() {
 
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card action-red"
+                      onClick={() =>
                         history.push(
                           '/dashboard/ofertas'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={pricetagOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={
+                            pricetagOutline
+                          }
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Gestionar ofertas
                         </strong>
@@ -557,6 +541,7 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
@@ -565,19 +550,20 @@ function DashboardPage() {
 
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card"
+                      onClick={() =>
                         history.push(
                           '/dashboard/categorias'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={gridOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={gridOutline}
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Gestionar categorías
                         </strong>
@@ -588,6 +574,7 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
@@ -596,19 +583,20 @@ function DashboardPage() {
 
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card"
+                      onClick={() =>
                         history.push(
                           '/dashboard/usuarios'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={peopleOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={peopleOutline}
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Gestionar usuarios
                         </strong>
@@ -619,6 +607,7 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
@@ -627,19 +616,20 @@ function DashboardPage() {
 
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card"
+                      onClick={() =>
                         history.push(
                           '/gestion-pedidos'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={cartOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={cartOutline}
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Gestionar pedidos
                         </strong>
@@ -650,6 +640,7 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
@@ -660,13 +651,8 @@ function DashboardPage() {
                 </section>
               )}
 
-              {/* =====================================
-                  ACCIONES DEL EMPLEADO
-              ====================================== */}
-
               {isEmployee && (
                 <section className="dashboard-actions employee-actions">
-
                   <div className="dashboard-section-header">
                     <div>
                       <h2>
@@ -680,22 +666,22 @@ function DashboardPage() {
                   </div>
 
                   <div className="dashboard-action-grid">
-
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card"
+                      onClick={() =>
                         history.push(
                           '/gestion-pedidos'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={cartOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={cartOutline}
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Gestionar pedidos
                         </strong>
@@ -706,6 +692,7 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
@@ -714,19 +701,22 @@ function DashboardPage() {
 
                     <button
                       type="button"
-                      onClick={(event) => {
-                        event.currentTarget.blur();
-
+                      className="dashboard-action-card"
+                      onClick={() =>
                         history.push(
                           '/dashboard/productos/consulta'
-                        );
-                      }}
+                        )
+                      }
                     >
-                      <IonIcon
-                        icon={storefrontOutline}
-                      />
+                      <div className="dashboard-action-icon">
+                        <IonIcon
+                          icon={
+                            storefrontOutline
+                          }
+                        />
+                      </div>
 
-                      <div>
+                      <div className="dashboard-action-content">
                         <strong>
                           Consultar productos
                         </strong>
@@ -737,12 +727,12 @@ function DashboardPage() {
                       </div>
 
                       <IonIcon
+                        className="dashboard-action-arrow"
                         icon={
                           chevronForwardOutline
                         }
                       />
                     </button>
-
                   </div>
                 </section>
               )}
